@@ -752,3 +752,6 @@ details .prr{grid-template-columns:repeat(4,minmax(70px,1fr));min-width:0}
 .skgq{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
 .skgv{display:flex;flex-direction:column;gap:8px;margin-top:10px}
 .skgv>.card{margin:0;background:var(--s2,rgba(127,127,127,.06));box-shadow:none}
+.cco{display:flex;align-items:center;gap:8px;margin:0 0 6px;padding:8px 10px;border-radius:12px;background:rgba(14,165,233,.1)}
+.cco>span{display:flex;flex-direction:column;flex:1;min-width:0}
+.cco small{color:var(--mut,#888);font-size:12px;white-space:normal}
