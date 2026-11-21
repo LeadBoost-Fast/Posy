@@ -222,7 +222,7 @@ st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--in
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={h:"d-cosmos.js",m:"d-command.js",p:"d-atlas.js"},DSTAT={},DSG_V=window.DSGV||"20261121s",
+const DLIB={h:"d-cosmos.js",m:"d-command.js",p:"d-atlas.js"},DSTAT={},DSG_V=window.DSGV||"20261121t",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
@@ -963,12 +963,18 @@ function pvAdm(){const on=pvOn();
  t0=new Date(today()+"T00:00:00").getTime(),okT=OK.filter(o=>+o.pvAt>=t0),cur=PVF==="ok"?OK:PVF==="chat"?CH:PVF==="bad"?BD:W;
  return`<h1>Проверка оплат</h1><div class="nwk"><div><b>${W.length}</b><span>ждут проверки</span><small>${M(sum(W))}</small></div><div><b>${M(sum(okT))}</b><span>подтверждено сегодня</span><small>${okT.length} ${pl(okT.length,"оплата","оплаты","оплат")}</small></div><div><b>${CH.length}</b><span>из чата</span><small>без проверки</small></div></div>
 <div class="chips">${[["w","Ожидают",W.length],["ok","Подтверждены",OK.length],["chat","Из чата",CH.length],["bad","Не приняты",BD.length]].map(x=>`<button class="chip ${PVF===x[0]?"on":""}" data-a="pv_f" data-id="${x[0]}">${x[1]} · ${x[2]}</button>`).join("")}</div>
-${cur.slice(0,80).map(o=>pvCard(o,!0)).join("")||'<div class="card mut" style="text-align:center">Здесь пока пусто</div>'}${own()?'<div class="acts" style="margin-top:14px"><button class="btn g s" type="button" data-a="pv_off">Выключить проверку</button></div>':""}`}
+${PVF==="w"&&W.length>1?`<div class="acts" style="margin:10px 0 4px"><button class="btn" type="button" data-a="pv_all" data-id="all">Подтвердить все ожидающие · ${W.length} · ${M(sum(W))}</button></div>`:""}${pvDays(cur)||'<div class="card mut" style="text-align:center">Здесь пока пусто</div>'}${own()?'<div class="acts" style="margin-top:14px"><button class="btn g s" type="button" data-a="pv_off">Выключить проверку</button></div>':""}`}
+/* оплаты по дням (день приёма оплаты), у каждого дня — сумма и «Подтвердить все за день» */
+function pvDays(cur){const g={},ord=[];cur.slice(0,200).forEach(o=>{const d=new Date(+o.paidAt||0).toLocaleDateString("sv-SE");if(!g[d]){g[d]=[];ord.push(d)}g[d].push(o)});const t=today();
+ return ord.map(d=>{const a=g[d],q=a.filter(o=>{const s=pvSt(o);return s==="wait"||s==="chg"}),s=a.reduce((x,o)=>x+(+o.p||0)+(+o.fee||0),0);return `<div class="pvd"><span><b>${d===t?"Сегодня":d===addD(t,-1)?"Вчера":esc(new Date(d+"T12:00:00").toLocaleDateString("ru-RU",{weekday:"short",day:"numeric",month:"long"}))}</b> <span class="mut">· ${a.length} · ${M(s)}</span></span>${q.length>1?`<button class="btn g s" type="button" data-a="pv_all" data-id="${d}">Подтвердить все · ${q.length}</button>`:""}</div>`+a.map(o=>pvCard(o,!0)).join("")}).join("")}
 function pvMine(){const on=pvOn(),from=Math.max(on,Date.now()-7*864e5),l=on?oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=from&&(o.paidBy===U.uid||o.chkBy===U.uid)).sort((a,b)=>(+b.paidAt||0)-(+a.paidAt||0)):[];
  return`<h1>Мои оплаты</h1><p class="mut">Оплаты, которые вы приняли за последние 7 дней, и как их проверил администратор.</p>${!on?'<div class="card mut">Проверка оплат пока не включена.</div>':l.map(o=>pvCard(o,!1)).join("")||'<div class="card mut" style="text-align:center">За 7 дней оплат нет</div>'}`}
 function pvV(){return S?sad()||abl("pvOk")?pvAdm():pvMine():home()}
 document.addEventListener("click",e=>{const a=e.target.closest('[data-a^="pv_"]');if(!a||!S)return;const k=a.dataset.a,id=a.dataset.id,o=id&&O.find(x=>x.id===id);
  if(k==="pv_f"){PVF=id||"w";draw();return}
+ if(k==="pv_all"){if(!sad()&&!abl("pvOk"))return;const on=pvOn(),L=oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=on&&pvSt(o)==="wait"&&(id==="all"||new Date(+o.paidAt||0).toLocaleDateString("sv-SE")===id)),chg=oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=on&&pvSt(o)==="chg"&&(id==="all"||new Date(+o.paidAt||0).toLocaleDateString("sv-SE")===id)).length;if(!L.length)return toast(chg?"Здесь только оплаты с заменённым чеком — проверьте их по одной":"Нечего подтверждать");
+  if(!confirm("Подтвердить "+L.length+" "+pl(L.length,"оплату","оплаты","оплат")+" на "+M(L.reduce((x,o)=>x+(+o.p||0)+(+o.fee||0),0))+"?"+(chg?"\nОплаты с заменённым чеком ("+chg+") не трогаем — их проверьте по одной.":"")))return;
+  run(async()=>{const now=Date.now();for(let i=0;i<L.length;i+=400){const bt=db.batch();L.slice(i,i+400).forEach(o=>bt.update(db.collection("orders").doc(o.id),{pvSt:"ok",pvSig:pvSigOf(o),pvBy:U.uid,pvAt:now,pvNote:"",updatedAt:TS()}));await bt.commit()}log("Подтверждены оплаты пачкой",{bn:""},L.length+" · "+M(L.reduce((x,o)=>x+(+o.p||0)+(+o.fee||0),0)));toast("Подтверждено: "+L.length)});return}
  if(k==="pv_on"||k==="pv_off"){if(!own())return;if(!confirm(k==="pv_on"?"Включить проверку оплат? С этого момента новые оплаты попадают в «Деньги» только после подтверждения.":"Выключить проверку оплат? Все оплаты снова считаются сразу."))return;
   run(async()=>{await db.collection("settings").doc("main").set({pvFrom:k==="pv_on"?Date.now():0},{merge:!0});toast(k==="pv_on"?"Проверка оплат включена":"Проверка оплат выключена");draw()});return}
  if(!o)return;
