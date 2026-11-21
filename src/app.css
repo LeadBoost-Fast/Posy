@@ -995,3 +995,12 @@ body:has(#m>*:not([hidden])) .sksb{display:none}
 .mvc{border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14px;font-weight:600;padding:10px 14px;border-radius:99px;cursor:pointer;min-height:42px}
 .mvc small{font-size:11px;color:var(--mut);font-weight:600}
 .mvc.on{background:var(--skbtn,var(--ac));color:var(--on);border-color:transparent}.mvc.on small{color:inherit;opacity:.8}
+/* фото позиций: целиком, на белом */
+img.skph{width:100%;height:100%;object-fit:contain;background:#fff;border-radius:inherit;display:block}
+.stl-ph:has(img.skph),.fart:has(img.skph),.fsha:has(img.skph),.fatart:has(img.skph),.fsw.ph{background:#fff;padding:2px}
+.fsw{border:1px solid var(--line)}
+.skch{align-items:center}.skedt{border:0;background:none;color:var(--mut);cursor:pointer;padding:6px;margin-left:auto;display:grid;place-items:center;border-radius:10px}
+.skedt svg{width:18px;height:18px}.skedt.sm{display:inline-grid;margin:0 0 0 4px;padding:2px;vertical-align:middle}.skedt.sm svg{width:15px;height:15px}
+.fmore{display:grid!important;grid-template-columns:1fr 1fr;gap:8px}
+.fmore button{display:flex;align-items:center;justify-content:center;gap:6px}.fmore button svg{width:16px;height:16px}
+.fmore .fdel{grid-column:1/-1;color:#e5484d;border-color:color-mix(in srgb,#e5484d 35%,var(--line))}
