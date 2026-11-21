@@ -794,3 +794,172 @@ details .prr{grid-template-columns:repeat(4,minmax(70px,1fr));min-width:0}
 .tiles.skmini .tile span{font-size:12px!important;letter-spacing:0!important;text-transform:none!important;margin:0!important;line-height:1.2}
 .tiles.skmini .tile span.mut{display:none!important}
 .skone .row>b:first-of-type{display:none}
+/* ===== Склад по эскизам ===== */
+.fsrch{position:relative;margin:8px 0 6px}
+.fsrch svg{position:absolute;left:16px;top:50%;width:18px;height:18px;transform:translateY(-50%);color:var(--mut);pointer-events:none}
+.fsrch input{margin:0;min-height:50px;padding-left:44px;border-radius:25px;font-size:15px;background:var(--glass,var(--card));border:1px solid var(--line)}
+.bstk .fsrch input{border-radius:14px}
+.ftypes{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;margin:12px -16px 2px;padding:6px 16px 4px}
+.ftypes::-webkit-scrollbar{display:none}
+.fty{flex:none;width:66px;display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:none;color:var(--ink);font:inherit;font-size:12px;font-weight:700;cursor:pointer;padding:0;text-align:center;line-height:1.15}
+.fty .fc{position:relative;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:var(--glass,var(--card));border:1px solid var(--line);transition:box-shadow .2s,transform .2s}
+.fty .fc b{position:absolute;right:-4px;top:-3px;min-width:20px;font-size:10px;line-height:16px;background:var(--ac);color:var(--on);border-radius:9px;padding:0 5px}
+.fty.on .fc{box-shadow:0 0 0 2px var(--ac),0 6px 18px color-mix(in srgb,var(--ac) 35%,transparent)}
+.fty:active .fc{transform:scale(.94)}
+.fadd{font-size:24px;color:var(--ac);border-style:dashed!important}
+.fh2{display:flex;justify-content:space-between;align-items:baseline;margin:14px 2px 8px}.fh2 b{font-size:16px}.fh2 span{font-size:12px;color:var(--mut)}
+.fatl{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px 4px}.fatl::-webkit-scrollbar{display:none}
+.fat{flex:none;width:176px;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:20px;border:1px solid color-mix(in srgb,#e5484d 35%,var(--line));background:var(--glass,var(--card));color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.fatart{width:42px;height:42px;flex:none;display:grid;place-items:center;border-radius:12px;overflow:hidden}
+.fatt{display:flex;flex-direction:column;min-width:0;line-height:1.25}.fatt b{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.fatt em{font-style:normal;font-size:11px;font-weight:700;color:#e5484d}
+.fsort{display:flex;gap:6px;align-items:center;margin:14px 0 10px;flex-wrap:wrap}
+.fsort button{border:1px solid var(--line);background:var(--glass,var(--card));color:var(--ink);font:inherit;font-size:12px;font-weight:700;padding:7px 12px;border-radius:99px;cursor:pointer}
+.fsort button.on{background:var(--ac);color:var(--on);border-color:transparent}
+.fsort .fsup{background:none;border-style:dashed;color:var(--ac)}
+.fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(min-width:700px){.fgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.fgrid>.skw{display:flex}.fgrid>.skw[hidden]{display:none}
+.fgc{width:100%;display:flex;flex-direction:column;align-items:stretch;gap:3px;padding:10px 10px 12px;border-radius:22px;border:1px solid var(--line);background:var(--glass,var(--card));color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:transform .15s}
+.fgc:active{transform:scale(.97)}
+.fart{height:100px;border-radius:16px;display:grid;place-items:center;overflow:hidden;margin-bottom:5px;background:color-mix(in srgb,var(--ac) 9%,var(--card))}
+.fn{font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.frow{display:flex;justify-content:space-between;align-items:center}
+.fq{font-family:var(--fd,inherit);font-size:26px;font-weight:600;line-height:1}.fq small{font-family:Manrope,system-ui,sans-serif;font-size:11px;color:var(--mut);margin-left:3px;font-weight:600}
+.fdots{display:flex;gap:3px}.fdots i{width:11px;height:11px;border-radius:50%;border:1.5px solid color-mix(in srgb,var(--card) 70%,#fff);box-shadow:0 0 0 .5px rgba(0,0,0,.12)}
+.fbar{height:5px;border-radius:5px;margin-top:7px;overflow:hidden;background:color-mix(in srgb,var(--ac) 14%,var(--card))}.fbar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,color-mix(in srgb,var(--ac) 55%,#fff),var(--ac))}
+.fgc.lo .fbar i{background:#e5484d}.fgc.lo{border-color:color-mix(in srgb,#e5484d 40%,var(--line))}
+/* бенто */
+.bsk{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(74px,auto);gap:8px;margin-top:10px}
+.bsk>.skw{display:flex;grid-column:span 2}.bsk>.skw[hidden]{display:none}.bsk>.skw.bsk-big{grid-row:span 2}
+@media(min-width:700px){.bsk{grid-template-columns:repeat(8,minmax(0,1fr))}}
+.bsk-a{grid-column:1/-1}
+.bsk-at{background:var(--ink);color:var(--bg);border-radius:22px;padding:12px}
+.bsk-at .bsk-k{color:color-mix(in srgb,var(--bg) 65%,var(--ink))}
+.bsk-atl{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-top:8px}.bsk-atl::-webkit-scrollbar{display:none}
+.bsk-atl .fat{flex:1 0 104px;width:auto;flex-direction:column;align-items:flex-start;gap:4px;border:0;background:color-mix(in srgb,var(--bg) 10%,transparent);color:var(--bg);border-radius:14px;padding:8px}
+.bsk-atl .fatart{width:32px;height:32px}.bsk-atl .fatt em{color:#ff8a8a}
+.bsk-t{position:relative;overflow:hidden;width:100%;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:4px;padding:12px;border-radius:20px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;text-align:left;cursor:pointer;min-height:74px}
+.bsk-t:active{transform:scale(.98)}
+.bsk-k{font-size:11px;font-weight:700;color:var(--mut);position:relative;z-index:1;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bsk-v{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1;position:relative;z-index:1}.bsk-v small{font-size:12px;font-weight:600;color:var(--mut)}
+.bsk-v2{font-size:15px;font-weight:700;line-height:1.2;position:relative;z-index:1;padding-right:34px}
+.bsk-art{position:absolute;right:-6px;bottom:-6px;opacity:.95;pointer-events:none;width:auto;height:auto}
+.bsk-art img{width:64px!important;height:64px!important;border-radius:14px;margin:0 8px 8px 0}
+.bsk-big .bsk-art img{width:96px!important;height:96px!important}
+.bsk-s{grid-column:span 1}.bsk-sup{grid-column:span 2;background:var(--ink);color:var(--bg);border:0;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+.bsk-cat{grid-column:span 2}.bsk-cat.on{border-color:var(--ac)}
+.bsk-i.lo{border-color:color-mix(in srgb,#e5484d 45%,var(--line))}.bsk-lo{font-size:11px;font-weight:800;color:#e5484d;position:relative;z-index:1}
+.bsk-i .fdots{position:relative;z-index:1}
+/* окно позиции */
+.fshh{display:flex;align-items:center;gap:12px;margin:0 0 12px}.fsha{width:56px;height:56px;border-radius:16px;overflow:hidden;display:grid;place-items:center;flex:none}
+.fshh>span:last-child{display:flex;flex-direction:column}.fsht{font-family:var(--fd,inherit);font-size:28px;font-weight:600;line-height:1.05}.fshh small{color:var(--mut);font-size:13px}
+.fmode{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:color-mix(in srgb,var(--ac) 10%,var(--card));border-radius:14px;padding:3px;margin:0 0 8px}
+.fmode button{border:0;background:none;color:var(--mut);font:inherit;font-size:14px;font-weight:700;padding:10px 0;border-radius:11px;cursor:pointer}
+.fmode button.on{background:var(--bg);color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.fvr{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.fvr:last-child{border-bottom:0}
+.fsw{width:40px;height:40px;border-radius:12px;flex:none;display:grid;place-items:center;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.fvn{flex:1;min-width:0;display:flex;flex-direction:column}.fvn b{font-size:15px}.fvn small{font-size:12px;color:var(--mut)}.fvn small.lo{color:#e5484d}
+.fst{display:flex;align-items:center;gap:6px;flex:none}
+.fst button{width:36px;height:36px;min-height:36px;border-radius:50%;border:0;background:color-mix(in srgb,var(--ac) 14%,var(--card));color:var(--ac);font-size:20px;font-weight:700;cursor:pointer;display:grid;place-items:center;padding:0}
+.fst input{width:58px;min-height:38px;margin:0;padding:0 4px;text-align:center;font-weight:800;font-size:16px;border-radius:10px}
+.fd{font-style:normal;font-size:12px;font-weight:800;color:var(--ac);min-width:30px;text-align:right}
+.fvadd{border:0;background:none;color:var(--ac);font:inherit;font-size:13px;font-weight:700;padding:8px 0;cursor:pointer}
+.fcta{width:100%;margin-top:10px;min-height:54px;border:0;border-radius:27px;background:var(--ac);color:var(--on);font:inherit;font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 10px 24px color-mix(in srgb,var(--ac) 35%,transparent)}
+.fcta:disabled{opacity:.45;box-shadow:none}
+.fmore{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.fmore button{flex:1;border:1px solid var(--line);background:none;color:var(--ink);font:inherit;font-size:13px;font-weight:600;padding:10px;border-radius:12px;cursor:pointer}
+/* ===================== Пять оформлений на весь сайт ===================== */
+.skgal{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:6px}
+@media(min-width:700px){.skgal{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.skgb{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:10px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.skgb.on{box-shadow:0 0 0 2px var(--a)}
+.skgp{width:100%;height:78px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(160deg,var(--b),var(--c));margin-bottom:4px}
+.skgp svg{width:54px;height:54px}
+.skp-dark{background:radial-gradient(circle at 50% 40%,#3a0f1c,#0b0b0f 75%)}.skp-neon{background:radial-gradient(circle at 50% 40%,#3b0d5c,#0a0a14 75%)}.skp-neon svg{filter:drop-shadow(0 0 6px #ff4ed8)}
+.skp-glass{background:linear-gradient(160deg,#fbe6ee,#eec3cf)}.skp-soft{background:linear-gradient(180deg,#fff1f4,#f9d3dd)}.skp-bloom{background:#fff;box-shadow:inset 0 0 0 1px #f3dbe3}
+.skgb b{font-size:13px}.skgb small{font-size:11px;color:var(--mut);line-height:1.25}
+
+/* общее для оформлений */
+:root[data-sk]{--gb:color-mix(in srgb,var(--ac) 18%,transparent)}
+:root[data-sk] body{background-attachment:fixed!important;background-repeat:no-repeat!important}
+:root[data-sk] .card,:root[data-sk] .tile,:root[data-sk] .bento .bt{border-radius:22px}
+:root[data-sk] .btn:not(.g):not(.r){border-radius:999px;background:var(--skbtn,var(--ac));color:var(--on);box-shadow:0 8px 22px color-mix(in srgb,var(--ac) 30%,transparent)}
+:root[data-sk] .btn.g{border-radius:999px}
+:root[data-sk][data-ly=g] nav{border-radius:30px;left:12px;right:12px}
+:root[data-sk][data-ly=g] nav button{text-transform:none;letter-spacing:0;font-weight:700;border-radius:20px}
+:root[data-sk][data-ly=g] nav button.on{color:var(--ac);box-shadow:none}
+:root[data-sk][data-ly=g] nav .plus{border-radius:50%!important;background:var(--skbtn,var(--ac))!important;color:var(--on)!important;box-shadow:0 8px 22px color-mix(in srgb,var(--ac) 45%,transparent)!important}
+:root[data-sk] .chip.on,:root[data-sk] .skc2 button.on{background:var(--skbtn,var(--ac));color:var(--on)}
+:root[data-sk] input,:root[data-sk] select,:root[data-sk] textarea{border-radius:14px}
+:root[data-sk] #v h1{font-family:var(--skf,var(--fd))!important;font-weight:var(--skw,600)!important;text-transform:none!important}
+:root[data-sk] .fq,:root[data-sk] .fsht{font-family:var(--skf,var(--fd))}
+
+/* Blooming Glass — розовое стекло и блики */
+:root[data-sk=glass][data-t]{--skf:"Playfair Display",Georgia,serif;--gl:rgba(255,255,255,.42);--glass:rgba(255,255,255,.45);--card:rgba(255,255,255,.55);--line:rgba(255,255,255,.75);--skbtn:linear-gradient(160deg,#f29ab4,#d1567c)}
+:root[data-sk=glass] body{background:radial-gradient(45% 30% at 88% 4%,rgba(255,255,255,.85),transparent 70%),radial-gradient(40% 30% at 6% 62%,rgba(255,255,255,.55),transparent 70%),linear-gradient(170deg,#f6d6df 0%,#eec3cf 52%,#f7e3e9 100%)}
+:root[data-sk=glass] .card,:root[data-sk=glass] .tile,:root[data-sk=glass] .fgc,:root[data-sk=glass] .fat,:root[data-sk=glass] .fty .fc{backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);box-shadow:0 8px 26px rgba(209,86,124,.12),inset 0 1px 0 rgba(255,255,255,.8)}
+:root[data-sk=glass] #m>*{backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+
+/* Dark Elegance — чёрный, бордо, золото */
+:root[data-sk=dark][data-t]{--skf:"Playfair Display",Georgia,serif;--gl:rgba(255,255,255,.035);--glass:rgba(255,255,255,.04);--line:rgba(212,175,124,.2);--skbtn:linear-gradient(160deg,#ecd0a6,#b48a55)}
+:root[data-sk=dark] body{background:radial-gradient(70% 45% at 75% -5%,rgba(122,16,38,.55),transparent 70%),radial-gradient(50% 35% at 0% 100%,rgba(90,12,28,.35),transparent 70%),#0b0b0f}
+:root[data-sk=dark] #v h1{color:#f0dcc0}
+:root[data-sk=dark] .card,:root[data-sk=dark] .tile,:root[data-sk=dark] .fgc{box-shadow:inset 0 1px 0 rgba(212,175,124,.08)}
+
+/* Neon Flowers — неон на тёмном */
+:root[data-sk=neon][data-t]{--skf:Unbounded,system-ui,sans-serif;--skw:500;--gl:rgba(255,255,255,.04);--glass:rgba(255,255,255,.05);--line:rgba(255,78,216,.22);--skbtn:linear-gradient(160deg,#ff4ed8,#8b5cf6)}
+:root[data-sk=neon] body{background:radial-gradient(60% 40% at 85% -5%,rgba(124,40,200,.55),transparent 70%),radial-gradient(45% 35% at 0% 85%,rgba(255,78,216,.18),transparent 70%),#0a0a14}
+:root[data-sk=neon] #v h1{font-size:28px!important;text-shadow:0 0 18px rgba(255,78,216,.45)}
+:root[data-sk=neon] .fty.on .fc,:root[data-sk=neon] .chip.on{box-shadow:0 0 0 2px #ff4ed8,0 0 22px rgba(255,78,216,.6)}
+
+/* Soft Dream — пудровый розовый */
+:root[data-sk=soft][data-t]{--skf:"Cormorant Garamond",Georgia,serif;--gl:rgba(255,255,255,.62);--glass:rgba(255,255,255,.68);--card:rgba(255,255,255,.75);--line:rgba(246,167,182,.35);--skbtn:linear-gradient(160deg,#f6a7b6,#e07591)}
+:root[data-sk=soft] body{background:radial-gradient(50% 30% at 85% 0%,#ffeef2,transparent 70%),linear-gradient(180deg,#fde7ec 0%,#f9d3dd 100%)}
+:root[data-sk=soft] #v h1{font-size:36px!important}
+
+/* Bloom — белый с розовым */
+:root[data-sk=bloom][data-t]{--skf:Manrope,system-ui,sans-serif;--skw:800;--gl:#fff;--glass:#fff;--line:#f3dbe3;--skbtn:linear-gradient(160deg,#f6a3ba,#ef7a9a)}
+:root[data-sk=bloom] body{background:#fff}
+:root[data-sk=bloom] #v h1{letter-spacing:-.02em}
+:root[data-sk=bloom] .card,:root[data-sk=bloom] .fgc,:root[data-sk=bloom] .bento .bt{box-shadow:0 6px 20px rgba(239,122,154,.1)}
+
+/* фоновые частицы: стекло — прозрачные лепестки, мечта — лепестки, элегантность — золотая пыль, неон — искры */
+#petals.pt-glass i{opacity:0;filter:blur(.3px);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M3 17C0 8 6 1 12 2c6 1 7 8 2 13-3 3-8 4-11 2z' fill='%23ffffff' fill-opacity='.7' stroke='%23e58aa6' stroke-opacity='.5' stroke-width='.6'/%3E%3C/svg%3E")}
+#petals.pt-dark i{width:calc(5px*var(--s));height:calc(5px*var(--s));border-radius:50%;background:radial-gradient(circle,#f3d6a4,rgba(212,175,124,0) 70%);animation-name:skDust}
+#petals.pt-neon i{width:calc(6px*var(--s));height:calc(6px*var(--s));border-radius:50%;background:#ff7be3;box-shadow:0 0 10px 3px rgba(255,78,216,.7);animation-name:skSpark}
+@keyframes skDust{0%{transform:translate3d(0,100vh,0);opacity:0}15%{opacity:.8}85%{opacity:.6}100%{transform:translate3d(20px,-10vh,0);opacity:0}}
+@keyframes skSpark{0%,100%{transform:translate3d(0,calc(20vh + var(--s)*40vh),0) scale(.4);opacity:0}50%{transform:translate3d(10px,calc(18vh + var(--s)*40vh),0) scale(1);opacity:.9}}
+
+@media (prefers-reduced-motion:no-preference){
+ html:not(.lite)[data-sk=neon] .btn:not(.g):not(.r),html:not(.lite)[data-sk=neon][data-ly=g] nav .plus{animation:skGlow 2.6s ease-in-out infinite}
+ html:not(.lite)[data-sk=glass] .btn:not(.g):not(.r){position:relative;overflow:hidden}
+ html:not(.lite)[data-sk=glass] .btn:not(.g):not(.r)::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);animation:skShine 4.5s ease-in-out infinite}
+ html:not(.lite)[data-sk=dark] .bento .b-hero,html:not(.lite)[data-sk=dark] .bsk-at{animation:skRose 6s ease-in-out infinite alternate}
+ html:not(.lite)[data-sk] .fgc,html:not(.lite)[data-sk] .fty{animation:skRise .45s cubic-bezier(.2,.8,.2,1) both}
+ html:not(.lite)[data-sk] .fgrid>.skw:nth-child(2) .fgc{animation-delay:.04s}html:not(.lite)[data-sk] .fgrid>.skw:nth-child(3) .fgc{animation-delay:.08s}html:not(.lite)[data-sk] .fgrid>.skw:nth-child(4) .fgc{animation-delay:.12s}html:not(.lite)[data-sk] .fgrid>.skw:nth-child(n+5) .fgc{animation-delay:.16s}
+}
+@keyframes skGlow{0%,100%{box-shadow:0 0 14px rgba(255,78,216,.45)}50%{box-shadow:0 0 28px rgba(255,78,216,.85),0 0 46px rgba(139,92,246,.35)}}
+@keyframes skShine{0%,70%{left:-60%}100%{left:130%}}
+@keyframes skRose{from{box-shadow:inset 0 0 0 rgba(122,16,38,0)}to{box-shadow:inset 0 -40px 80px rgba(122,16,38,.35)}}
+@keyframes skRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* вход: знак рисуется и раскрывается */
+.skintro{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--bg);color:var(--ac);transition:opacity .6s ease}
+:root[data-sk=glass] .skintro{background:linear-gradient(170deg,#f6d6df,#eec3cf)}:root[data-sk=dark] .skintro{background:radial-gradient(circle at 50% 40%,#3a0f1c,#0b0b0f 70%)}:root[data-sk=neon] .skintro{background:radial-gradient(circle at 50% 40%,#3b0d5c,#0a0a14 70%)}:root[data-sk=soft] .skintro{background:linear-gradient(180deg,#fde7ec,#f9d3dd)}
+.skintro.out{opacity:0;pointer-events:none}
+.ski-in{display:flex;flex-direction:column;align-items:center;gap:8px}
+.ski-in svg{width:120px;height:120px;stroke-dasharray:420;stroke-dashoffset:420;animation:skDraw 1.3s cubic-bezier(.4,0,.2,1) forwards,skOpen 1.4s cubic-bezier(.2,.8,.2,1) both}
+:root[data-sk=neon] .ski-in svg{filter:drop-shadow(0 0 10px #ff4ed8)}
+.ski-in b{font-family:var(--skf,serif);font-size:44px;font-weight:500;color:var(--ink);opacity:0;animation:skFade .6s .7s forwards}
+.ski-in small{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--mut);opacity:0;animation:skFade .6s .9s forwards}
+@keyframes skDraw{to{stroke-dashoffset:0}}@keyframes skOpen{from{transform:scale(.6) rotate(-30deg)}to{transform:none}}@keyframes skFade{to{opacity:1}}
+/* успех: цветок раскрывается и галочка */
+.skbloom{position:fixed;left:50%;top:42%;z-index:9998;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:10px;padding:26px 30px;border-radius:28px;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.18);transition:opacity .5s,transform .5s;pointer-events:none}
+.skbloom.out{opacity:0;transform:translate(-50%,-56%)}
+.skbloom b{font-size:15px;color:var(--ink)}
+.skb-f{position:relative;width:110px;height:110px}
+.skb-f i{position:absolute;left:50%;top:50%;width:26px;height:46px;margin:-46px 0 0 -13px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:linear-gradient(180deg,color-mix(in srgb,var(--ac) 55%,#fff),var(--ac));transform-origin:50% 100%;transform:rotate(var(--r)) scale(0);opacity:.9;animation:skPetal .7s var(--d) cubic-bezier(.2,.9,.3,1.3) forwards}
+.skb-c{position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:var(--bg);color:var(--ac);display:grid;place-items:center;transform:scale(0);animation:skPop .35s .5s cubic-bezier(.2,.9,.3,1.4) forwards}
+.skb-c svg{width:24px;height:24px}
+@keyframes skPetal{to{transform:rotate(var(--r)) scale(1)}}@keyframes skPop{to{transform:scale(1)}}
+.tiles.skmini[hidden]{display:none!important}
+:root[data-sk] #v button,:root[data-sk] #v .chip,:root[data-sk] #v .pill,:root[data-sk] #v label,:root[data-sk] #v .tab,:root[data-sk] #m button,:root[data-sk] #m label,:root[data-sk] #v h2{text-transform:none!important;letter-spacing:0!important}
