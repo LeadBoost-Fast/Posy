@@ -148,7 +148,7 @@ function draw(){
  const wa=waNum(D.wa),ig=igUser(D.ig);
  $("pills").innerHTML=(wa?'<a class="pill wa" href="https://wa.me/'+wa+'" target="_blank" rel="noopener">'+svg(IC.wa)+"WhatsApp</a>":"")+(ig?'<a class="pill" href="https://www.instagram.com/'+esc(ig)+'/" target="_blank" rel="noopener">'+svg(IC.ig)+"Instagram</a>":"")+(D.addr?'<span class="pill">'+svg(IC.pin)+esc(D.addr)+"</span>":"");
  $("hol").innerHTML=holBanner(wa);
- const tags=[...new Set(ITEMS.map(i=>i.tag).filter(Boolean))];
+ const tags=(()=>{const used=new Set(ITEMS.map(i=>i.tag).filter(Boolean));return Array.isArray(D.tags)?D.tags.filter(g=>used.has(g)):[...used]})();
  const cty=String(D.city||"").trim();$("city").innerHTML=cty?t("cityL")+"<b>"+esc(cty)+"</b>":"";
  const bn=Array.isArray(D.banners)?D.banners.filter(b=>b&&b.img):[];$("bnr").hidden=!bn.length;$("bnr").innerHTML=bn.map(b=>'<div class="b"><img src="'+esc(b.img)+'" alt="'+esc(b.t||"")+'" loading="lazy">'+(b.t||b.s?'<div class="bt">'+(b.t?"<b>"+esc(b.t)+"</b>":"")+(b.s?"<span>"+esc(b.s)+"</span>":"")+"</div>":"")+"</div>").join("");
  let dt=document.getElementById("bdots");if(bn.length>1){if(!dt){dt=document.createElement("div");dt.id="bdots";dt.className="dots";$("bnr").after(dt)}dt.innerHTML=bn.map((x,i)=>'<i class="'+(i?"":"on")+'"></i>').join("")}else if(dt)dt.remove();
