@@ -1004,3 +1004,9 @@ img.skph{width:100%;height:100%;object-fit:contain;background:#fff;border-radius
 .fmore{display:grid!important;grid-template-columns:1fr 1fr;gap:8px}
 .fmore button{display:flex;align-items:center;justify-content:center;gap:6px}.fmore button svg{width:16px;height:16px}
 .fmore .fdel{grid-column:1/-1;color:#e5484d;border-color:color-mix(in srgb,#e5484d 35%,var(--line))}
+.sksetl{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin:18px 0 6px;border:0;background:none;color:var(--mut);font:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:10px}
+.sksetl svg{width:15px;height:15px}
+.skset{padding:4px 0!important}
+.sksr{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);font:inherit;font-size:15px;text-align:left;cursor:pointer}
+.sksr:last-child{border-bottom:0}.sksr b,.sksr>span:first-child{flex:1}.sksr svg{width:16px;height:16px;color:var(--mut)}
+.sksr.sub{padding-left:32px;font-size:14px}
