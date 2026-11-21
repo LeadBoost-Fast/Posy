@@ -990,3 +990,4 @@ details .prr{grid-template-columns:repeat(4,minmax(70px,1fr));min-width:0}
 .sksb>span{flex:1;font-size:14px}.sksb .btn{flex:none;min-width:0}
 @media(min-width:900px){.sksb{left:auto;right:24px;bottom:24px;width:460px}}
 body:has(#m>*:not([hidden])) .sksb{display:none}
+.fty.emp .fc{opacity:.55;border-style:dashed}.fty.emp .fc b{background:var(--mut)}
