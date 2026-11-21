@@ -991,3 +991,7 @@ details .prr{grid-template-columns:repeat(4,minmax(70px,1fr));min-width:0}
 @media(min-width:900px){.sksb{left:auto;right:24px;bottom:24px;width:460px}}
 body:has(#m>*:not([hidden])) .sksb{display:none}
 .fty.emp .fc{opacity:.55;border-style:dashed}.fty.emp .fc b{background:var(--mut)}
+.mvl{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 6px}
+.mvc{border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14px;font-weight:600;padding:10px 14px;border-radius:99px;cursor:pointer;min-height:42px}
+.mvc small{font-size:11px;color:var(--mut);font-weight:600}
+.mvc.on{background:var(--skbtn,var(--ac));color:var(--on);border-color:transparent}.mvc.on small{color:inherit;opacity:.8}
