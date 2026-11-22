@@ -235,7 +235,7 @@ st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--in
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123f",
+const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123h",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
@@ -4482,3 +4482,11 @@ document.addEventListener("wheel",e=>{if(e.ctrlKey||Math.abs(e.deltaX)>Math.abs(
 FXD.staffKas=true;FXL.staffKas="Касса дня на главной у сотрудников (сумма за день, оплачено, букеты, заказы)";FXS.staffKas="Касса дня у сотрудников";
 wgNew("kasd","Касса дня","l",()=>!!S&&["operator","florist","assistant"].includes(S.role)&&FX("staffKas"),()=>moneyBento(wDay()));
 WGDEF.kasd=["operator","florist","assistant"];
+/* Лёгкий фон в форме заказа и «Живом клиенте»: медленно падающие лепестки цвета оформления и мягкие переливы.
+   Слой под полями (z-index:-1), нажатия не перехватывает; нет при «уменьшении движения»; выключается в «Возможностях». */
+FXD.formFx=true;FXL.formFx="Лёгкая анимация фона в форме заказа и живой продажи (лепестки)";FXS.formFx="Анимация фона в формах";
+(()=>{const add=f=>{try{if(!f||f.querySelector(":scope>.fbg")||!FX("formFx")||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+ const b=document.createElement("div");b.className="fbg";b.setAttribute("aria-hidden","true");let h="";
+ for(let i=0;i<12;i++){const d=11+Math.random()*9;h+=`<i style="--x:${Math.round((i*8+Math.random()*7)%94)}%;--s:${13+Math.round(Math.random()*13)}px;--d:${d.toFixed(1)}s;--dl:${(-Math.random()*d).toFixed(1)}s;--r:${Math.random()<.5?-1:1}"></i>`}
+ b.innerHTML=h;f.prepend(b);const sz=()=>b.style.setProperty("--h",(window.innerHeight+60)+"px");/* слой держится на экране при прокрутке — лепестки падают по видимой части */sz();setTimeout(sz,500);setTimeout(sz,2000)}catch(e){}};
+ new MutationObserver(()=>{const m=document.getElementById("m");if(!m||!m.firstChild)return;add(document.getElementById("of"));add(document.getElementById("lvf"))}).observe(document.body,{childList:true,subtree:true})})();
