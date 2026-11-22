@@ -101,7 +101,8 @@ service cloud.firestore {
     match /orders/{id} {
       // Курьер читает заказы (в интерфейсе показываем только доставки: свои и свободные)
       allow read: if isWork() || isCourier();
-      allow create: if isMgr() && (request.resource.data.get('paid', false) != true || isOpRole())
+      // владелец может вернуть удалённый заказ из корзины как есть
+      allow create: if isOwner() || isMgr() && (request.resource.data.get('paid', false) != true || isOpRole())
         && (!('pvSt' in request.resource.data) || isAdmin() || isOwner())
         && request.resource.data.get('by', request.auth.uid) == request.auth.uid
         && request.resource.data.get('paidBy', request.auth.uid) == request.auth.uid;
@@ -342,6 +343,11 @@ service cloud.firestore {
     match /checks/{id} {
       allow read: if isAdmin() || isOwner() || (isActive() && id.matches(request.auth.uid + '_.*'));
       allow create, update: if isActive() && id.matches(request.auth.uid + '_.*') && request.resource.data.uid == request.auth.uid;
+      allow delete: if isOwner();
+    }
+    // Корзина: копии удалённых записей, чтобы вернуть обратно
+    match /trash/{id} {
+      allow read, create, update: if isAdmin() || isOwner();
       allow delete: if isOwner();
     }
     match /audit/{id} {
