@@ -1031,3 +1031,6 @@ img.skph{width:100%;height:100%;object-fit:contain;background:#fff;border-radius
 @media (pointer:fine){*{scrollbar-width:thin!important}}
 /* лента «Действия за день»: время всегда в одну строку справа */
 .nwl .ln>span.mut:last-child{flex:none;white-space:nowrap;margin-left:10px}
+/* форма заказа: «Дополнительно к заказу» всегда открыто, отдельной карточкой */
+.ofxv{margin:14px 0 4px;padding:12px 14px 14px;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--card) 70%,transparent)}
+.ofxv .ofxh{display:block;margin:0 0 2px;font-size:16px}
