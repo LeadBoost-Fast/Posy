@@ -410,6 +410,14 @@ exports.pubMirror=onDocumentUpdated({...OPT,document:"orders/{id}"},async e=>{
   await pubDoc(db,e.data.after.ref,b,s.exists?s.data():{});
 });
 // Заказ создан → если в сайте уже есть чат с клиентом, шлём ссылку на статус (без формы оценки)
+/* Номер заказа: №1, №2, №3… по всему магазину. Выдаёт сервер при создании заказа через общий счётчик counters/orders
+   (транзакция — номера не повторяются, даже если заказы создают одновременно). С сайта поле no записать нельзя (правила). */
+exports.orderNo=onDocumentCreated({...OPT,document:"orders/{id}"},async e=>{
+  const snap=e.data;if(!snap)return;const o=snap.data();if(o.no)return;
+  const db=admin.firestore(),c=db.doc("counters/orders");
+  try{await db.runTransaction(async t=>{const s=await t.get(c),n=((s.exists&&+s.data().n)||0)+1;t.set(c,{n,at:Date.now()},{merge:true});t.update(snap.ref,{no:n})})}
+  catch(err){console.error("orderNo",e.params.id,err)}
+});
 exports.trackSend=onDocumentCreated({...OPT,document:"orders/{id}"},async e=>{
   const snap=e.data;if(!snap)return;
   const o=snap.data(),db=admin.firestore();
