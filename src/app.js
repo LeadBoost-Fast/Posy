@@ -332,7 +332,7 @@ st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--in
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261124j",
+const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261124k",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
@@ -2068,7 +2068,7 @@ ${ps.map(p=>{const PI=CI.filter(i=>hPos(i)===p),P=`${C} data-pos="${esc(p)}"`,ke
     const cRows=cs.map(cl=>{const CL=SI.filter(i=>hClr(i)===cl);if(!cl){if(!s)return CL.map(i=>`<div class="hrow h2 hnone"><span class="hlbl">без сорта и цвета</span>${qty([i])}<span class="hacts">${del(`${Sx} data-clr="" data-lv="clr"`)}</span></div>${det(i)}`).join("");return cs.length>1?CL.map(i=>`<div class="hrow h3 hnone"><span class="hlbl">без цвета</span>${qty([i])}<span class="hacts">${del(`${Sx} data-clr="" data-lv="clr"`)}</span></div>${det(i)}`).join(""):""}
      const Cx=`${Sx} data-clr="${esc(cl)}"`;return `<div class="hrow ${s?"h3":"h2"} hclr"><i class="hdot" style="background:${esc(hudCol(cl))}"></i>${nm("clr",cl,Cx)}${qty(CL)}<span class="hacts">${del(Cx+' data-lv="clr"')}</span></div>${CL.length===1?det(CL[0]):""}`}).join("");
     if(!s)return cRows;
-    return `<div class="hsort"><div class="hrow h2">${nm("sort",s,Sx)}${qty(SI)}<span class="hacts">${addB("clr",Sx,"цвет")}${del(Sx+' data-lv="sort"')}</span></div>${leafS?det(SI[0]):""}${cRows?`<div class="hkids">${cRows}</div>`:""}</div>`}).join(""):"";
+    return `<div class="hsort"><div class="hrow h2">${nm("sort",s,Sx)}${qty(SI)}<span class="hacts"><button type="button" class="hplus sm" data-ha="clr" ${Sx} aria-label="Добавить цвет" title="Добавить цвет">${HIC.plus}</button>${del(Sx+' data-lv="sort"')}</span></div>${leafS?det(SI[0]):""}${cRows?`<div class="hkids">${cRows}</div>`:""}</div>`}).join(""):"";
    return `<div class="hpos" data-cat="${esc(c)}" data-pos="${esc(p)}" data-n="${hay(PI)}"><div class="hrow h1"><button type="button" class="hgrip" data-hg="pos" aria-label="Перетащить в другой раздел">${HIC.grip}</button>${av(p,PI)}${nm("pos",p,P)}${qty(PI)}<span class="hacts">${acts}${del(P+' data-lv="pos"')}</span></div>${leafP?det(PI[0]):""}${kids?`<div class="hkids">${kids}</div>`:""}</div>`}).join("")||`<p class="hempty">Здесь пока пусто — нажмите «＋ позиция».</p>`}</div></section>`}).join("");
  return `<div class="hud"><div class="hhead"><div><b>Настройка склада</b><p>Раздел → позиция → сорт → цвет. Сорт и цвет — по желанию.</p></div><button type="button" class="btn s" data-a="s_sv" data-id="i">Готово</button></div>
 <div class="hhint"><span>${HIC.pen}Нажмите на название — переименовать</span><span>${HIC.plus}Добавить внутрь</span><span>${HIC.tap}Нажмите на остаток — цена и срок</span><span>${HIC.grip}Потяните за точки — переставить</span></div>

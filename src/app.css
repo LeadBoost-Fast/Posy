@@ -1274,3 +1274,4 @@ body.hdragging{user-select:none;-webkit-user-select:none}body.hdragging .hgrip{c
 .hnewcat{margin:4px 0 12px}.hnewcat .hadd.big{flex:1;justify-content:center;min-height:52px;border:1.5px dashed color-mix(in srgb,var(--ac) 50%,transparent);border-radius:18px;font-size:15px}
 .hnone2{padding:14px}.hnone2 p{margin:0 0 10px;font-size:14px;color:var(--mut)}
 .hud.hcatdrag .hcats .hbody{display:none}.hud.hcatdrag .hcats .h0{border-bottom-color:transparent}.hud.hcatdrag .hcats>.hcat{margin-bottom:8px}
+.hplus.sm{width:28px;height:28px;border-width:1px;border-color:color-mix(in srgb,var(--ac) 35%,transparent);opacity:.85}.hplus.sm svg{width:14px;height:14px}
