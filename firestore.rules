@@ -172,6 +172,16 @@ service cloud.firestore {
       allow delete: if isAdmin() || isOwner();
     }
     match /invcost/{id}         { allow read, write: if isOwner(); }
+    // Инвентаризация: начинают админ и владелец; считают все, кто работает со складом (только поле it, пока идёт);
+    // провести или отменить — админ и владелец; удалить — только владелец
+    match /invCounts/{id} {
+      allow read: if isWork();
+      allow create: if (isAdmin() || isOwner()) && request.resource.data.st == 'open' && request.resource.data.by == request.auth.uid;
+      allow update: if isAdmin() || isOwner()
+        || (isWork() && resource.data.st == 'open' && request.resource.data.st == 'open'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['it']));
+      allow delete: if isOwner();
+    }
     // История склада: только добавлять. Удалить запись может только владелец (чтобы списание нельзя было стереть)
     match /stockMovements/{id} {
       allow read, create: if isWork();
