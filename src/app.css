@@ -1029,3 +1029,5 @@ img.skph{width:100%;height:100%;object-fit:contain;background:#fff;border-radius
 .hint-btn::after,.jrx::after,a[data-a="x_del"]::after{content:"";position:absolute;inset:-6px -5px}
 /* аудит: на компьютере у горизонтальных рядов видна тонкая полоса прокрутки (скрытую мышью не найти) */
 @media (pointer:fine){*{scrollbar-width:thin!important}}
+/* лента «Действия за день»: время всегда в одну строку справа */
+.nwl .ln>span.mut:last-child{flex:none;white-space:nowrap;margin-left:10px}
