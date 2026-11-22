@@ -304,7 +304,7 @@ c+=vec3(st(f))*.6;gl_FragColor=vec4(tm(c),1.);}`};
 function czSet(k){if(!CZ[k])return;const th=thGet();th.cz=k;th.acd=th.acl=CZ[k][1];STO.set("th",JSON.stringify(th));applyTheme();if(S)draw()}
 let COS=null;
 function cosBg(on){const z=CZ[czGet()];if(!on||(COS&&COS.sc!==z[5])){if(COS){cancelAnimationFrame(COS.raf);COS.el.remove();COS=null}if(!on)return}
- if(COS){COS.z=z;if(COS.draw)COS.draw();return}
+ if(COS){COS.z=z;if(COS.draw)COS.draw();if(!fxOk()&&COS.raf){cancelAnimationFrame(COS.raf);COS.raf=0}else if(fxOk()&&!COS.raf&&COS.loop){COS.last=0;COS.raf=requestAnimationFrame(COS.loop)}return}
  const el=document.createElement("canvas");el.id="cosbg";el.setAttribute("aria-hidden","true");document.body.prepend(el);
  let gl=null;try{gl=el.getContext("webgl",{alpha:false,antialias:false,depth:false,powerPreference:"low-power"})}catch(e){}
  COS={el,z,sc:z[5],raf:0,last:0,t:20,boost:0};if(!gl){el.classList.add("nogl");return}
@@ -319,7 +319,7 @@ function cosBg(on){const z=CZ[czGet()];if(!on||(COS&&COS.sc!==z[5])){if(COS){can
   gl.uniform2f(U.C,g[1]*W0,H0-g[2]*H0);gl.uniform1f(U.S,g[0]*W0);gl.uniform1f(U.T,COS.t);gl.uniform1f(U.K,now<COS.boost?6:1);
   gl.uniform3fv(U.A,COS.z[2]);gl.uniform3fv(U.B,COS.z[3]);gl.uniform3fv(U.W,COS.z[4]);gl.drawArrays(gl.TRIANGLES,0,3)};
  const loop=ts=>{if(!COS||COS.el!==el)return;COS.raf=requestAnimationFrame(loop);if(document.hidden||scrollY>innerHeight*.8||ts-COS.last<33)return;const dt=Math.min(.1,(ts-(COS.last||ts))/1000);COS.last=ts;COS.t+=dt*(ts<COS.boost?9:1);COS.draw()};
- size();COS.draw();if(fxOk())COS.raf=requestAnimationFrame(loop);
+ COS.loop=loop;size();COS.draw();if(fxOk())COS.raf=requestAnimationFrame(loop);
  addEventListener("resize",()=>{if(COS&&COS.el===el&&COS.draw){size();COS.draw()}});
  el.addEventListener("webglcontextlost",e=>{e.preventDefault();if(COS&&COS.el===el){cancelAnimationFrame(COS.raf);el.classList.add("nogl")}})}
 function floraSync(pn){const sk=SKID[pn]||"",fl=pn==="Цветник"||(sk&&sk!=="bloom"&&sk!=="cosmos");try{cosBg(sk==="cosmos")}catch(e){eLog(e)}if(sk&&!document.getElementById("skfont")){const l=document.createElement("link");l.id="skfont";l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Unbounded:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap";document.head.appendChild(l)}let lf=document.getElementById("flfont");if(fl&&!lf&&!document.querySelector('link[href*="Lora"]')){lf=document.createElement("link");lf.id="flfont";lf.rel="stylesheet";lf.href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Lora:ital,wght@0,600;1,500;1,600&display=swap";document.head.appendChild(lf)}
@@ -332,7 +332,7 @@ st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--in
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123w",
+const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123x",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
