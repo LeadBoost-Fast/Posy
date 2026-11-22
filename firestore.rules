@@ -68,6 +68,12 @@ service cloud.firestore {
     function setsSelfOrEmpty(d, k, f) {
       return !k.hasAny([f]) || d.get(f, '') == '' || d.get(f, '') == request.auth.uid;
     }
+    // Права действий магазина (settings/main.pol): 'ok' — можно, 'mark' — можно с отметкой, 'ask' — только через запрос.
+    // Умолчания как на сайте: отмена неоплаченного и снижение цены — с отметкой, отмена оплаченного — с разрешением.
+    function polOk(k, dflt) {
+      let p = get(/databases/$(database)/documents/settings/main).data.get('pol', {});
+      return p.get(k, dflt) in ['ok', 'mark'];
+    }
     function orderMarksOk() {
       let d = request.resource.data;
       let r = resource.data;
@@ -90,8 +96,9 @@ service cloud.firestore {
             || r.get('asm', '') != request.auth.uid)
         // отмена и снижение цены — сам сотрудник только отправляет запрос (rqK); разрешает или отклоняет
         // любой другой сотрудник (не автор запроса; курьер сюда не попадает — у него своя ветка), админ или владелец
-        && (((!(k.hasAny(['st']) && d.get('st', 0) == 5 && r.get('st', 0) != 5) || abil('cancel'))
-             && (!(k.hasAny(['p']) && d.get('p', 0) < r.get('p', 0)) || abil('disc'))
+        && (((!(k.hasAny(['st']) && d.get('st', 0) == 5 && r.get('st', 0) != 5) || abil('cancel')
+               || ((r.get('paid', false) == true || r.get('pre', 0) > 0) ? polOk('cxPaid', 'ask') : polOk('cxNew', 'mark')))
+             && (!(k.hasAny(['p']) && d.get('p', 0) < r.get('p', 0)) || abil('disc') || polOk('price', 'mark'))
              && !(k.hasAny(['rqK']) && d.get('rqBy', '') != request.auth.uid)) || boss
             || (r.get('rqK', '') != '' && r.get('rqBy', '') != request.auth.uid && d.get('rqK', '') == ''
                 && (!(k.hasAny(['st']) && d.get('st', 0) == 5 && r.get('st', 0) != 5) || r.get('rqK', '') == 'cx')
@@ -169,10 +176,10 @@ service cloud.firestore {
       allow delete: if isOwner();
     }
     // Каталог букетов: удалять могут админы, владельцы, флористы и помощники флориста
-    match /bouquets/{id}        { allow read, create, update: if isMgr(); allow delete: if isAdmin() || isOwner() || (isActive() && role() in ['florist','assistant']); }
+    match /bouquets/{id}        { allow read, create, update: if isMgr(); allow delete: if isAdmin() || isOwner(); }
     match /stockReqs/{id}       { allow read: if isActive(); allow create: if isActive() && request.resource.data.uid == request.auth.uid; allow update, delete: if isAdmin() || isOwner(); }
     // Галерея: цену и состав меняют только админ и владелец (сотрудник отправляет запрос, kind gal в stockReqs)
-    match /gallery/{id}         { allow read: if isWork(); allow create: if isWork() && request.resource.data.by == request.auth.uid; allow update: if isAdmin() || isOwner(); allow delete: if isMgr() || isAdmin() || isOwner(); }
+    match /gallery/{id}         { allow read: if isWork(); allow create: if isWork() && request.resource.data.by == request.auth.uid; allow update: if isAdmin() || isOwner(); allow delete: if isAdmin() || isOwner(); }
     match /showcase/{id}        { allow read, create, update: if isWork(); allow delete: if isAdmin() || isOwner(); }
     match /visits/{id}          { allow read, create, update: if isWork(); allow delete: if isAdmin() || isOwner(); }
 
@@ -349,6 +356,11 @@ service cloud.firestore {
     match /trash/{id} {
       allow read, create, update: if isAdmin() || isOwner();
       allow delete: if isOwner();
+    }
+    // Отметки «Проверено» в журнале «Требует внимания»: ставят админ и владелец, снять может только владелец
+    match /jrSeen/{id} {
+      allow read, create: if isAdmin() || isOwner();
+      allow update, delete: if isOwner();
     }
     match /audit/{id} {
       allow read: if isAdmin() || isOwner();
