@@ -287,6 +287,22 @@ exports.orderStatus=onRequest({...OPT,maxInstances:5},async(req,res)=>{
   res.json({shop:sh.name||"",phone:sh.phone||"",bn:o.bn||"",st:+o.st||0,dv:!!o.dv,date:o.date||"",time:o.time||""});
 });
 
+// Найти позицию склада в ночных копиях (до 14 дней): точные остатки по каждой точке — чтобы вернуть случайно удалённое
+exports.invBackup=onCall(async req=>{
+  if(!req.auth)throw new HttpsError("unauthenticated","Войдите в систему");
+  const db=admin.firestore(),me=await db.doc("staff/"+req.auth.uid).get();
+  const top=TOP.includes(String(req.auth.token.email||"").toLowerCase());
+  if(!top&&!(me.exists&&me.data().active===true&&me.data().role==="admin"))throw new HttpsError("permission-denied","Нужна роль администратора");
+  const id=String(req.data&&req.data.id||""),nm=String(req.data&&req.data.name||"").toLowerCase().trim();
+  const [files]=await admin.storage().bucket().getFiles({prefix:"backups/"});
+  const inv=files.filter(f=>/\/inventory(-\d+)?\.json$/.test(f.name)).sort((a,b)=>b.name.localeCompare(a.name));
+  const out=[],seen=new Set();
+  for(const f of inv){const day=f.name.split("/")[1];let arr=[];try{const [buf]=await f.download();arr=JSON.parse(buf.toString())}catch(e){continue}
+    for(const x of arr){if(seen.has(x.id))continue;if((id&&x.id===id)||(!id&&nm&&String(x.name||"").toLowerCase().includes(nm))||(!id&&!nm)){seen.add(x.id);out.push({day,doc:x})}}
+    if(out.length>=300)break}
+  return{items:out};
+});
+
 // ================= АВТОКОПИЯ =================
 // Каждую ночь пишет JSON в Cloud Storage (бакет по умолчанию): backups/ГГГГ-ММ-ДД/<коллекция>.json, хранит 14 дней
 const BK_COLS=["orders","customers","inventory","stockMovements","showcase","bouquets","leads","deals","subs","reports","builds","shifts","staff","activityLogs","chats","expenses","invcost","settings","locations","team","audit"];
