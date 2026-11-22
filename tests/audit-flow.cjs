@@ -107,15 +107,24 @@ async function newOrder(pg) {
     await co.ctx.close();
   }
 
-  // 6. отмена не-админом → запрос → решение админом
-  await op.pg.evaluate(() => { modal(""); tab = "orders"; draw(); }); await newOrder(op.pg);
-  const nm3 = "Отмена " + Date.now() % 100000; await op.pg.fill('#of [name=phone]', "+7 701 555 44 35"); await op.pg.click('#of [name=client]'); await op.pg.waitForTimeout(300); await op.pg.keyboard.type(nm3, { delay: 20 }); await op.pg.evaluate(() => { const e = document.querySelector('#of .bqp'); if (e) { e.value = "9000"; e.dispatchEvent(new Event("input", { bubbles: true })); } });
-  await op.pg.locator("#of .acts .btn:not(.g)").last().click(); await op.pg.waitForTimeout(2200);
-  const o3 = (await findBy("orders", "client", nm3))[0], oid3 = o3 && o3.name.split("/").pop();
-  r = await act(op.pg, oid3, /Отменить|Отмена заказа/); const q3 = await doc("orders/" + oid3);
-  ok(fv(q3, "rqK") === "cx" && fv(q3, "st") === 0, "3.1 оператор отменяет → создан запрос (rqK=cx), заказ не отменён", r || "rqK=" + fv(q3, "rqK") + " st=" + fv(q3, "st"));
+  // 6. отмена: неоплаченный оператор отменяет сам (с причиной, «с отметкой»), оплаченный — через запрос, разрешает админ
+  const mkOrder = async (nm, phone, paid) => { await op.pg.evaluate(() => { modal(""); tab = "orders"; draw(); }); await newOrder(op.pg);
+    await op.pg.fill('#of [name=phone]', phone); await op.pg.click('#of [name=client]'); await op.pg.waitForTimeout(300); await op.pg.keyboard.type(nm, { delay: 20 });
+    await op.pg.evaluate(paid => { const e = document.querySelector('#of .bqp'); if (e) { e.value = "9000"; e.dispatchEvent(new Event("input", { bubbles: true })); } const c = document.querySelector('#of [name=paid]'); if (c && paid) c.checked = true; }, paid);
+    await op.pg.locator("#of .acts .btn:not(.g)").last().click(); await op.pg.waitForTimeout(2200);
+    const d = (await findBy("orders", "client", nm))[0]; return d && d.name.split("/").pop(); };
+  const oid3 = await mkOrder("Отмена " + Date.now() % 100000, "+7 701 555 44 35", false);
+  await op.pg.waitForFunction(id => O.some(x => x.id === id && !x._pend), oid3, { timeout: 15000 }).catch(() => {});
+  await op.pg.evaluate(id => { modal(""); detail(id); }, oid3); await op.pg.waitForTimeout(600);
+  await op.pg.locator('#m [data-a="cx"]').first().evaluate(e => e.click()); await op.pg.waitForTimeout(1600);
+  const cxf = await op.pg.locator("#cxf").count(); if (cxf) { await op.pg.fill('#cxf [name=why]', "Клиент передумал"); await op.pg.locator("#cxf .btn.r").click(); await op.pg.waitForTimeout(2500); }
+  const q3 = await doc("orders/" + oid3);
+  ok(fv(q3, "st") === 5 && fv(q3, "cxWhy") === "Клиент передумал", "3.1 неоплаченный: оператор отменил сам с причиной (права действий: «с отметкой»)", "форма отмены " + cxf + ", st=" + fv(q3, "st"));
+  const oid4 = await mkOrder("Отмена опл " + Date.now() % 100000, "+7 701 555 44 36", true);
+  r = await act(op.pg, oid4, /Отменить|Отмена заказа/); const q4 = await doc("orders/" + oid4);
+  ok(fv(q4, "rqK") === "cx" && fv(q4, "st") === 0, "3.2 оплаченный: оператор отправил запрос (rqK=cx), заказ не отменён", r || "rqK=" + fv(q4, "rqK") + " st=" + fv(q4, "st"));
   const ad = await run("admin");
-  r = await act(ad.pg, oid3, /Разрешить|Одобрить|Отменить заказ/); ok(fv(await doc("orders/" + oid3), "st") === 5, "3.2 админ разрешил отмену → статус 5", r || "st=" + fv(await doc("orders/" + oid3), "st"));
+  r = await act(ad.pg, oid4, /Разрешить|Одобрить|Отменить заказ/); ok(fv(await doc("orders/" + oid4), "st") === 5, "3.3 админ разрешил отмену оплаченного → статус 5", r || "st=" + fv(await doc("orders/" + oid4), "st"));
 
   // 7. права: курьер не видит финансы, флорист не видит «Финансы», помощник не видит «Команду»
   const as = await run("assistant");
