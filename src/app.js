@@ -175,9 +175,9 @@ function setLite(m){STO.set("lite",m);applyLite();try{applyTheme()}catch(e){eLog
 const liteCard=()=>{const m=STO.get("lite")||"auto";return `<h2>Скорость работы</h2><div class="card"><div class="mut">Для слабых и старых телефонов. <b>Лёгкий режим</b> убирает размытие, тени, анимации и миниатюры фото в списках, а заказов в списке показывает по 30 (кнопка «Показать ещё»). Данные и функции те же, просто телефон меньше нагружается. «Авто» включает лёгкий режим сам, если телефон слабый (мало памяти или процессор 2 ядра) или включена экономия трафика. Сейчас: <b>${LITE?"лёгкий режим включён":"обычный режим"}</b>.</div><div class="chips">${[["auto","Авто"],["on","Лёгкий"],["off","Обычный"]].map(c=>`<button type="button" class="chip ${m===c[0]?"on":""}" onclick="setLite('${c[0]}')">${c[1]}</button>`).join("")}</div></div>`};
 const PALS={"Blooming Glass":{l:["#f4d7e0","#fbeef3","#efc9d6","#4a2433","#d1567c","#ffffff"],d:["#f4d7e0","#fbeef3","#efc9d6","#4a2433","#d1567c","#ffffff"]},
 "Dark Elegance":{l:["#0b0b0f","#17121a","#251b24","#ebd9d6","#d4af7c","#1a0e08"],d:["#0b0b0f","#17121a","#251b24","#ebd9d6","#d4af7c","#1a0e08"]},
-"Neon Flowers":{l:["#0a0a14","#15122a","#221c3d","#f4e8ff","#ff4ed8","#ffffff"],d:["#0a0a14","#15122a","#221c3d","#f4e8ff","#ff4ed8","#ffffff"]},
-"Soft Dream":{l:["#fde7ec","#fff6f8","#f8d5de","#5a3240","#e07591","#ffffff"],d:["#fde7ec","#fff6f8","#f8d5de","#5a3240","#e07591","#ffffff"]},
-"Bloom":{l:["#ffffff","#fff6f9","#fbe3ea","#222222","#ef7a9a","#ffffff"],d:["#ffffff","#fff6f9","#fbe3ea","#222222","#ef7a9a","#ffffff"]},
+"Neon Flowers":{l:["#0a0a14","#15122a","#221c3d","#f4e8ff","#ff4ed8","#1a0826"],d:["#0a0a14","#15122a","#221c3d","#f4e8ff","#ff4ed8","#1a0826"]},
+"Soft Dream":{l:["#fde7ec","#fff6f8","#f8d5de","#5a3240","#e07591","#2e0f1a"],d:["#fde7ec","#fff6f8","#f8d5de","#5a3240","#e07591","#2e0f1a"]},
+"Bloom":{l:["#ffffff","#fff6f9","#fbe3ea","#222222","#c9416a","#ffffff"],d:["#ffffff","#fff6f9","#fbe3ea","#222222","#c9416a","#ffffff"]},
 "Ч/Б":{l:["#ffffff","#f4f4f5","#e7e7ea","#000000","#000000","#ffffff"],d:["#000000","#121214","#232326","#ffffff","#ffffff","#000000"]},
 "Жемчуг":{l:["#f8f4ef","#ffffff","#efe7df","#3d3536","#96626a","#ffffff"],d:["#171415","#221e1f","#302a2b","#f3ece8","#d8b0b4","#2a1a1c"]},
 "Нежная роза":{l:["#f9eeee","#ffffff","#f1dfe1","#43333a","#a65d6c","#ffffff"],d:["#1a1315","#261c1f","#35272b","#f6e9ec","#e3aab5","#2a1519"]},
@@ -235,7 +235,7 @@ st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--in
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={h:"d-cosmos.js",m:"d-command.js",p:"d-atlas.js"},DSTAT={},DSG_V=window.DSGV||"20261122t",
+const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261122w",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
@@ -4458,3 +4458,6 @@ let pendLink=location.search||"";if(pendLink)setInterval(function(){if(S&&pendLi
 try{navigator.serviceWorker&&navigator.serviceWorker.addEventListener("message",m=>{if(m.data&&m.data.go)openLink(m.data.go)})}catch(e){eLog(e)}
 // после сна телефона / потери сети сразу переподключить обновления
 let hidAt=0;document.addEventListener("visibilitychange",()=>{if(document.hidden){hidAt=Date.now();return}if(S){if(hidAt&&Date.now()-hidAt>20000)netKick("back");else{try{db.enableNetwork()}catch(e){console.warn(e)}}dq()}});addEventListener("online",()=>{if(S)netKick("online")});
+/* аудит: колесо мыши над горизонтальным рядом (разделы склада, фильтры) прокручивает его вбок */
+document.addEventListener("wheel",e=>{if(e.ctrlKey||Math.abs(e.deltaX)>Math.abs(e.deltaY)||!e.deltaY)return;let el=e.target;
+ while(el&&el!==document.body){if(el.scrollWidth>el.clientWidth+4&&el.scrollHeight<=el.clientHeight+4){const s=getComputedStyle(el);if(/(auto|scroll)/.test(s.overflowX)){const L=el.scrollLeft;el.scrollLeft+=e.deltaY;if(el.scrollLeft!==L)e.preventDefault();return}}el=el.parentElement}},{passive:false});

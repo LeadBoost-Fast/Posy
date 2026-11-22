@@ -912,12 +912,12 @@ details .prr{grid-template-columns:repeat(4,minmax(70px,1fr));min-width:0}
 :root[data-sk=neon] .fty.on .fc,:root[data-sk=neon] .chip.on{box-shadow:0 0 0 2px #ff4ed8,0 0 22px rgba(255,78,216,.6)}
 
 /* Soft Dream — пудровый розовый */
-:root[data-sk=soft][data-t]{--skf:"Cormorant Garamond",Georgia,serif;--gl:rgba(255,255,255,.62);--glass:rgba(255,255,255,.68);--card:rgba(255,255,255,.75);--line:rgba(246,167,182,.35);--skbtn:linear-gradient(160deg,#f6a7b6,#e07591)}
+:root[data-sk=soft][data-t]{--skf:"Cormorant Garamond",Georgia,serif;--gl:rgba(255,255,255,.62);--glass:rgba(255,255,255,.68);--card:rgba(255,255,255,.75);--line:rgba(246,167,182,.35);--mut:#85525f;--skbtn:linear-gradient(160deg,#f6a7b6,#e07591)}
 :root[data-sk=soft] body{background:radial-gradient(50% 30% at 85% 0%,#ffeef2,transparent 70%),linear-gradient(180deg,#fde7ec 0%,#f9d3dd 100%)}
 :root[data-sk=soft] #v h1{font-size:36px!important}
 
 /* Bloom — белый с розовым */
-:root[data-sk=bloom][data-t]{--skf:Manrope,system-ui,sans-serif;--skw:800;--gl:#fff;--glass:#fff;--line:#f3dbe3;--skbtn:linear-gradient(160deg,#f6a3ba,#ef7a9a)}
+:root[data-sk=bloom][data-t]{--skf:Manrope,system-ui,sans-serif;--skw:800;--gl:#fff;--glass:#fff;--line:#f3dbe3;--skbtn:linear-gradient(160deg,#d9507a,#c03d63)}
 :root[data-sk=bloom] body{background:#fff}
 :root[data-sk=bloom] #v h1{letter-spacing:-.02em}
 :root[data-sk=bloom] .card,:root[data-sk=bloom] .fgc,:root[data-sk=bloom] .bento .bt{box-shadow:0 6px 20px rgba(239,122,154,.1)}
@@ -1024,3 +1024,8 @@ img.skph{width:100%;height:100%;object-fit:contain;background:#fff;border-radius
 @media (pointer:fine){.chfl{flex-wrap:wrap;overflow:visible}}
 /* аудит: в тёмной теме фон счётчика светлый — текст тёмный, иначе не читается */
 :root[data-t=dark] .nb{color:#1a0f0d}
+/* аудит P3: маленькие кнопки — зона нажатия не меньше 32 px, вид прежний */
+.hint-btn,.jrx,a[data-a="x_del"],.fdel{position:relative}
+.hint-btn::after,.jrx::after,a[data-a="x_del"]::after{content:"";position:absolute;inset:-6px -5px}
+/* аудит: на компьютере у горизонтальных рядов видна тонкая полоса прокрутки (скрытую мышью не найти) */
+@media (pointer:fine){*{scrollbar-width:thin!important}}
