@@ -29,3 +29,13 @@ npx playwright install chromium
 
 ## Чего здесь нет
 Проверки облачных функций (сообщения «готов», «курьер выехал», отзыв) требуют эмулятора функций и имитации Evolution API. Они прогонялись отдельно, в репозиторий пока не вынесены.
+
+## Аудит (стенд с функциями)
+Подробно — `docs/audit/PHASE0.md`. Коротко:
+```
+npm ci --prefix functions
+env -u HTTPS_PROXY -u https_proxy npx --prefix tests firebase emulators:start --only firestore,auth,storage,functions --project mirflowersbase
+node tests/seed.cjs      # 2 точки, 10 сотрудников (пароль secret12), 300 заказов, 80 позиций, 60 чатов, «плохие» данные
+node tests/sitemap.cjs   # карта сайта по ролям → tests/out/audit/sitemap.json
+```
+Общие помощники для проверок — `tests/audit-lib.cjs` (вход под ролью, размер, тема, язык, дизайн, ошибки консоли, вёрстка).

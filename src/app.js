@@ -42,7 +42,7 @@ function mNode(x,y){if(x.nodeType!==1){if(x.nodeValue!==y.nodeValue)x.nodeValue=
 const cfg={apiKey:"AIzaSyCDxDJvmIOw8R0kP7bNbiBHYDAOqY_9cSQ",authDomain:"mirflowersbase.firebaseapp.com",projectId:"mirflowersbase",storageBucket:"mirflowersbase.firebasestorage.app",messagingSenderId:"142575786641",appId:"1:142575786641:web:de2d1b79b076894c29fd30"};
 const NOCFG=cfg.apiKey.startsWith("ВСТАВЬТЕ");
 if(typeof firebase==="undefined"){throw new Error("Firebase SDK не загрузился. Откройте сайт по Wi‑Fi или отключите блокировщик рекламы.")}
-firebase.initializeApp(cfg);try{firebase.firestore.setLogLevel("warn")}catch(e){eLog(e)}const auth=firebase.auth(),db=firebase.firestore(),TS=()=>firebase.firestore.FieldValue.serverTimestamp();if(window.__EMU){/* только для автоматических проверок: эмулятор вместо боевой базы */try{auth.useEmulator("http://127.0.0.1:9099",{disableWarnings:true});db.useEmulator("127.0.0.1",8080)}catch(e){}}/* Связь с базой — long polling (каждый обмен отдельным коротким запросом). Автовыбор включал потоковое соединение,
+firebase.initializeApp(cfg);try{firebase.firestore.setLogLevel("warn")}catch(e){eLog(e)}const auth=firebase.auth(),db=firebase.firestore(),TS=()=>firebase.firestore.FieldValue.serverTimestamp();if(window.__EMU){/* только для автоматических проверок: эмулятор вместо боевой базы */try{auth.useEmulator("http://127.0.0.1:9099",{disableWarnings:true});db.useEmulator("127.0.0.1",8080);try{firebase.storage().useEmulator("127.0.0.1",9199)}catch(e){}}catch(e){}}/* Связь с базой — long polling (каждый обмен отдельным коротким запросом). Автовыбор включал потоковое соединение,
    которое на iPhone/Safari со временем «застревало»: сайт после перезахода работал, потом действия висели (разд. 29) */
 try{db.settings({experimentalForceLongPolling:true,merge:true})}catch(e){eLog(e)}
 /* Действия не ждут сервер: изменение сразу применяется на телефоне (кэш Firestore), на сервер уходит в фоне.
@@ -235,7 +235,7 @@ st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--in
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={h:"d-cosmos.js",m:"d-command.js",p:"d-atlas.js"},DSTAT={},DSG_V=window.DSGV||"20261122r",
+const DLIB={h:"d-cosmos.js",m:"d-command.js",p:"d-atlas.js"},DSTAT={},DSG_V=window.DSGV||"20261122s",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
@@ -3618,7 +3618,7 @@ async function upImg(u,dir){if(!u||u.slice(0,5)!=="data:")return u||"";let er=nu
  if(u.length>IMG_MAX)throw{message:"Фото не загрузилось в хранилище ("+String((er&&er.code)||"нет связи")+"). Проверьте интернет и попробуйте ещё раз — заказ не сохранён, чтобы не потерять фото"};
  return u}
 const FNC=n=>async d=>{const u=auth.currentUser;if(!u)throw{code:"unauthenticated",message:"Войдите в систему"};
- let r;try{const tok=await u.getIdToken();r=await fetch("https://"+FNR+"-"+cfg.projectId+".cloudfunctions.net/"+n,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+tok},body:JSON.stringify({data:d})})}
+ let r;try{const tok=await u.getIdToken();r=await fetch(window.__EMU?"http://127.0.0.1:5001/"+cfg.projectId+"/"+FNR+"/"+n:"https://"+FNR+"-"+cfg.projectId+".cloudfunctions.net/"+n,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+tok},body:JSON.stringify({data:d})})}
  catch(e){const call=()=>firebase.app().functions(FNR).httpsCallable(n)(d);try{return await call()}catch(e2){if(!/^messaging\//.test(String(e2&&e2.code||"")))throw e2;await swFix();return await call()}}
  const j=await r.json().catch(()=>({}));
  if(!r.ok||j.error){const e=j.error||{};throw{code:String(e.status||"internal").toLowerCase().replace(/_/g,"-"),message:e.message||"Ошибка функции"}}
