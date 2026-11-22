@@ -129,5 +129,6 @@ async function newOrder(pg) {
 
   ok(!errs.length, "ошибок JS за сценарии: " + errs.length, errs.slice(0, 3).join(" | "));
   fs.writeFileSync(path.join(OUT, "flow-" + design.replace(/\s/g, "") + ".json"), JSON.stringify({ N, errs }, null, 1));
-  await br.close(); process.exit(0);
+  const failed = N.filter(x => !x.ok).length; console.log(failed ? "ИТОГ: не прошло " + failed + " из " + N.length : "ИТОГ: все " + N.length + " проверок прошли");
+  await br.close(); process.exit(failed ? 1 : 0);
 })().catch(e => { console.error("CRASH", e.message); process.exit(1); });
