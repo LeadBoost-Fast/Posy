@@ -1010,3 +1010,13 @@ img.skph{width:100%;height:100%;object-fit:contain;background:#fff;border-radius
 .sksr{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);font:inherit;font-size:15px;text-align:left;cursor:pointer}
 .sksr:last-child{border-bottom:0}.sksr b,.sksr>span:first-child{flex:1}.sksr svg{width:16px;height:16px;color:var(--mut)}
 .sksr.sub{padding-left:32px;font-size:14px}
+.vcb{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:48px;margin:0 0 10px;border:1px dashed color-mix(in srgb,var(--ac) 50%,var(--line));border-radius:14px;background:color-mix(in srgb,var(--ac) 6%,var(--card));color:var(--ac);font:inherit;font-weight:700;cursor:pointer}
+.vcb.on{background:var(--ac);color:var(--on);border-style:solid;animation:vcPulse 1.4s ease-in-out infinite}
+@keyframes vcPulse{50%{box-shadow:0 0 0 8px color-mix(in srgb,var(--ac) 18%,transparent)}}
+.kasb{width:100%;margin:6px 0 10px}
+.kgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(min-width:700px){.kgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.kt{display:flex;flex-direction:column;gap:4px;padding:8px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.kt img,.kt .kph{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;background:#fff;display:grid;place-items:center}
+.kt b{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.kt span{font-weight:800}
+.kt:active{transform:scale(.97)}
