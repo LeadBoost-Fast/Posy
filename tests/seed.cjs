@@ -66,6 +66,11 @@ const PACK = ["Лента атласная", "Плёнка матовая", "Б�
 
 async function seed() {
   const L1 = "main", L2 = "p10";
+  // инвентаризации прошлых прогонов мешают начать новую — удаляем их (остальные коллекции перезаписываются по тем же ID)
+  for (const col of ["invCounts"]) {
+    const l = await (await fetch(`${FS}/${col}?pageSize=300`, { headers: H })).json();
+    for (const d of l.documents || []) await fetch(`${FS}/${d.name.split("/documents/")[1]}`, { method: "DELETE", headers: H });
+  }
   // сотрудники
   const staffDef = [
     ["tilegen615@gmail.com", "admin", "Владелец", L1],
