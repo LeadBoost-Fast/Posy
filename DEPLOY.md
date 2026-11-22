@@ -374,4 +374,6 @@ PDF-инструкции в `docs/instrukcii` от 14 ноября: в них с
 5. `node build/build.mjs`, затем `node tests/audit-flow.cjs` (сквозные сценарии, 21 проверка) и при изменениях вёрстки
    `node tests/audit-walk.cjs <дизайн> [роли] [размеры] [тема] [язык]`. Во время обхода сайт не пересобирать:
    стенд держит в памяти старую страницу, а сборка удаляет старые файлы.
+Нажатия всех кнопок по ролям: `node tests/audit-click.cjs owner,operator,florist,courier` (после — снова `node tests/seed.cjs`).
+Для каждого PR то же самое (сценарии и нажатия оператора) запускается само на GitHub: `.github/workflows/check-flows.yml`.
 Подробно — `docs/PROJECT_5_razdel_139.md`, найденные ошибки — `docs/audit/BUGS.md`.

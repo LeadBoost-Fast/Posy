@@ -1,0 +1,41 @@
+name: Проверка сценариев на тестовой базе
+
+# Для каждого PR: поднимаем эмуляторы Firebase (база, вход, файлы, облачные функции), заливаем тестовую базу
+# и проходим сквозные сценарии (заказ → сборка → приёмка → оплата → выдача, доставка, отмена, права) и
+# проверку нажатий у оператора. Если что-то сломано — PR красный, и изменение не стоит сливать.
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  flows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Зависимости облачных функций
+        run: npm ci --prefix functions
+      - name: Инструменты проверки (Firebase для страницы, эмуляторы, браузер)
+        run: |
+          npm i --prefix tests --no-save --no-audit --no-fund firebase@12.19.0 firebase-tools@15.35.0 playwright@1.63.0
+          npx --prefix tests playwright install --with-deps chromium
+      - name: Сценарии и проверка нажатий
+        env:
+          CLICK_MAX: "20"
+        run: |
+          npx --prefix tests firebase emulators:exec --only firestore,auth,storage,functions --project mirflowersbase \
+            "node tests/seed.cjs && node tests/audit-flow.cjs && node tests/seed.cjs && node tests/audit-click.cjs operator"
+      - name: Отчёты проверки
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-reports
+          path: tests/out/audit/*.json
+          if-no-files-found: ignore
