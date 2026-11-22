@@ -33,7 +33,10 @@ function serve() {
       return r.end(fs.readFileSync(f));
     }
     r.statusCode = 404; r.end();
-  }).listen(PORT);
+  });
+  // если стенд уже поднят другим прогоном (тот же сайт), используем его
+  server.on("error", e => { if (e.code !== "EADDRINUSE") throw e; });
+  server.listen(PORT);
   return server;
 }
 

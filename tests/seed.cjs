@@ -167,7 +167,7 @@ async function seed() {
     msgs.forEach((m, k) => put(`chats/${cid}/msgs/m${k}`, m));
   }
   // чат команды
-  for (let i = 1; i <= 10; i++) put(`team/t${i}`, { t: pick(["Кто на смене?", "Привезли розы", "Закончилась лента", "Ок 👍"]), by: pick([...ops, ...fls]), byName: "Сотрудник", ts: new Date(Date.now() - i * 6e5) });
+  for (let i = 1; i <= 10; i++) put(`team/t${i}`, { t: pick(["Кто на смене?", "Привезли розы", "Закончилась лента", "Ок 👍"]), by: pick([...ops, ...fls]), byName: "Сотрудник", role: "operator", ts: Date.now() - i * 6e5 });
 
   // отчёты всех типов
   const RT = ["show", "desk", "cash", "wo"];

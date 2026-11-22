@@ -1020,3 +1020,7 @@ img.skph{width:100%;height:100%;object-fit:contain;background:#fff;border-radius
 .kt img,.kt .kph{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;background:#fff;display:grid;place-items:center}
 .kt b{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.kt span{font-weight:800}
 .kt:active{transform:scale(.97)}
+/* аудит: на компьютере ряд фильтров чатов переносится — скрытую прокрутку мышью не найти */
+@media (pointer:fine){.chfl{flex-wrap:wrap;overflow:visible}}
+/* аудит: в тёмной теме фон счётчика светлый — текст тёмный, иначе не читается */
+:root[data-t=dark] .nb{color:#1a0f0d}
