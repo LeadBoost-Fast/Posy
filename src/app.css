@@ -1225,3 +1225,45 @@ img.skph{width:100%;height:100%;object-fit:contain;background:#fff;border-radius
 .scpb .scpi{width:64px;height:64px;border-radius:10px}
 .scpb{min-height:76px}
 @media(min-width:600px){.scpl{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Склад → Настройка склада (дерево: раздел → позиция → сорт → цвет) */
+.hud{padding-bottom:8px}
+.hhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin:2px 0 10px}.hhead b{font-size:22px;font-weight:700;letter-spacing:-.01em}.hhead p{margin:4px 0 0;font-size:14px;color:var(--mut)}
+.hhint{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.hhint span{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--mut);background:var(--c2);border-radius:999px;padding:5px 10px 5px 8px}.hhint svg{width:14px;height:14px;color:var(--ac)}
+.hbar{display:flex;gap:8px;align-items:center;margin-bottom:12px}.hbar #hudq{flex:1;margin:0;min-width:0}
+.hcat{background:var(--card);border:1px solid var(--line);border-radius:20px;margin-bottom:12px;overflow:hidden}
+.hcat[hidden],.hpos[hidden]{display:none}
+.hud .hrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;min-height:46px;position:relative}
+.hud .h0{padding:6px 8px 6px 4px;background:color-mix(in srgb,var(--ac) 7%,var(--card));border-bottom:1px solid var(--line)}
+.hcat.shut .hbody{display:none}.hcat.shut .h0{border-bottom-color:transparent}
+.hchev{flex:none;width:34px;height:34px;border:0;background:transparent;color:var(--mut);border-radius:10px;display:grid;place-items:center;cursor:pointer;transition:transform var(--m3) var(--eo)}.hchev svg{width:18px;height:18px}.hcat.shut .hchev{transform:rotate(-90deg)}
+.hbody{padding:4px 10px 10px}
+.hud input.hn{flex:1 1 120px;min-width:0;width:auto;margin:0;border:0!important;background:transparent!important;box-shadow:none!important;padding:6px 8px!important;border-radius:10px;font:inherit;color:var(--ink);min-height:38px;text-overflow:ellipsis;transition:background var(--m2) var(--eo),box-shadow var(--m2) var(--eo)}
+.hud input.hn:hover{background:color-mix(in srgb,var(--ink) 5%,transparent)!important}
+.hud input.hn:focus{background:var(--c2)!important;box-shadow:0 0 0 2px var(--ac)!important;outline:none}
+.hud .h0 input.hn{font-size:18px;font-weight:700}.hud .h1 input.hn{font-size:16px;font-weight:600}.hud .h2 input.hn{font-size:15px;font-weight:500}.hud .hclr input.hn{font-size:14px;font-weight:500}
+.hcnt{flex:none;min-width:24px;height:22px;padding:0 7px;border-radius:999px;background:color-mix(in srgb,var(--ink) 8%,transparent);color:var(--mut);font-size:12px;font-weight:700;display:grid;place-items:center}
+.hpos{padding:2px 0}.hpos+.hpos{border-top:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.hkids{margin:0 0 6px 15px;padding-left:14px;border-left:1.5px solid color-mix(in srgb,var(--ac) 30%,var(--line))}
+.hkids .hkids{margin-left:8px}
+.hav{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;overflow:hidden;background:color-mix(in srgb,var(--ac) 15%,transparent);color:var(--ac);font-weight:800;font-size:15px}.hav img{width:100%;height:100%;object-fit:cover;display:block}
+.hq{flex:none;display:inline-flex;align-items:center;gap:3px;border:0;border-radius:999px;padding:6px 8px 6px 11px;font:inherit;font-weight:700;font-size:15px;line-height:1;background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink);cursor:pointer;font-variant-numeric:tabular-nums;min-height:32px;transition:background var(--m2) var(--eo)}
+.hq small{font-size:12px;font-weight:500;color:var(--mut);margin-left:1px}
+.hq.z{color:var(--mut)}.hq.lo{background:color-mix(in srgb,var(--warn,#f59e0b) 20%,transparent)}
+.hq.grp{background:transparent;cursor:default;padding:6px 4px}
+.hqc{display:inline-grid;width:14px;height:14px;margin-left:2px;opacity:.55;transition:transform var(--m3) var(--eo)}.hqc svg{width:14px;height:14px}.hq.on .hqc{transform:rotate(180deg)}.hq.on{background:color-mix(in srgb,var(--ac) 16%,transparent)}
+.hacts{display:flex;align-items:center;gap:2px;flex:none;margin-left:auto}
+.hadd{display:inline-flex;align-items:center;gap:4px;border:0;background:transparent;color:var(--ac);font:inherit;font-size:13px;font-weight:700;padding:7px 10px 7px 8px;border-radius:999px;white-space:nowrap;cursor:pointer;min-height:32px;transition:background var(--m2) var(--eo)}.hadd svg{width:15px;height:15px}
+.hadd:hover{background:color-mix(in srgb,var(--ac) 12%,transparent)}.hadd.pri{background:color-mix(in srgb,var(--ac) 14%,transparent)}
+.hplus{flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid color-mix(in srgb,var(--ac) 45%,transparent);background:transparent;color:var(--ac);display:grid;place-items:center;cursor:pointer;padding:0}.hplus svg{width:16px;height:16px}.hplus:hover{background:color-mix(in srgb,var(--ac) 12%,transparent)}
+.hdel{flex:none;width:32px;height:32px;border:0;border-radius:50%;background:transparent;color:color-mix(in srgb,var(--mut) 80%,transparent);display:grid;place-items:center;cursor:pointer;padding:0;transition:color var(--m2) var(--eo),background var(--m2) var(--eo)}.hdel svg{width:15px;height:15px}.hdel:hover{color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.hdot{flex:none;width:14px;height:14px;border-radius:50%;margin-left:4px;box-shadow:0 0 0 2px var(--card),0 0 0 3px var(--line)}
+.hlbl{flex:1 1 120px;color:var(--mut);font-size:14px;font-style:italic;padding:6px 8px}
+.hdet{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px;margin:2px 0 10px;padding:12px;border-radius:16px;background:var(--c2);animation:mvIn var(--m3) var(--eo)}
+.hdet label{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:600;color:var(--mut);margin:0;line-height:1.25}.hdet input,.hdet select{margin:0}
+.hmore{grid-column:1/-1;justify-self:start;border:0;background:transparent;color:var(--ac);font:inherit;font-size:13px;font-weight:700;padding:4px 2px;cursor:pointer}
+.hud .hnew input.hn{background:var(--c2)!important;box-shadow:0 0 0 2px var(--ac)!important}
+.hempty{color:var(--mut);margin:8px 6px;font-size:14px}
+.hfoot{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:4px}
+:root[data-sk=cosmos] .hhead,:root[data-sk=cosmos] .hhint{text-shadow:0 1px 14px #000,0 0 4px #000}
