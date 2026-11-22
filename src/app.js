@@ -332,7 +332,7 @@ st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--in
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123y",
+const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123z",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
@@ -1744,7 +1744,7 @@ const isPack=i=>!!i&&(String(i.unit||"")==="пачка"||+i.pk>0),pkN=i=>{const 
  qRnd=(k,v)=>pkStep(k)<1?Math.max(0,Math.round((+v||0)*1000)/1000):Math.max(0,Math.round(+v||0)),
  r2q=v=>Math.round((+v||0)*1000)/1000,
  pkLeft=(i,q)=>isPack(i)?Math.floor(r2q(q)*pkN(i)+1e-6):null;
-const scItems=x=>(x.items||[]).filter(i=>i.iid&&+i.q>0).map(i=>{const t=INV0.find(y=>y.id===i.iid);return t?t.name+" "+i.q+" "+(t.unit||"шт"):""}).filter(Boolean).join(", "),inv=id=>INV.find(x=>x.id===id),hasQ=(x,L)=>x.qs?Object.prototype.hasOwnProperty.call(x.qs,L):(L||"main")==="main",hasL=x=>!SH.split||!LOC||hasQ(x,LOC),INVL=()=>INV.filter(hasL),isLow=i=>(+i.min||0)>0&&(+i.qty||0)<=(+i.min||0),bcost=b=>(b.items||[]).reduce((a,i)=>a+((inv(i.iid)||{}).buy||0)*i.q,0),bmake=b=>Math.min(9999,...(b.items||[]).map(i=>{const t=inv(i.iid);return t?Math.floor(t.qty/i.q):0}));
+const scItems=x=>(x.items||[]).filter(i=>i.iid&&+i.q>0).map(i=>{const t=INV0.find(y=>y.id===i.iid);return t?stripOrig(t.name)+" "+i.q+" "+(t.unit||"шт"):""}).filter(Boolean).join(", "),inv=id=>INV.find(x=>x.id===id),hasQ=(x,L)=>x.qs?Object.prototype.hasOwnProperty.call(x.qs,L):(L||"main")==="main",hasL=x=>!SH.split||!LOC||hasQ(x,LOC),INVL=()=>INV.filter(hasL),isLow=i=>(+i.min||0)>0&&(+i.qty||0)<=(+i.min||0),bcost=b=>(b.items||[]).reduce((a,i)=>a+((inv(i.iid)||{}).buy||0)*i.q,0),bmake=b=>Math.min(9999,...(b.items||[]).map(i=>{const t=inv(i.iid);return t?Math.floor(t.qty/i.q):0}));
 const sad=()=>adm()||own(),SQK={adj:"пересчёт",lt:"сроки и количество",ed:"правка позиции",gal:"правка в галерее"},SQF={price:"Цена, ₸",name:"Название",cat:"Категория",unit:"Единица",sell:"Цена продажи, ₸",min:"Мин. остаток"};
 function rqForm(id,kind){const i=inv(id);if(!i)return;const L=myLoc(),u=esc(i.unit||"");
  modal(hd("Запрос: "+SQK[kind])+`<p class="mut"><b>${esc(i.name)}</b> · сейчас ${lq(i,L)} ${u}</p><form id="rqf">${kind==="adj"?`<label>Сколько реально на складе, ${u}</label><input name="q" type="number" min="0" step="any" inputmode="decimal" placeholder="можно не указывать">`:`<label>Какая поставка и что исправить</label>`}<label>${kind==="adj"?"Комментарий":"Что не так (количество, срок, дата)"}</label><input name="n" placeholder="например: 20 шт завяли, срок 3 дня">${btns("Отправить запрос")}</form><p class="mut" style="font-size:13px">Исправит администратор. Запрос появится у него в «Нужно сделать».</p>`);
@@ -2864,7 +2864,7 @@ const gcalc=(n,rp,wp)=>n*(rp===""||rp==null?GROSE:+rp||0)+(wp===""||wp==null?GWR
 let GROSE=250,GWRAP=2000;/* цена розы и оформление, ₸ — по умолчанию; меняются в Профиле → Настройки магазина */
 function scN(src){const n=(src.items||[]).map(i=>({t:inv(i.iid),q:+i.q||0})).filter(i=>i.t&&i.q>0&&(/роз/i.test(i.t.cat||"")||/роз/i.test(i.t.name||""))).reduce((a,i)=>a+i.q,0);if(n)return n;const m=String(src.name||"").match(/\d+/);return m&&+m[0]>0&&+m[0]<1000?+m[0]:0}
 function gDm(v){if(typeof v==="number"||/^\d{10,}$/.test(String(v))){const d=new Date(+v);return isNaN(d)?"":String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0")}const m=String(v||"").match(/(\d{4})-(\d\d)-(\d\d)/);return m?m[3]+"."+m[2]:""}
-function scDesc(src){const c=scItems(src);if(c)return{a:c,b:""};const nm=String(src.name||"");if(/×/.test(nm))return{a:nm,b:""};return{a:nm.replace(/\d+/g,"").replace(/\s+/g," ").trim()||nm||"Состав не указан",b:""}}
+function scDesc(src){const c=scItems(src);if(c)return{a:c,b:""};const nm=stripOrig(src.name||"");if(/×/.test(nm))return{a:nm,b:""};return{a:nm.replace(/\d+/g,"").replace(/\s+/g," ").trim()||nm||"Состав не указан",b:""}}
 const scLab=x=>scDesc(x).a,gLab=its=>scItems({items:its});
 /* редактор состава: как в оформлении заказа — цветы со склада с − / + */
 function compEd(host,init,L,onch){const it={};(init||[]).forEach(i=>{if(i.iid&&+i.q>0)it[i.iid]=+i.q});

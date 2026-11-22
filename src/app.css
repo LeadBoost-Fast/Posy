@@ -1211,3 +1211,17 @@ img.skph{width:100%;height:100%;object-fit:contain;background:#fff;border-radius
 .okc{color:var(--ok)}
 .ivck{justify-content:space-between;gap:10px;margin:8px 0;color:var(--ink)}.ivck span:first-child,.ivck b{flex:1}.ivck input{width:auto;min-height:0}
 .ivun{margin:8px 0}
+
+/* выбор букета в форме заказа: крупные фото плитками (2 в ряд, на широком экране 3) */
+.scpl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-height:min(68vh,620px);padding:8px}
+.scpl>[hidden]{display:none!important}
+.scpl>.scpg,.scpl>.scps,.scpl>.scpr[data-k=""]{grid-column:1/-1}
+.scpl>.scpr:not([data-k=""]){flex-direction:column;align-items:stretch;gap:6px;padding:6px 6px 8px;border-radius:14px;background:color-mix(in srgb,var(--card) 70%,transparent);min-height:0}
+.scpl>.scpr:not([data-k=""]) .scpi{width:100%;height:auto;aspect-ratio:1/1;border-radius:11px}
+.scpl>.scpr:not([data-k=""]) .scpt{padding:0 2px}
+.scpl>.scpr:not([data-k=""]) .scpt b{font-size:14px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.scpl>.scpr:not([data-k=""]) .scpp{padding:0 2px;font-size:15px}
+.scpl>.scpr.on{box-shadow:0 0 0 2px var(--ac)}
+.scpb .scpi{width:64px;height:64px;border-radius:10px}
+.scpb{min-height:76px}
+@media(min-width:600px){.scpl{grid-template-columns:repeat(3,minmax(0,1fr))}}
