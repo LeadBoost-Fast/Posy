@@ -2,7 +2,7 @@
 // Снимки делает сценарий проверок (эмулятор): папка со снимками и man.json передаётся в PHOTOS.
 //   PHOTOS=/путь/к/снимкам node tools/make-instr-photo.cjs   → docs/instrukcii/Instrukciya-*.pdf (русские)
 const fs=require("fs"),vm=require("vm"),path=require("path");let PW;try{PW=require("playwright")}catch(e){PW=require(path.join(__dirname,"..","tests","node_modules","playwright"))}const {chromium}=PW;
-const ROOT=path.join(__dirname,".."),PH=process.env.PHOTOS,DATE="21 ноября 2026";
+const ROOT=path.join(__dirname,".."),PH=process.env.PHOTOS,DATE="23 ноября 2026";
 if(!PH||!fs.existsSync(path.join(PH,"man.json"))){console.error("Нет снимков: PHOTOS=папка с man.json");process.exit(1)}
 const {C,man}=JSON.parse(fs.readFileSync(path.join(PH,"man.json"),"utf8"));
 const src=fs.readFileSync(path.join(ROOT,"d-help.js"),"utf8").split("/* ---------- поиск и показ ---------- */")[0];const w={};vm.runInNewContext(src,{window:w});const H=w.HELPX;
