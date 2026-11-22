@@ -235,7 +235,7 @@ st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--in
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123c",
+const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123d",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
@@ -981,21 +981,21 @@ function pvInfo(o){const tt=(+o.p||0)+(+o.fee||0),pre=+o.pre||0,L=(a,b)=>b?`<div
  return L("Телефон",o.phone?`<a href="tel:${esc(dg(o.phone))}">${esc(o.phone)}</a>`:"")+L("Клиенту",esc([hdt(o.date),o.time||"время уточняется",o.dv?"доставка"+(o.addr?": "+o.addr:""):"самовывоз"].filter(Boolean).join(" · ")))+L("Состав",esc(compOf(o)||""))+L("Заказ создал(а)",o.by?esc(nm(o.by)):"")+(pre?L("Предоплата",M(pre)+(o.pchk?" · с чеком":" · без чека"))+L("Остаток при выдаче",M(Math.max(0,tt-pre))):"")+L("Сумма заказа",M(tt))+(o.chk||o.pchk?`<div class="pvths" data-a="pv_view" data-id="${esc(o.id)}">${th0(o.pchk)}${th0(o.chk)}</div>`:"")}
 function pvCard(o,boss){const t=pvSt(o),w=pvWhy(o),q=t==="wait"||t==="chg"||t==="bad",who=o.chkBy||o.pchkBy,
  src=o.chk||o.pchk?t==="chat"?"чек из чата клиента":"чек добавил(а): "+(who?nm(who):"—"):"",id=esc(o.id);
- return`<div class="card pvc"><div class="pvh"><b>${esc(o.bn||"Заказ")}</b>${pvPill(t)}</div>
+ return`<div class="card pvc"><div class="pvh"><b>${esc(o.bn||"Заказ")}</b>${pvPill(t)}</div>${o.wk?`<div style="margin:4px 0 2px"><span class="pill ${o.chk?"ok":"warn"}">${o.sc?"Продажа с витрины":"Живая продажа"}${o.chk?"":" · без чека"}</span></div>`:""}
 <div class="pvm mut">${esc(o.client||"")}${o.client?" · ":""}${esc(o.pay||"способ не указан")} · <b style="color:var(--ink)">${M((+o.p||0)+(+o.fee||0))}</b></div>
 <div class="pvm mut">Принял(а): ${esc(o.paidBy?nm(o.paidBy):"—")} · ${pvTm(o.paidAt)}${src?" · "+esc(src):""}</div>
 <div class="pvo">${pvInfo(o)}</div>
 ${w.length?`<div class="pvn">${w.map(esc).join("<br>")}</div>`:""}${t==="ok"&&o.pvBy?`<div class="pvm mut">Подтвердил(а): ${esc(nm(o.pvBy))} · ${pvTm(o.pvAt)}</div>`:""}
 <div class="acts">${boss&&q?`<button class="btn s" type="button" data-a="pv_ok" data-id="${id}" data-sg="${esc(pvSigOf(o))}">Подтвердить</button>`:""}${boss&&(t==="wait"||t==="chg")?`<button class="btn s g" type="button" data-a="pv_no" data-id="${id}">Не принять</button>`:""}<button class="btn s g" type="button" data-a="pv_view" data-id="${id}">Чек</button><button class="btn s g" type="button" data-a="det" data-id="${id}">Заказ</button>${!boss&&q&&chkOk(o)?`<button class="btn s g" type="button" data-a="chk_add" data-id="${id}">${o.chk?"Заменить чек":"Добавить чек"}</button>`:""}</div></div>`}
-function pvLv(){const l=scoped(()=>oH().filter(lvNeed)).sort((a,b)=>(a.ts||0)-(b.ts||0));if(!l.length)return"";const sm=l.reduce((x,o)=>x+(+o.p||0),0);
- return `<h2>Продажи без чека · ${l.length} · ${M(sm)}</h2><p class="mut" style="margin-top:0">Продажи с витрины и живые продажи, которые сотрудник записал без чека. Сверьте с Kaspi или кассой и подтвердите.</p><div id="lvq">${l.map(lvRow).join("")}</div>`}
+function pvLv(on){if(on)return"";const l=scoped(()=>oH().filter(lvNeed)).sort((a,b)=>(a.ts||0)-(b.ts||0));if(!l.length)return"";const sm=l.reduce((x,o)=>x+(+o.p||0),0);
+ return `<h2>Продажи без чека · ${l.length} · ${M(sm)}</h2><p class="mut" style="margin-top:0">Продажи с витрины и живые продажи, которые сотрудник записал без чека. Сверьте с Kaspi или кассой и подтвердите.</p>${(adm()||own())&&l.filter(o=>o.wkSt==="wait").length>1?`<div class="acts" style="margin:6px 0 10px"><button class="btn" type="button" data-a="lv_all">Подтвердить все · ${l.filter(o=>o.wkSt==="wait").length} · ${M(l.filter(o=>o.wkSt==="wait").reduce((x,o)=>x+(+o.p||0),0))}</button></div>`:""}<div id="lvq">${l.map(lvRow).join("")}</div>`}
 function pvAdm(){const on=pvOn();
  if(!on)return`<h1>Проверка оплат</h1>${pvLv()}<div class="card"><b>Проверка выключена</b><p class="mut" style="margin:6px 0 0">Деньги считаются как раньше. После включения каждая новая оплата сначала попадает сюда и зачисляется в «Деньги» только после подтверждения. Оплаты с чеком из чата проверять не нужно, чек можно открыть. Старые оплаты не меняются.</p>${own()?'<div class="acts"><button class="btn" type="button" data-a="pv_on">Включить проверку</button></div>':'<p class="mut" style="margin:8px 0 0">Включает владелец.</p>'}</div>`;
  const f=oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=on).sort((a,b)=>(+b.paidAt||0)-(+a.paidAt||0)),g=t=>f.filter(o=>t.includes(pvSt(o))),
- W=g(["wait","chg"]).filter(o=>!lvNeed(o)),OK=g(["ok"]),CH=g(["chat"]),BD=g(["bad"]),sum=a=>a.reduce((x,o)=>x+(+o.p||0)+(+o.fee||0),0),
+ W=g(["wait","chg"]),OK=g(["ok"]),CH=g(["chat"]),BD=g(["bad"]),sum=a=>a.reduce((x,o)=>x+(+o.p||0)+(+o.fee||0),0),
  t0=new Date(today()+"T00:00:00").getTime(),okT=OK.filter(o=>+o.pvAt>=t0),cur=PVF==="ok"?OK:PVF==="chat"?CH:PVF==="bad"?BD:W;
  return`<h1>Проверка оплат</h1><div class="nwk"><div><b>${W.length}</b><span>ждут проверки</span><small>${M(sum(W))}</small></div><div><b>${M(sum(okT))}</b><span>подтверждено сегодня</span><small>${okT.length} ${pl(okT.length,"оплата","оплаты","оплат")}</small></div><div><b>${CH.length}</b><span>из чата</span><small>без проверки</small></div></div>
-${pvLv()}<div class="chips">${[["w","Ожидают",W.length],["ok","Подтверждены",OK.length],["chat","Из чата",CH.length],["bad","Не приняты",BD.length]].map(x=>`<button class="chip ${PVF===x[0]?"on":""}" data-a="pv_f" data-id="${x[0]}">${x[1]} · ${x[2]}</button>`).join("")}</div>
+${pvLv(1)}<div class="chips">${[["w","Ожидают",W.length],["ok","Подтверждены",OK.length],["chat","Из чата",CH.length],["bad","Не приняты",BD.length]].map(x=>`<button class="chip ${PVF===x[0]?"on":""}" data-a="pv_f" data-id="${x[0]}">${x[1]} · ${x[2]}</button>`).join("")}</div>
 ${PVF==="w"&&W.length>1?`<div class="acts" style="margin:10px 0 4px"><button class="btn" type="button" data-a="pv_all" data-id="all">Подтвердить все ожидающие · ${W.length} · ${M(sum(W))}</button></div>`:""}${pvDays(cur)||'<div class="card mut" style="text-align:center">Здесь пока пусто</div>'}${own()?'<div class="acts" style="margin-top:14px"><button class="btn g s" type="button" data-a="pv_off">Выключить проверку</button></div>':""}`}
 /* оплаты по дням (день приёма оплаты), у каждого дня — сумма и «Подтвердить все за день» */
 function pvDays(cur){const g={},ord=[];cur.slice(0,200).forEach(o=>{const d=new Date(+o.paidAt||0).toLocaleDateString("sv-SE");if(!g[d]){g[d]=[];ord.push(d)}g[d].push(o)});const t=today();
@@ -1005,9 +1005,9 @@ function pvMine(){const on=pvOn(),from=Math.max(on,Date.now()-7*864e5),l=on?oH()
 function pvV(){return S?sad()||abl("pvOk")?pvAdm():pvMine():home()}
 document.addEventListener("click",e=>{const a=e.target.closest('[data-a^="pv_"]');if(!a||!S)return;const k=a.dataset.a,id=a.dataset.id,o=id&&O.find(x=>x.id===id);
  if(k==="pv_f"){PVF=id||"w";draw();return}
- if(k==="pv_all"){if(!sad()&&!abl("pvOk"))return;const on=pvOn(),L=oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=on&&pvSt(o)==="wait"&&!lvNeed(o)&&(id==="all"||new Date(+o.paidAt||0).toLocaleDateString("sv-SE")===id)),chg=oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=on&&pvSt(o)==="chg"&&(id==="all"||new Date(+o.paidAt||0).toLocaleDateString("sv-SE")===id)).length;if(!L.length)return toast(chg?"Здесь только оплаты с заменённым чеком — проверьте их по одной":"Нечего подтверждать");
+ if(k==="pv_all"){if(!sad()&&!abl("pvOk"))return;const on=pvOn(),L=oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=on&&pvSt(o)==="wait"&&(id==="all"||new Date(+o.paidAt||0).toLocaleDateString("sv-SE")===id)),chg=oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=on&&pvSt(o)==="chg"&&(id==="all"||new Date(+o.paidAt||0).toLocaleDateString("sv-SE")===id)).length;if(!L.length)return toast(chg?"Здесь только оплаты с заменённым чеком — проверьте их по одной":"Нечего подтверждать");
   if(!confirm("Подтвердить "+L.length+" "+pl(L.length,"оплату","оплаты","оплат")+" на "+M(L.reduce((x,o)=>x+(+o.p||0)+(+o.fee||0),0))+"?"+(chg?"\nОплаты с заменённым чеком ("+chg+") не трогаем — их проверьте по одной.":"")))return;
-  run(async()=>{const now=Date.now();for(let i=0;i<L.length;i+=400){const bt=db.batch();L.slice(i,i+400).forEach(o=>bt.update(db.collection("orders").doc(o.id),{pvSt:"ok",pvSig:pvSigOf(o),pvBy:U.uid,pvAt:now,pvNote:"",updatedAt:TS()}));await bt.commit()}log("Подтверждены оплаты пачкой",{bn:""},L.length+" · "+M(L.reduce((x,o)=>x+(+o.p||0)+(+o.fee||0),0)));toast("Подтверждено: "+L.length)});return}
+  run(async()=>{const now=Date.now();for(let i=0;i<L.length;i+=400){const bt=db.batch();L.slice(i,i+400).forEach(o=>bt.update(db.collection("orders").doc(o.id),{pvSt:"ok",pvSig:pvSigOf(o),pvBy:U.uid,pvAt:now,pvNote:"",...(o.wk&&o.wkSt!=="ok"?{wkSt:"ok",wkBy:U.uid,wkAt:now,wkNote:""}:{}),updatedAt:TS()}));await bt.commit()}log("Подтверждены оплаты пачкой",{bn:""},L.length+" · "+M(L.reduce((x,o)=>x+(+o.p||0)+(+o.fee||0),0)));toast("Подтверждено: "+L.length)});return}
  if(k==="pv_on"||k==="pv_off"){if(!own())return;if(!confirm(k==="pv_on"?"Включить проверку оплат? С этого момента новые оплаты попадают в «Деньги» только после подтверждения.":"Выключить проверку оплат? Все оплаты снова считаются сразу."))return;
   run(async()=>{await db.collection("settings").doc("main").set({pvFrom:k==="pv_on"?Date.now():0},{merge:!0});toast(k==="pv_on"?"Проверка оплат включена":"Проверка оплат выключена");draw()});return}
  if(!o)return;
@@ -1016,9 +1016,9 @@ document.addEventListener("click",e=>{const a=e.target.closest('[data-a^="pv_"]'
   modal(hd("Чек оплаты")+`<div>${pvPill(t)}</div>${w.length?`<div class="pvn">${w.map(esc).join("<br>")}</div>`:""}`+(chkView(o)||'<div class="card mut">Чека нет</div>')+pr("chk","Чек")+pr("pchk","Чек предоплаты")+`<div class="acts"><button class="btn g" type="button" data-a="x">Закрыть</button>${q?`<button class="btn" type="button" data-a="pv_ok" data-id="${esc(o.id)}" data-sg="${esc(pvSigOf(o))}">Подтвердить</button>`:""}</div>`);return}
  if(!sad()&&!abl("pvOk"))return;
  if(k==="pv_ok"){if(a.dataset.sg!==pvSigOf(o)){toast("Чек или сумма изменились. Откройте оплату заново");draw();return}
-  run(async()=>{await db.collection("orders").doc(o.id).update({pvSt:"ok",pvSig:pvSigOf(o),pvBy:U.uid,pvAt:Date.now(),pvNote:"",updatedAt:TS()});log("Подтверждена оплата",o,M((+o.p||0)+(+o.fee||0)));modal("");toast("Оплата подтверждена")});return}
+  run(async()=>{await db.collection("orders").doc(o.id).update({pvSt:"ok",pvSig:pvSigOf(o),pvBy:U.uid,pvAt:Date.now(),pvNote:"",...(o.wk&&o.wkSt!=="ok"?{wkSt:"ok",wkBy:U.uid,wkAt:Date.now(),wkNote:""}:{}),updatedAt:TS()});log("Подтверждена оплата",o,M((+o.p||0)+(+o.fee||0)));modal("");toast("Оплата подтверждена")});return}
  if(k==="pv_no"){const r=prompt("Почему оплата не принята? Сотрудник увидит причину.");if(r===null)return;
-  run(async()=>{await db.collection("orders").doc(o.id).update({pvSt:"bad",pvSig:pvSigOf(o),pvBy:U.uid,pvAt:Date.now(),pvNote:String(r||"").slice(0,200),updatedAt:TS()});log("Оплата не принята",o,String(r||""));toast("Оплата не принята, сотрудник увидит причину")})}});
+  run(async()=>{await db.collection("orders").doc(o.id).update({pvSt:"bad",pvSig:pvSigOf(o),pvBy:U.uid,pvAt:Date.now(),pvNote:String(r||"").slice(0,200),...(o.wk?{wkSt:"bad",wkBy:U.uid,wkAt:Date.now(),wkNote:String(r||"").slice(0,200)}:{}),updatedAt:TS()});log("Оплата не принята",o,String(r||""));toast("Оплата не принята, сотрудник увидит причину")})}});
 /* ===== Задачи на смену (чек-лист по профессиям) =====
    Владелец пишет задачи для каждой роли или профессии (Настройки → Команда и доступ). Сотрудник отмечает их на главной
    одним нажатием; к задаче можно требовать фото («+фото» в конце строки). Отметки: checks/{uid}_{рабочий день}.
@@ -1560,7 +1560,9 @@ function detRefresh(prev){const d=document.querySelector("#m [data-det],#reader 
   const typing=el=>el&&d.contains(el)&&/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName),ae=document.activeElement;
   if(typing(ae)){if(!detRefresh.w){detRefresh.w=1;ae.addEventListener("blur",()=>{setTimeout(()=>{detRefresh.w=0;const d2=document.querySelector("#m [data-det],#reader [data-det]");if(d2&&d2.dataset.det===id&&!(document.activeElement&&d2.contains(document.activeElement)&&/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)))detail(id)},300)},{once:true})}return}
   const sc=d.closest(".sh");const top=sc?sc.scrollTop:0;Promise.resolve(detail(id)).then(()=>{const n=document.querySelector("#m .sh");if(n)n.scrollTop=top})}}
-async function detail(id){const o=O.find(x=>x.id===id);if(!o)return;let h="";
+async function detail(id){const o=O.find(x=>x.id===id)||(typeof OX!=="undefined"&&OX.get(id))||null;
+ /* заказ старый (из аналитики, отзывов, карточки клиента) — в текущем списке его нет: дочитываем из базы */
+ if(!o){if(!id)return;db.collection("orders").doc(id).get().then(d=>{if(!d.exists)return toast("Заказ не найден");OX.set(d.id,{id:d.id,...d.data()});OXV++;detail(id)}).catch(e=>toast(er(e)));return}let h="";
  if(mgr()){try{const s=await db.collection("activityLogs").where("oid","==",id).get();h=s.docs.map(d=>d.data()).sort((a,b)=>(b.ts?b.ts.seconds:9e9)-(a.ts?a.ts.seconds:9e9)).map(x=>`<div class="ln"><span>${esc(x.byName)}</span><span>${esc(x.act)}${x.x?": "+esc(x.x):""}</span></div>`).join("")}catch(e){console.warn(e)}}
  const L=(a,b)=>b||b===0?`<div class="ln"><span>${a}</span><span style="text-align:right">${b}</span></div>`:"";
  const k=Math.min(5,+o.st||0),SS=o.dv?["Принят","Сборка","Готов","В пути","Доставлен"]:["Принят","Сборка","Готов","Выдан"],si=k>=4?SS.length-1:Math.min(k,SS.length-2),ph=String(o.phone||"").replace(/\D/g,"");
@@ -1592,7 +1594,7 @@ function bind(){const sf=$("sf");if(sf)sf.onsubmit=saveSet;const q=$("q");if(q)q
    if(last)throw last;
    try{await sec.auth().signOut()}catch(e){eLog(e)}t.reset();log("Сотрудник создан",{bn:g("name")},rlt(prof));toast("Сотрудник создан")}finally{try{await sec.delete()}catch(e){console.warn(e)}}})}}
 
-document.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||!S)return;const a=b.dataset.a,id=b.dataset.id,o=O.find(x=>x.id===id);
+document.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||!S)return;const a=b.dataset.a,id=b.dataset.id,o=O.find(x=>x.id===id)||(id&&typeof OX!=="undefined"&&OX.get(id))||undefined;
  if(a==="new")shl().newOrder();else if(a==="x")modal("");else if(a==="det")shl().openOrder(id);else if(a==="edit"&&(adm()||+o.st<4))form(o);else if(a==="rep"){const c={...o};delete c.id;delete c.pub;delete c.pubKey;delete c.mk;c.st=0;c.paid=false;c.pre=0;form(c)}
  else if(a==="f"){fs=id;fz2="";draw()}else if(a==="f2"){e.preventDefault();fz2="";draw()}else if(a==="th"){setTh(id)}
  else if(a==="out"){try{sessionStorage.removeItem("lg")}catch(x){eLog(x)}auth.signOut()}else if(a==="pw")run(async()=>{await auth.sendPasswordResetEmail(U.email);toast("Письмо отправлено")})
@@ -3609,6 +3611,9 @@ function lvForm(scId){payRefresh();const L=myLoc(),bqs=BQ.slice().sort((a,b)=>St
    STO.set("wkpay",pay);log("Живая продажа",{id:r.id,bn:d.bn},M(d.p)+(nt?" · с запиской":"")+" · "+pay+(sx?" · с витрины":"")+(u?" · с чеком":adminOk?"":" · БЕЗ ЧЕКА"));
    modal("");toast((sx?"Продано с витрины":"Продажа записана")+(ok?"":". Без чека: проверит админ"));
    if(its.length){try{const rr=await ordTake(r.id,{items:its},L,"Живая продажа: "+d.bn);if(rr&&rr.short.length)toast("На складе не хватило: "+rr.short.join(", "))}catch(x){toast("Продажа записана, но склад не списан: "+er(x))}}})}}
+document.addEventListener("click",e=>{const b=e.target.closest('[data-a="lv_all"]');if(!b||!S||!(adm()||own()))return;const L=scoped(()=>oH().filter(o=>lvNeed(o)&&o.wkSt==="wait"));if(!L.length)return toast("Нечего подтверждать");
+ if(!confirm("Подтвердить "+L.length+" "+pl(L.length,"продажу","продажи","продаж")+" без чека на "+M(L.reduce((x,o)=>x+(+o.p||0),0))+"?"))return;
+ run(async()=>{const now=Date.now(),f=pvOn();for(let i=0;i<L.length;i+=400){const bt=db.batch();L.slice(i,i+400).forEach(o=>bt.update(db.collection("orders").doc(o.id),{wkSt:"ok",wkBy:U.uid,wkAt:now,wkNote:"",...(f&&(+o.paidAt||0)>=f?{pvSt:"ok",pvSig:pvSigOf(o),pvBy:U.uid,pvAt:now,pvNote:""}:{}),updatedAt:TS()}));await bt.commit()}log("Продажи без чека подтверждены пачкой",{bn:""},L.length+" · "+M(L.reduce((x,o)=>x+(+o.p||0),0)));toast("Подтверждено: "+L.length)})});
 document.addEventListener("click",e=>{const b=e.target.closest('[data-a="lv_new"],[data-a="new2"],[data-a="lvq"],[data-a="lv_ok"],[data-a="lv_bad"]');if(!b||!S)return;const a=b.dataset.a;
  if(a==="lv_new"){if(!mgr())return;return lvForm()}
  if(a==="new2"){if(!mgr())return;return form()}
