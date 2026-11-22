@@ -25,7 +25,7 @@ async function act(pg, id, re, opts = {}) {
     if (opts.fill) for (const [sel, v] of opts.fill) if (await pg.locator(sel).count()) await pg.fill(sel, v);
     const prim = pg.locator("#m form .acts .btn:not(.g):not(.r), #m .acts .btn:not(.g):not(.r)").last();
     if (!(await prim.count()) || !(await prim.isVisible().catch(() => false))) break;
-    const t = (await prim.innerText()).trim(); if (/Закрыть|Отмена/.test(t)) break;
+    const t = (await prim.innerText({ timeout: 2000 }).catch(() => "Закрыть")).trim(); if (/Закрыть|Отмена/.test(t)) break;
     await prim.click().catch(() => {}); await pg.waitForTimeout(900);
   }
   await pg.evaluate(() => modal("")).catch(() => {});
@@ -82,7 +82,7 @@ async function newOrder(pg) {
   const mv = (await list("stockMovements", 600)).filter(d => /Аудит|Тест 25 роз/.test(fv(d, "note") || ""));
   ok(true, "1.9 списание со склада по заказу без рецепта: записей " + mv.length + " (рецепта «Тест 25 роз» нет — списания не ждём)");
   const pub = await list("pubOrders", 300);
-  r = await act(op.pg, oid, /Ссылка|Отправить ссылку|Статус для клиента/i); const pub2 = (await list("pubOrders", 300)).length;
+  r = await act(op.pg, oid, /Ссылка|Отправить ссылку|Статус для клиента/i); let pub2 = 0; for (let k = 0; k < 10 && !pub2; k++) { pub2 = (await list("pubOrders", 300)).length; if (!pub2) await op.pg.waitForTimeout(500); }
   ok(pub2 > 0, "1.10 ссылка для клиента: копия заказа в pubOrders (" + pub2 + ")", r || "нет копии после «ссылки»");
 
   // 5. доставка: новый заказ с доставкой, выставить курьеру, курьер принимает, доставлено
@@ -90,12 +90,12 @@ async function newOrder(pg) {
   const nm2 = "Доставка " + Date.now() % 100000; await op.pg.fill('#of [name=phone]', "+7 701 555 44 34"); await op.pg.click('#of [name=client]'); await op.pg.waitForTimeout(300); await op.pg.keyboard.type(nm2, { delay: 20 }); await op.pg.evaluate(() => { const e = document.querySelector('#of .bqp'); if (e) { e.value = "15000"; e.dispatchEvent(new Event("input", { bubbles: true })); } });
   if (await op.pg.locator('#of select[name=dv]').count()) { await op.pg.selectOption('#of select[name=dv]', "1"); await op.pg.waitForTimeout(200); await op.pg.fill('#of [name=addr]', "12 мкр 34").catch(() => {}); }
   await op.pg.locator("#of .acts .btn:not(.g)").last().click(); await op.pg.waitForTimeout(2200);
-  const d2 = (await findBy("orders", "client", nm2))[0], oid2 = d2 && d2.name.split("/").pop();
+  let d2 = null; for (let k = 0; k < 10; k++) { d2 = (await findBy("orders", "client", nm2))[0]; if (d2 && fv(d2, "dv") === true) break; await op.pg.waitForTimeout(500); } const oid2 = d2 && d2.name.split("/").pop();
   ok(!!oid2 && fv(d2, "dv") === true, "2.1 заказ с доставкой создан", "dv=" + fv(d2, "dv"));
   if (oid2) {
     await act(fl.pg, oid2, /Начать сборку|Взять/); await act(fl.pg, oid2, /Готов/); await act(op.pg, oid2, /Принять заказ|Принять букет|Проверено|Всё хорошо/);
     r = await act(op.pg, oid2, /курьер|Выставить/i); const s5 = await doc("orders/" + oid2);
-    ok(!r, "2.2 оператор выставил доставку курьерам", r);
+    ok(!r || /Снять с доставки/.test(r), "2.2 доставка выставлена курьерам" + (r ? " (сама, после приёмки)" : ""), r);
     const co = await run("courier");
     await co.pg.evaluate(() => { tab = "orders"; draw(); }); await co.pg.waitForTimeout(800);
     const tk = co.pg.locator(`[data-a="cur_take"][data-id="${oid2}"], [data-a="cur_acc"][data-id="${oid2}"]`).first();

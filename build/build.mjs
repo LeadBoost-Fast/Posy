@@ -12,7 +12,7 @@ import {fileURLToPath} from "node:url";
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),"..");
 const SRC=p=>path.join(ROOT,"src",p),OUT=p=>path.join(ROOT,p);
 const CHECK=process.argv.includes("--check"),MIN=process.env.NO_MIN!=="1",IDS=process.env.NO_IDS!=="1";
-const LAZY=["d-cosmos.js","d-command.js","d-atlas.js","d-kk.js","d-help.js"];
+const LAZY=["d-kk.js","d-help.js"];
 const hash=s=>crypto.createHash("sha256").update(s).digest("hex").slice(0,8);
 const kb=n=>(n/1024).toFixed(0).padStart(5)+" КБ";
 
