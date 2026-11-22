@@ -235,7 +235,7 @@ st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--in
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261122w",
+const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261122x",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
@@ -4461,3 +4461,9 @@ let hidAt=0;document.addEventListener("visibilitychange",()=>{if(document.hidden
 /* аудит: колесо мыши над горизонтальным рядом (разделы склада, фильтры) прокручивает его вбок */
 document.addEventListener("wheel",e=>{if(e.ctrlKey||Math.abs(e.deltaX)>Math.abs(e.deltaY)||!e.deltaY)return;let el=e.target;
  while(el&&el!==document.body){if(el.scrollWidth>el.clientWidth+4&&el.scrollHeight<=el.clientHeight+4){const s=getComputedStyle(el);if(/(auto|scroll)/.test(s.overflowX)){const L=el.scrollLeft;el.scrollLeft+=e.deltaY;if(el.scrollLeft!==L)e.preventDefault();return}}el=el.parentElement}},{passive:false});
+/* Касса дня у сотрудников: тот же блок «Продажи · сегодня», что у админа на главной (сумма за день, оплачено,
+   букеты, заказы своей точки). По умолчанию включено у оператора, флориста и помощника; выключается в
+   Настройки → Дополнительно → Возможности, убирается с главной через «Расставить». */
+FXD.staffKas=true;FXL.staffKas="Касса дня на главной у сотрудников (сумма за день, оплачено, букеты, заказы)";FXS.staffKas="Касса дня у сотрудников";
+wgNew("kasd","Касса дня","l",()=>!!S&&["operator","florist","assistant"].includes(S.role)&&FX("staffKas"),()=>moneyBento(wDay()));
+WGDEF.kasd=["operator","florist","assistant"];
