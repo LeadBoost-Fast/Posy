@@ -121,7 +121,7 @@ async function newOrder(pg) {
   const as = await run("assistant");
   const tabs = await as.pg.evaluate(() => (window.TALL || []).map(t => t[0]));
   ok(!tabs.includes("fin") && !tabs.includes("team"), "4.1 помощник не видит Финансы и Команду");
-  ok(tabs.includes("pv"), "4.2 [вопрос владельцу] помощник видит «Оплаты» — по заданию не должен", "");
+  ok(!["pv", "crm", "chats"].some(t => tabs.includes(t)), "4.2 помощник не видит «Оплаты», «Клиенты», «Чаты» (решение владельца; включаются в «Доступе»)", "есть: " + ["pv", "crm", "chats"].filter(t => tabs.includes(t)).join(", "));
 
   // 8. страница клиента
   const pubs = await list("pubOrders", 50), tok = pubs[0] && pubs[0].name.split("/").pop();
