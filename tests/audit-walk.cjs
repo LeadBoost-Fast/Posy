@@ -56,7 +56,7 @@ const CHECK = () => {
       const L = [];
       (window.TALL || []).forEach(t => { if (t[0] === "more") return; L.push({ tab: t[0] }); });
       if ((window.TALL || []).some(t => t[0] === "set")) SETSEC().forEach(x => L.push({ tab: "set", sets: x[0] }));
-      if ((window.TALL || []).some(t => t[0] === "stock")) ["z", "k", "v"].forEach(k => L.push({ tab: "stock", sv: k }));
+      if ((window.TALL || []).some(t => t[0] === "stock")) ["z", "k", "v", "h"].forEach(k => L.push({ tab: "stock", sv: k }));
       return L;
     });
     for (const sc of screens) {
