@@ -235,7 +235,7 @@ st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--in
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261122y",
+const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123a",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
@@ -965,7 +965,7 @@ function pvSt(o){if(!o||!o.paid||+o.st===5)return"none";const f=pvOn();if(!f||(+
  if((o.chk||o.pchk)&&(!o.chk||o.chkSrc==="chat")&&(!o.pchk||o.pchkSrc==="chat"))return"chat";
  return o.pvSig||+o.chkN>0||+o.pchkN>0?"chg":"wait"}
 const pvM=o=>!!o.paid&&["legacy","ok","chat"].includes(pvSt(o));
-function pvCnt(){try{if(!(sad()||abl("pvOk"))||!pvOn())return 0;return scoped(()=>oH().filter(o=>{const t=pvSt(o);return t==="wait"||t==="chg"}).length)}catch{return 0}}
+function pvCnt(){try{if(!(sad()||abl("pvOk")))return 0;return scoped(()=>oH().filter(o=>{if(lvNeed(o))return(adm()||own());if(!pvOn())return false;const t=pvSt(o);return t==="wait"||t==="chg"}).length)}catch{return 0}}
 const PVL={wait:["Ожидает проверки","pvw","warn"],chg:["Чек заменён","pvc","warn"],ok:["Подтверждена","pvk","ok"],chat:["Из чата","pvt",""],bad:["Не принята","pvx","bad"]},
 pvPill=t=>{const l=PVL[t];return l?`<span class="pill pvs ${l[2]}">${ix(l[1])}${l[0]}</span>`:""};
 function pvWhy(o){const a=String(o.pvSig||"").split("|"),r=[];
@@ -987,13 +987,15 @@ function pvCard(o,boss){const t=pvSt(o),w=pvWhy(o),q=t==="wait"||t==="chg"||t===
 <div class="pvo">${pvInfo(o)}</div>
 ${w.length?`<div class="pvn">${w.map(esc).join("<br>")}</div>`:""}${t==="ok"&&o.pvBy?`<div class="pvm mut">Подтвердил(а): ${esc(nm(o.pvBy))} · ${pvTm(o.pvAt)}</div>`:""}
 <div class="acts">${boss&&q?`<button class="btn s" type="button" data-a="pv_ok" data-id="${id}" data-sg="${esc(pvSigOf(o))}">Подтвердить</button>`:""}${boss&&(t==="wait"||t==="chg")?`<button class="btn s g" type="button" data-a="pv_no" data-id="${id}">Не принять</button>`:""}<button class="btn s g" type="button" data-a="pv_view" data-id="${id}">Чек</button><button class="btn s g" type="button" data-a="det" data-id="${id}">Заказ</button>${!boss&&q&&chkOk(o)?`<button class="btn s g" type="button" data-a="chk_add" data-id="${id}">${o.chk?"Заменить чек":"Добавить чек"}</button>`:""}</div></div>`}
+function pvLv(){const l=scoped(()=>oH().filter(lvNeed)).sort((a,b)=>(a.ts||0)-(b.ts||0));if(!l.length)return"";const sm=l.reduce((x,o)=>x+(+o.p||0),0);
+ return `<h2>Продажи без чека · ${l.length} · ${M(sm)}</h2><p class="mut" style="margin-top:0">Продажи с витрины и живые продажи, которые сотрудник записал без чека. Сверьте с Kaspi или кассой и подтвердите.</p><div id="lvq">${l.map(lvRow).join("")}</div>`}
 function pvAdm(){const on=pvOn();
- if(!on)return`<h1>Проверка оплат</h1><div class="card"><b>Проверка выключена</b><p class="mut" style="margin:6px 0 0">Деньги считаются как раньше. После включения каждая новая оплата сначала попадает сюда и зачисляется в «Деньги» только после подтверждения. Оплаты с чеком из чата проверять не нужно, чек можно открыть. Старые оплаты не меняются.</p>${own()?'<div class="acts"><button class="btn" type="button" data-a="pv_on">Включить проверку</button></div>':'<p class="mut" style="margin:8px 0 0">Включает владелец.</p>'}</div>`;
+ if(!on)return`<h1>Проверка оплат</h1>${pvLv()}<div class="card"><b>Проверка выключена</b><p class="mut" style="margin:6px 0 0">Деньги считаются как раньше. После включения каждая новая оплата сначала попадает сюда и зачисляется в «Деньги» только после подтверждения. Оплаты с чеком из чата проверять не нужно, чек можно открыть. Старые оплаты не меняются.</p>${own()?'<div class="acts"><button class="btn" type="button" data-a="pv_on">Включить проверку</button></div>':'<p class="mut" style="margin:8px 0 0">Включает владелец.</p>'}</div>`;
  const f=oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=on).sort((a,b)=>(+b.paidAt||0)-(+a.paidAt||0)),g=t=>f.filter(o=>t.includes(pvSt(o))),
- W=g(["wait","chg"]),OK=g(["ok"]),CH=g(["chat"]),BD=g(["bad"]),sum=a=>a.reduce((x,o)=>x+(+o.p||0)+(+o.fee||0),0),
+ W=g(["wait","chg"]).filter(o=>!lvNeed(o)),OK=g(["ok"]),CH=g(["chat"]),BD=g(["bad"]),sum=a=>a.reduce((x,o)=>x+(+o.p||0)+(+o.fee||0),0),
  t0=new Date(today()+"T00:00:00").getTime(),okT=OK.filter(o=>+o.pvAt>=t0),cur=PVF==="ok"?OK:PVF==="chat"?CH:PVF==="bad"?BD:W;
  return`<h1>Проверка оплат</h1><div class="nwk"><div><b>${W.length}</b><span>ждут проверки</span><small>${M(sum(W))}</small></div><div><b>${M(sum(okT))}</b><span>подтверждено сегодня</span><small>${okT.length} ${pl(okT.length,"оплата","оплаты","оплат")}</small></div><div><b>${CH.length}</b><span>из чата</span><small>без проверки</small></div></div>
-<div class="chips">${[["w","Ожидают",W.length],["ok","Подтверждены",OK.length],["chat","Из чата",CH.length],["bad","Не приняты",BD.length]].map(x=>`<button class="chip ${PVF===x[0]?"on":""}" data-a="pv_f" data-id="${x[0]}">${x[1]} · ${x[2]}</button>`).join("")}</div>
+${pvLv()}<div class="chips">${[["w","Ожидают",W.length],["ok","Подтверждены",OK.length],["chat","Из чата",CH.length],["bad","Не приняты",BD.length]].map(x=>`<button class="chip ${PVF===x[0]?"on":""}" data-a="pv_f" data-id="${x[0]}">${x[1]} · ${x[2]}</button>`).join("")}</div>
 ${PVF==="w"&&W.length>1?`<div class="acts" style="margin:10px 0 4px"><button class="btn" type="button" data-a="pv_all" data-id="all">Подтвердить все ожидающие · ${W.length} · ${M(sum(W))}</button></div>`:""}${pvDays(cur)||'<div class="card mut" style="text-align:center">Здесь пока пусто</div>'}${own()?'<div class="acts" style="margin-top:14px"><button class="btn g s" type="button" data-a="pv_off">Выключить проверку</button></div>':""}`}
 /* оплаты по дням (день приёма оплаты), у каждого дня — сумма и «Подтвердить все за день» */
 function pvDays(cur){const g={},ord=[];cur.slice(0,200).forEach(o=>{const d=new Date(+o.paidAt||0).toLocaleDateString("sv-SE");if(!g[d]){g[d]=[];ord.push(d)}g[d].push(o)});const t=today();
@@ -1003,7 +1005,7 @@ function pvMine(){const on=pvOn(),from=Math.max(on,Date.now()-7*864e5),l=on?oH()
 function pvV(){return S?sad()||abl("pvOk")?pvAdm():pvMine():home()}
 document.addEventListener("click",e=>{const a=e.target.closest('[data-a^="pv_"]');if(!a||!S)return;const k=a.dataset.a,id=a.dataset.id,o=id&&O.find(x=>x.id===id);
  if(k==="pv_f"){PVF=id||"w";draw();return}
- if(k==="pv_all"){if(!sad()&&!abl("pvOk"))return;const on=pvOn(),L=oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=on&&pvSt(o)==="wait"&&(id==="all"||new Date(+o.paidAt||0).toLocaleDateString("sv-SE")===id)),chg=oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=on&&pvSt(o)==="chg"&&(id==="all"||new Date(+o.paidAt||0).toLocaleDateString("sv-SE")===id)).length;if(!L.length)return toast(chg?"Здесь только оплаты с заменённым чеком — проверьте их по одной":"Нечего подтверждать");
+ if(k==="pv_all"){if(!sad()&&!abl("pvOk"))return;const on=pvOn(),L=oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=on&&pvSt(o)==="wait"&&!lvNeed(o)&&(id==="all"||new Date(+o.paidAt||0).toLocaleDateString("sv-SE")===id)),chg=oH().filter(o=>o.paid&&+o.st!==5&&(+o.paidAt||0)>=on&&pvSt(o)==="chg"&&(id==="all"||new Date(+o.paidAt||0).toLocaleDateString("sv-SE")===id)).length;if(!L.length)return toast(chg?"Здесь только оплаты с заменённым чеком — проверьте их по одной":"Нечего подтверждать");
   if(!confirm("Подтвердить "+L.length+" "+pl(L.length,"оплату","оплаты","оплат")+" на "+M(L.reduce((x,o)=>x+(+o.p||0)+(+o.fee||0),0))+"?"+(chg?"\nОплаты с заменённым чеком ("+chg+") не трогаем — их проверьте по одной.":"")))return;
   run(async()=>{const now=Date.now();for(let i=0;i<L.length;i+=400){const bt=db.batch();L.slice(i,i+400).forEach(o=>bt.update(db.collection("orders").doc(o.id),{pvSt:"ok",pvSig:pvSigOf(o),pvBy:U.uid,pvAt:now,pvNote:"",updatedAt:TS()}));await bt.commit()}log("Подтверждены оплаты пачкой",{bn:""},L.length+" · "+M(L.reduce((x,o)=>x+(+o.p||0)+(+o.fee||0),0)));toast("Подтверждено: "+L.length)});return}
  if(k==="pv_on"||k==="pv_off"){if(!own())return;if(!confirm(k==="pv_on"?"Включить проверку оплат? С этого момента новые оплаты попадают в «Деньги» только после подтверждения.":"Выключить проверку оплат? Все оплаты снова считаются сразу."))return;
@@ -3610,8 +3612,9 @@ document.addEventListener("click",e=>{const b=e.target.closest('[data-a="lv_new"
  if(a==="lvq"){if(adm()||own())lvQueue();return}
  e.preventDefault();if(!(adm()||own()))return toast("Проверяет администратор");const o=O.find(x=>x.id===b.dataset.id)||oH().find(x=>x.id===b.dataset.id);if(!o)return;
  const row=b.closest(".aprq"),done=()=>{if(row)row.remove();const q=$("lvq");if(q&&!q.querySelector(".aprq")){q.innerHTML='<p class="mut">Всё проверено</p>'}};
- if(a==="lv_ok")run(async()=>{await db.collection("orders").doc(o.id).update({wkSt:"ok",wkBy:U.uid,wkAt:Date.now(),wkNote:"",updatedAt:TS()});log("Живая продажа проверена",o,M(o.p)+" · "+(o.pay||"")+" · "+nm(o.by));toast("Подтверждено");done()});
- else{const w=prompt("Что не сходится? Например: нет оплаты на Kaspi");if(w===null)return;run(async()=>{await db.collection("orders").doc(o.id).update({wkSt:"bad",wkNote:String(w).trim(),wkBy:U.uid,wkAt:Date.now(),updatedAt:TS()});log("Живая продажа: не сходится",o,(w||"")+" · "+M(o.p)+" · "+nm(o.by));toast("Отмечено: не сходится")})}});
+ const pvX=st=>{const f=pvOn();return f&&o.paid&&(+o.paidAt||0)>=f?{pvSt:st,pvSig:pvSigOf(o),pvBy:U.uid,pvAt:Date.now(),pvNote:""}:{}};
+ if(a==="lv_ok")run(async()=>{await db.collection("orders").doc(o.id).update({wkSt:"ok",wkBy:U.uid,wkAt:Date.now(),wkNote:"",...pvX("ok"),updatedAt:TS()});log("Живая продажа проверена",o,M(o.p)+" · "+(o.pay||"")+" · "+nm(o.by));toast("Подтверждено");done()});
+ else{const w=prompt("Что не сходится? Например: нет оплаты на Kaspi");if(w===null)return;run(async()=>{await db.collection("orders").doc(o.id).update({wkSt:"bad",wkNote:String(w).trim(),wkBy:U.uid,wkAt:Date.now(),...pvX("bad"),...(pvOn()?{pvNote:String(w).trim()}:{}),updatedAt:TS()});log("Живая продажа: не сходится",o,(w||"")+" · "+M(o.p)+" · "+nm(o.by));toast("Отмечено: не сходится")})}});
 
 
 /* Cloud Functions SDK сам просит у messaging токен и регистрирует /firebase-messaging-sw.js в КОРНЕ домена; на GitHub Pages (папка репозитория) это падает.
@@ -3650,7 +3653,8 @@ function lbOpen(src){let b=$("lb");if(b)b.remove();b=document.createElement("div
   const ext=bl.type==="image/png"?".png":bl.type==="application/pdf"?".pdf":".jpg",file=new File([bl],"foto-"+Date.now()+ext,{type:bl.type||"image/jpeg"});
   try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file]});return}}catch(x){if(x&&x.name==="AbortError")return}
   try{const u=URL.createObjectURL(bl),a=document.createElement("a");a.href=u;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}catch(x){toast("Не удалось скачать. Удерживайте фото и выберите «Сохранить»")}}}
-document.addEventListener("click",e=>{const i=e.target.closest("img");if(!i||i.closest("#lb")||i.classList.contains("nolb"))return;const src=i.currentSrc||i.src;if(!src||src.indexOf("image/svg")>-1)return;e.stopPropagation();e.preventDefault();lbOpen(src)},true);
+/* фото внутри кнопки (плитка «Кассы», фото галереи) — работает кнопка, а не просмотр фото */
+document.addEventListener("click",e=>{const i=e.target.closest("img");if(!i||i.closest("#lb")||i.classList.contains("nolb")||i.closest("button"))return;const src=i.currentSrc||i.src;if(!src||src.indexOf("image/svg")>-1)return;e.stopPropagation();e.preventDefault();lbOpen(src)},true);
 const WIPE=[["subs","Подписки"],["inventory","Склад (товары)"],["stockMovements","История склада"],["showcase","Витрина"],["bouquets","Букеты"],["orders","Заказы"],["customers","Клиенты"],["leads","Заявки"],["deals","Сделки"],["chats","Чаты с клиентами"],["team","Чат команды"],["activityLogs","Журнал действий"],["expenses","Расходы",1],["invcost","Закупочные цены",1]];
 const wipeCard=()=>expCard()+`<h2>Очистка данных</h2><div class="card"><div class="mut">Безвозвратно стирает выбранные данные из базы (например, тестовые заказы перед запуском). Это не то же самое, что «Сбросить статистику» (она только скрывает старое). Сначала сделайте резервную копию выше. Перед удалением сайт покажет список и попросит ввести слово УДАЛИТЬ.</div><div class="acts"><button class="btn r" data-a="wipe">Очистить данные…</button></div></div>`;
 async function wipeCol(c){let n=0;for(;;){const q=await db.collection(c).limit(300).get();if(q.empty)break;if(c==="chats")for(const d of q.docs){for(;;){const m=await d.ref.collection("msgs").limit(300).get();if(m.empty)break;const b=db.batch();m.docs.forEach(x=>b.delete(x.ref));await b.commit()}}const b=db.batch();q.docs.forEach(d=>b.delete(d.ref));await b.commit();n+=q.size}return n}
