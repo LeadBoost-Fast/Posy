@@ -235,7 +235,7 @@ st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--in
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123a",
+const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123b",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
@@ -569,8 +569,8 @@ function nextHero(){if(!S||!["courier","florist","assistant","operator"].include
 /* ===== Доступ сотрудникам: админ и владелец включают и выключают разделы каждому сотруднику (staff/{uid}.perms: {ключ:false}) ===== */
 const PERMS=[["chats","Чаты","Диалоги с клиентами из WhatsApp, Instagram и других каналов",1],["crm","Клиенты","Клиенты, заявки и сделки: имена, телефоны, история",1],["rep","Отчёты и статистика","Отчёты смены и цифры по заказам",0],["stock","Склад","Остатки, приход, списание",0],["show","Витрина и галерея","Букеты на витрине и фото готовых работ",0],["map","Карта доставок","Адреса и маршруты доставок",0],["tpl","Шаблоны","Готовые тексты сообщений для чатов",0],["pv","Оплаты","Проверка оплат и чеков клиентов",0]],
  PTABS={chats:["chats"],crm:["crm","leads","deals"],rep:["rep","st"],stock:["stock"],show:["show","gal","bq"],map:["map"],tpl:["tpl"],pv:["pv"]},
- /* по умолчанию закрыто у роли (включается сотруднику в «Доступе»: perms[ключ]=true) */
- PROFF={florist:["chats","crm","pv"],assistant:["chats","crm","pv"]},
+ /* по умолчанию закрыто у роли (включается сотруднику в «Доступе»: perms[ключ]=true). Сейчас пусто: владелец решил, что флорист и помощник видят всё, как оператор */
+ PROFF={},
  permOf=(st,k)=>{const p=(st&&st.perms)||{};if(p[k]===true)return true;if(p[k]===false)return false;return !(PROFF[st&&st.role]||[]).includes(k)},
  can=k=>{if(!S)return false;if(own()||adm())return true;return permOf((U&&SF[U.uid])||S,k)},
  pmOff=id=>PERMS.filter(p=>!permOf(SF[id]||{},p[0])).map(p=>p[1]);
