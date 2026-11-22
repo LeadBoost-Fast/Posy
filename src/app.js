@@ -235,7 +235,7 @@ st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--in
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123n",
+const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261123o",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
@@ -2217,10 +2217,22 @@ function trashInfo(x){const d=x.data||{},L=(a,b)=>b==null||b===""?"":`<div class
  if(x.col==="customers")return L("Клиент",esc(d.name||""))+L("Телефон",esc(d.phone||x.id))+L("Заметка",esc(d.note||""));
  return Object.keys(d).filter(k=>["string","number","boolean"].includes(typeof d[k])&&String(d[k]).length<80).slice(0,10).map(k=>L(esc(k),esc(String(d[k])))).join("")}
 /* подробно о записи журнала + «Вернуть обратно» */
+/* служебная диагностика связи ({"kind":...}) — по-человечески; технические строки прячем */
+function jrHum(raw){const t=String(raw||"");if(t.charAt(0)!=="{")return null;let j;try{j=JSON.parse(t)}catch(e){return null}if(!j||typeof j!=="object"||!j.kind)return null;
+ const ua=String(j.ua||""),dev=/iPhone|iPad/.test(ua)?(ua.match(/iPhone|iPad/)[0]+((ua.match(/OS (\d+)[_.](\d+)/)||[])[1]?", iOS "+ua.match(/OS (\d+)[_.](\d+)/)[1]+"."+ua.match(/OS (\d+)[_.](\d+)/)[2]:"")):/Android/.test(ua)?"Android"+((ua.match(/Android (\d+)/)||[])[1]?" "+ua.match(/Android (\d+)/)[1]:""):ua?"компьютер":"",
+ why=String(j.why||""),pend=+j.pend||0,L=[];
+ if(j.kind==="cache-reset"&&why==="to-server")L.push(["Что произошло","После обновления сайта телефон один раз обновил сохранённые данные. Это плановая настройка, не сбой."]);
+ else if(j.kind==="cache-reset")L.push(["Что произошло","Связь с базой сбилась, сайт сам перезапустил её на этом телефоне."]);
+ else if(j.kind==="firestore-failed")L.push(["Что произошло","Связь с базой сбилась, сайт сам перезагрузился."+(j.btn?" Последнее нажатие: «"+j.btn+"».":"")]);
+ else L.push(["Что произошло","Действие долго не подтверждалось сервером, сайт переподключился."+(j.btn?" Нажатие: «"+j.btn+"».":"")]);
+ if(j.kind==="cache-reset")L.push(["Неотправленные изменения",pend?pend+" — отправлены после перезапуска":"не было, ничего не потеряно"]);
+ if(j.online===false)L.push(["Интернет","не было"]);
+ if(dev)L.push(["Телефон",dev]);
+ return {L,tech:t}}
 async function jrDetail(x){const d=x.ts&&x.ts.toDate?x.ts.toDate():new Date(),L=(a,b)=>b?`<div class="ln"><span>${a}</span><b style="text-align:right;max-width:65%;word-break:break-word">${b}</b></div>`:"";
  let tr=null;if(x.tr){try{const s=await db.collection("trash").doc(x.tr).get();if(s.exists)tr={...s.data(),tid:s.id}}catch(e){}}
  const o=x.oid&&O.find(y=>y.id===x.oid),invDel=!tr&&/^Удалено: позицию склада/.test(x.act||"");
- modal(hd("Запись журнала")+`<div class="card">${L("Что сделали",esc(x.act||""))}${L("Объект",esc(x.name||""))}${L("Подробности",esc(String(x.x||"")))}${L("Кто",esc(x.byName||""))}${L("Когда",esc(d.toLocaleString("ru-RU",{day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"})))}${locs().length>1&&x.loc?L("Точка",esc(lname(x.loc))):""}</div>
+ modal(hd("Запись журнала")+`<div class="card">${L("Что сделали",esc(x.act||""))}${L("Объект",esc(x.name||""))}${(()=>{const h=jrHum(x.x);return h?h.L.map(r=>L(r[0],esc(r[1]))).join("")+`<details class="jrtech"><summary>Технические данные</summary><code>${esc(h.tech)}</code></details>`:L("Подробности",esc(String(x.x||"")))})()}${L("Кто",esc(x.byName||""))}${L("Когда",esc(d.toLocaleString("ru-RU",{day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"})))}${locs().length>1&&x.loc?L("Точка",esc(lname(x.loc))):""}</div>
  ${tr?`<h2>Что было удалено</h2><div class="card">${trashInfo(tr)}</div>${tr.restored?`<p class="mut">Уже возвращено${tr.rByName?" · "+esc(tr.rByName):""}${tr.rAt?" · "+new Date(tr.rAt).toLocaleString("ru-RU",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):""}</p>`:`<div class="acts"><button class="btn" data-a="tr_back" data-id="${tr.tid}">Вернуть обратно</button></div>`}`:""}
  ${invDel?`<div class="card"><b>Эту позицию удалили до появления корзины</b><p class="mut" style="font-size:13px;margin:4px 0 8px">Можно найти её по истории склада и вернуть с последним известным остатком.</p><div class="acts" style="margin:0"><button class="btn s" data-a="tr_bk" data-n="${esc(x.name||"")}">Найти в ночной копии</button><button class="btn g s" data-a="tr_hist" data-n="${esc(x.name||"")}">По истории склада</button></div></div>`:""}
  ${o?`<div class="acts"><button class="btn g" data-a="tr_ord" data-id="${o.id}">Открыть заказ</button></div>`:""}${btns("")}`)}
@@ -2264,7 +2276,7 @@ document.addEventListener("click",e=>{const b=e.target.closest('[data-a="tr_bk"]
  if(!confirm("Вернуть остатки как в ночной копии?"))return;run(async()=>{await trashBkBack(b.dataset.id);modal("");toast("Возвращено. Если после копии были приходы или продажи — проверьте остаток");tab="stock";draw()})});
 function jrRow(x,d){const c=lcat(x.act),k=JRC[c]||JRC["Прочее"],hm=d.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}),loc=locs().length>1&&x.loc?" · "+esc(lname(x.loc)):"",del=adm()&&x._id?`<button class="jrx" type="button" data-a="x_del" data-col="activityLogs" data-id="${x._id}" data-t="${esc(x.act)}" aria-label="Удалить запись">✕</button>`:"";
  
- (window.__JR=window.__JR||{})[x._id||""]=x;return `<div class="jr" data-jr="${esc(x._id||"")}" style="cursor:pointer">${tic(k[0],k[1])}<div class="jrb"><b>${esc(x.act)}${x.name?` <span class="jrn">· ${esc(x.name)}</span>`:""}</b>${x.x?(String(x.x).charAt(0)==="{"||String(x.x).length>160?`<details class="jrd"><summary>подробности</summary><code>${esc(x.x)}</code></details>`:`<span>${esc(x.x)}</span>`):""}<span class="mut">${esc(x.byName||"")} · ${hm}${loc}</span></div><span class="jrc" style="--k:${k[1]}">${c}</span>${del}</div>`}
+ (window.__JR=window.__JR||{})[x._id||""]=x;return `<div class="jr" data-jr="${esc(x._id||"")}" style="cursor:pointer">${tic(k[0],k[1])}<div class="jrb"><b>${esc(x.act)}${x.name?` <span class="jrn">· ${esc(x.name)}</span>`:""}</b>${x.x&&jrHum(x.x)?`<span>${esc(jrHum(x.x).L[0][1])}</span>`:x.x?(String(x.x).charAt(0)==="{"||String(x.x).length>160?`<details class="jrd"><summary>подробности</summary><code>${esc(x.x)}</code></details>`:`<span>${esc(x.x)}</span>`):""}<span class="mut">${esc(x.byName||"")} · ${hm}${loc}</span></div><span class="jrc" style="--k:${k[1]}">${c}</span>${del}</div>`}
 function logvAll(){const tm=x=>x.ts&&x.ts.toDate?x.ts.toDate():new Date(0),dk=x=>tm(x).toLocaleDateString("sv-SE"),t=today(),lim=lgp==="t"?t:lgp==="w"?addD(t,-6):"",
  base=LG.filter(x=>!lim||dk(x)>=lim),byE=base.filter(x=>!lgf||x.byName===lgf),l=byE.filter(x=>!lgc||(lgc==="Важное"?IMPRX.test(x.act||""):lcat(x.act)===lgc)),
  names=[...new Set(LG.map(x=>x.byName).filter(Boolean))],ch=(k,cur,a,arr)=>`<div class="chips">${arr.map(c=>`<button class="chip ${cur===c[0]?"on":""}" data-a="${a}" data-id="${esc(c[0])}">${esc(c[1])}</button>`).join("")}</div>`,by={};
