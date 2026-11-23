@@ -1275,3 +1275,5 @@ body.hdragging{user-select:none;-webkit-user-select:none}body.hdragging .hgrip{c
 .hnone2{padding:14px}.hnone2 p{margin:0 0 10px;font-size:14px;color:var(--mut)}
 .hud.hcatdrag .hcats .hbody{display:none}.hud.hcatdrag .hcats .h0{border-bottom-color:transparent}.hud.hcatdrag .hcats>.hcat{margin-bottom:8px}
 .hplus.sm{width:28px;height:28px;border-width:1px;border-color:color-mix(in srgb,var(--ac) 35%,transparent);opacity:.85}.hplus.sm svg{width:14px;height:14px}
+.hpk{grid-column:1/-1;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--ac) 8%,var(--card))}.hpk>b{font-size:13px}.hpkr{display:flex;align-items:flex-end;gap:8px;margin:6px 0}.hpkr label{flex:1}.hpkr span{padding-bottom:12px;color:var(--mut)}.hpk p{margin:6px 0 0;font-size:12.5px;line-height:1.35;color:var(--mut)}.hpk p b{color:var(--ink)}.hpkb{border:0;background:transparent;color:var(--ac);font:inherit;font-weight:700;padding:0;cursor:pointer;text-decoration:underline}
+.hplus.sm{position:relative}.hplus.sm::after{content:"";position:absolute;inset:-3px;border-radius:50%}
