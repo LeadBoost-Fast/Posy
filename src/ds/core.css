@@ -1,0 +1,17 @@
+/* Дизайн-системы Posy V5: общий выбор в «Профиль → Оформление». Стили самих дизайнов — в b2.css и c2.css */
+.dsv5{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:4px 0 2px}
+.dsb{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:var(--card);border:1px solid var(--line);color:var(--ink);transition:transform .2s,box-shadow .2s}
+.dsb:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.dsb.on{border-color:var(--ac);box-shadow:0 0 0 2px color-mix(in srgb,var(--ac) 45%,transparent)}
+.dsb b{font-size:15px;padding:10px 12px 0}.dsb small{font-size:12px;line-height:1.35;color:var(--mut);padding:2px 12px 12px}
+.dsp{height:84px;position:relative;display:block;overflow:hidden}
+.dsp-b2{background:linear-gradient(180deg,transparent 40%,color-mix(in srgb,var(--card) 90%,transparent)),radial-gradient(60% 80% at 30% 30%,#f6c9d3,transparent 70%),radial-gradient(60% 80% at 80% 40%,#e9a8b8,transparent 70%),#f9eeee}
+.dsp-b2 i{position:absolute;right:12px;top:12px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.7) var(--pza,none) center/70% no-repeat;box-shadow:0 4px 14px rgba(0,0,0,.1)}
+.dsp-c2{background:radial-gradient(28% 46% at 70% 40%,#b9a4ff 0%,#6c4bdc 55%,transparent 58%),radial-gradient(80% 120% at 70% 0%,#2a1b6b,#070616 70%)}
+.dsp-c2 i{position:absolute;left:30%;top:36%;width:64%;height:22%;border:1px solid rgba(214,200,255,.55);border-radius:50%;transform:rotate(-14deg)}
+.dsold{margin-top:12px}
+.dscp{display:flex;flex-wrap:wrap;gap:8px}
+.dsc{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:7px 12px 7px 7px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;font-weight:600;color:var(--ink)}
+.dsc i{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--a),var(--c) 60%,var(--b));box-shadow:0 0 8px color-mix(in srgb,var(--a) 50%,transparent)}
+.dsc.on{border-color:var(--ac);box-shadow:0 0 0 2px color-mix(in srgb,var(--ac) 40%,transparent)}
+.dsc:focus-visible{outline:2px solid var(--ac);outline-offset:2px}

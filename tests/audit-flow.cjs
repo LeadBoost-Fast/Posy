@@ -153,6 +153,26 @@ async function newOrder(pg) {
     ok(await pg.locator("#lgo").count() > 0 && await pg.locator(".jrseg").innerText().then(t => /Важное/.test(t)), "Р5.6 журнал: вкладка «Важное» и поиск по заказу");
   }
 
+  // 10. дизайн-системы V5: включение в «Оформлении», палитры Космоса, сохранение выбора, возврат к прежнему оформлению
+  { const pg = ad.pg, w = ms => new Promise(r => setTimeout(r, ms));
+    const card = await pg.evaluate(() => themeCard());
+    ok(/Bento 2\.0/.test(card) && /Космос/.test(card) && /Прежние оформления/.test(card), "Р6.1 «Оформление»: выбор Bento 2.0, Космос и прежние оформления");
+    await pg.evaluate(() => setDS("b2")); await w(400);
+    const b = await pg.evaluate(() => ({ ds: document.documentElement.dataset.ds, p: thGet().p, pz: document.documentElement.dataset.pz, sv: thGet().ds }));
+    ok(b.ds === "b2" && b.sv === "b2" && ["Ч/Б","Жемчуг","Нежная роза","Персик","Лаванда","Мята","Сумерки","Туман"].includes(b.p) && b.pz === "1", "Р6.2 Bento 2.0 включается и сохраняется, палитра со знаком Bento", JSON.stringify(b));
+    await pg.evaluate(() => setDS("c2")); await w(2500);
+    const c = await pg.evaluate(() => ({ ds: document.documentElement.dataset.ds, cp: document.documentElement.dataset.cp, js: !!window.COSMOS, t: document.documentElement.dataset.t, sk: document.documentElement.dataset.sk }));
+    ok(c.ds === "c2" && c.cp === "ame" && c.js && c.sk === "", "Р6.3 Космос включается, модуль сцены загружается только сейчас", JSON.stringify(c));
+    await pg.evaluate(() => setCP("mono")); await w(1500);
+    const m = await pg.evaluate(() => ({ cp: document.documentElement.dataset.cp, sv: thGet().cp, ac: getComputedStyle(document.documentElement).getPropertyValue("--ac").trim() }));
+    ok(m.cp === "mono" && m.sv === "mono", "Р6.4 палитра Космоса меняется и сохраняется (Ч/Б)", JSON.stringify(m));
+    const tabsOk = await pg.evaluate(() => { const bad = []; for (const t of ["home", "orders", "chats", "stock", "fin"]) { try { modal(""); tab = t; draw(); if (!document.querySelector("#v").children.length) bad.push(t) } catch (e) { bad.push(t + ":" + e.message) } } return bad; });
+    ok(!tabsOk.length, "Р6.5 в Космосе разделы открываются как обычно", tabsOk.join(", "));
+    await pg.evaluate(() => dsClassic("")); await w(500);
+    const o = await pg.evaluate(() => ({ ds: document.documentElement.dataset.ds, sv: thGet().ds, cv: !!document.getElementById("c2bg"), h: !!document.getElementById("b2h") }));
+    ok(!o.ds && !o.sv && !o.cv && !o.h, "Р6.6 возврат к прежнему оформлению: сцена и фото-шапка убраны", JSON.stringify(o));
+  }
+
   ok(!errs.length, "ошибок JS за сценарии: " + errs.length, errs.slice(0, 3).join(" | "));
   fs.writeFileSync(path.join(OUT, "flow-" + design.replace(/\s/g, "") + ".json"), JSON.stringify({ N, errs }, null, 1));
   const failed = N.filter(x => !x.ok).length; console.log(failed ? "ИТОГ: не прошло " + failed + " из " + N.length : "ИТОГ: все " + N.length + " проверок прошли");
