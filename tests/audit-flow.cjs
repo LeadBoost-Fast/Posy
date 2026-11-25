@@ -136,6 +136,23 @@ async function newOrder(pg) {
   const pubs = await list("pubOrders", 50), tok = pubs[0] && pubs[0].name.split("/").pop();
   if (tok) { const p2 = await br.newPage({ viewport: { width: 390, height: 844 } }); const pe = []; p2.on("pageerror", e => pe.push(e.message)); await p2.goto(BASE + "status.html?t=" + tok); await p2.waitForTimeout(2500); const tx = await p2.locator("body").innerText(); ok(tx.length > 40 && !pe.length, "5.1 status.html открывается у клиента", pe.join("|") || tx.slice(0, 80)); await p2.screenshot({ path: path.join(OUT, "status-page.png") }); }
 
+  // 9. раздел 5: просмотр фото поверх всего, сотрудники в чате, заказы клиента по порядку, журнал «Важное»
+  { const pg = ad.pg; await pg.evaluate(() => { modal(""); tab = "chats"; chV = "list"; draw(); }); await pg.waitForTimeout(800);
+    await pg.evaluate(() => chStart("wa_7700100015")); await pg.waitForTimeout(2500);
+    const im = pg.locator(".chmsgs img, #cht img").first();
+    if (await im.count()) { await im.scrollIntoViewIfNeeded(); await im.click(); await pg.waitForTimeout(600);
+      const hit = await pg.evaluate(() => ["lbx", "lbd"].every(id => { const b = document.getElementById(id); if (!b) return false; const q = b.getBoundingClientRect(), e = document.elementFromPoint(q.x + q.width / 2, q.y + q.height / 2); return e === b || b.contains(e); }));
+      ok(hit, "Р5.1 фото в чате: кнопки просмотра видны и нажимаются поверх панели ввода");
+      await pg.keyboard.press("Escape"); await pg.waitForTimeout(500); ok(!(await pg.locator("#lb").count()), "Р5.3 просмотр фото закрывается (Escape)");
+    } else ok(false, "Р5.1 в тестовом чате нет фото");
+    const by = await pg.evaluate(() => [...document.querySelectorAll(".chby")].map(x => x.textContent));
+    ok(by.some(t => /Оператор/.test(t)), "Р5.4 сообщение сотрудника подписано: имя и роль", by.join(" | "));
+    const ch = await pg.evaluate(() => [...document.querySelectorAll(".chcl .chip")].map(c => /olive|olate/.test(c.className) ? 1 : 0));
+    ok(ch.every((v, i) => i === 0 || v <= ch[i - 1]), "Р5.5 заказы клиента: действующие сверху, старые ниже", ch.join(""));
+    await pg.evaluate(() => { tab = "jr"; JRV = "chg"; lgp = "a"; draw(); }); await pg.waitForTimeout(900);
+    ok(await pg.locator("#lgo").count() > 0 && await pg.locator(".jrseg").innerText().then(t => /Важное/.test(t)), "Р5.6 журнал: вкладка «Важное» и поиск по заказу");
+  }
+
   ok(!errs.length, "ошибок JS за сценарии: " + errs.length, errs.slice(0, 3).join(" | "));
   fs.writeFileSync(path.join(OUT, "flow-" + design.replace(/\s/g, "") + ".json"), JSON.stringify({ N, errs }, null, 1));
   const failed = N.filter(x => !x.ok).length; console.log(failed ? "ИТОГ: не прошло " + failed + " из " + N.length : "ИТОГ: все " + N.length + " проверок прошли");

@@ -162,7 +162,7 @@ async function seed() {
   const CH = ["wa", "ig", "tg"];
   for (let i = 1; i <= 60; i++) {
     const ch = CH[i % 3], cid = ch + "_7700" + String(100000 + i), t0 = Date.now() - i * 3600e3;
-    put(`chats/${cid}`, { ch, phone: ch === "wa" ? "+7700" + (100000 + i) : "", handle: ch !== "wa" ? "@user" + i : "", name: i % 15 === 0 ? BAD[i / 15 % BAD.length] : pick(NAMES), last: pick(["Здравствуйте, есть розы?", "Сколько стоит?", "Спасибо!", "🌹"]), lastInTs: t0, unread: i % 4 === 0 ? 2 : 0, st: i % 9 === 0 ? "closed" : "open", loc: i % 2 ? L1 : L2, ext: String(100000 + i) });
+    put(`chats/${cid}`, { ch, phone: ch === "wa" ? "+7700" + (100000 + i) : "", handle: ch !== "wa" ? "@user" + i : "", name: i % 15 === 0 ? BAD[i / 15 % BAD.length] : pick(NAMES), last: pick(["Здравствуйте, есть розы?", "Сколько стоит?", "Спасибо!", "🌹"]), lastInTs: t0, lastTs: t0, lastDir: "in", unread: i % 4 === 0 ? 2 : 0, st: i % 9 === 0 ? "closed" : "open", loc: i % 2 ? L1 : L2, ext: String(100000 + i) });
     const msgs = [
       { dir: "in", t: "Здравствуйте! Нужен букет на завтра", ts: t0 - 6e5 },
       { dir: "out", t: "Здравствуйте! Какой бюджет?", ts: t0 - 5e5, by: ops[0] },
