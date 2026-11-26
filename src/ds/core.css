@@ -89,3 +89,24 @@ nav [data-t="more"] .nb{font-size:0!important;min-width:9px!important;width:9px;
 .rvbi:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 .rdq{margin:4px 0 8px}
 .rdq .chip.on{background:var(--ac)!important;color:var(--on)!important;opacity:1!important}
+/* состав в карточке: заметно, количество жирным */
+.oc5k{margin:10px 0 0;padding:8px 10px;border-radius:12px;background:color-mix(in srgb,var(--ink) 5%,var(--card));font-size:14.5px;line-height:1.35}
+.oc5k b{font-weight:800;font-size:1.12em;color:var(--ac)}
+.oc5n{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+/* чаты: подсказки «один клиент» — одной строкой */
+.chsugs{margin:0 0 8px;border:1px dashed var(--line);border-radius:14px;padding:8px 12px;background:color-mix(in srgb,var(--ac) 5%,var(--card))}
+.chsugs summary{cursor:pointer;font-size:13.5px;color:var(--mut);list-style:none}
+.chsugs summary::-webkit-details-marker{display:none}
+.chsugs summary::after{content:" ›"}
+.chsugs[open] summary{margin-bottom:8px}
+.chsugs[open] summary::after{content:" ˅"}
+/* склад: запросы — два видно, остальные под «Ещё N» */
+.sqmore{margin-top:10px}
+.sqmore summary{cursor:pointer;color:var(--mut);font-size:13.5px;list-style:none}
+.sqmore summary::-webkit-details-marker{display:none}
+.sqmore summary::after{content:" ›"}
+.sqmore[open] summary::after{content:" ˅"}
+.tfnew>summary{cursor:pointer;list-style:none}
+.tfnew>summary::-webkit-details-marker{display:none}
+.tfnew[open]>summary{margin-bottom:6px}
+.card .tfnew+form,.card>.tfnew{margin-top:10px}
