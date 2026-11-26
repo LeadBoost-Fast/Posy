@@ -333,7 +333,7 @@ function floraSync(pn){const sk=SKID[pn]||"",fl=pn==="Цветник"||(sk&&sk!=
    Подключаются в «Профиль → Оформление». Каждая — модуль: свои стили (src/ds/<код>.css, по атрибуту html[data-ds])
    и, если нужно, тяжёлая часть в отдельном файле, который грузится только когда дизайн выбран.
    На сайте два дизайна: Bento 2.0 (по умолчанию) и Космос. Прежние оформления убраны (решение владельца). Функции CRM дизайн не меняет. */
-const DSYS={b2:{n:"Bento 2.0",d:"Свои знаки и палитры Bento, фото витрины в шапке, стекло и мягкие анимации"},
+const DSYS={b2:{n:"Bento 2.0",d:"Свои палитры и знаки Bento: у каждой палитры своя шапка со своим знаком, стекло и мягкие анимации"},
  c2:{n:"Космос",d:"Живая сцена, орбиты и сияние. 9 палитр, включая Ч/Б",lazy:"d-cosmos.js"}};
 /* палитры Космоса: имя, вид сцены (0 планета, 1 край планеты, 2 туманность, 3 затмение), цвета сцены, акцент, статусы, ч/б */
 const DSC={ame:["Аметист",0,["#070616","#2a1b6b","#8b6bff","#d6c8ff"],"#c3b2ff",["#d4c8ff","#f2c4ff","#a9dcff","#ffd8b4","#8c88aa","#ff9fbc"]],
@@ -366,11 +366,9 @@ function dsApply(){const ds=dsGet(),r=document.documentElement;r.dataset.ds=ds;
  if(ds==="c2"){r.dataset.cp=cpGet();const c=DSC[cpGet()],go=()=>window.COSMOS&&COSMOS.start({v:c[1],c:c[2],bw:c[5]?1:0,light:r.dataset.t==="light",motion:dsMotion(),tab:typeof tab!=="undefined"?tab:"home"});dsLazy(DSYS.c2.lazy,go)}
  else{delete r.dataset.cp;window.COSMOS&&COSMOS.stop()}
  dsHero()}
-/* Bento 2.0: живая шапка с фото букета из галереи или каталога магазина; нет фото — знак палитры на цвете */
-function dsPhoto(){try{const g=(typeof GLR!=="undefined"?GLR:[]).filter(x=>x&&x.img).sort((a,b)=>(b.ts||b.at||0)-(a.ts||a.at||0));if(g[0])return g[0].img;const q=(typeof BQ!=="undefined"?BQ:[]).find(x=>x&&x.img);return q?q.img:""}catch(e){return""}}
+/* Bento 2.0: шапка у каждой палитры своя — её цвета и её знак (крупно, медленно движется) и лёгкий узор из маленьких знаков */
 function dsHero(){let h=document.getElementById("b2h");if(dsGet()!=="b2"){if(h)h.remove();return}
- if(!h){h=document.createElement("div");h.id="b2h";h.setAttribute("aria-hidden","true");h.innerHTML='<img alt="" decoding="async"><i></i>';document.body.prepend(h);addEventListener("scroll",dsScroll,{passive:true})}
- const u=dsPhoto(),im=h.querySelector("img");if(u&&im.getAttribute("src")!==u){im.src=u}h.classList.toggle("nop",!u);dsScroll()}
+ if(!h){h=document.createElement("div");h.id="b2h";h.setAttribute("aria-hidden","true");h.innerHTML="<s></s><b></b><i></i>";document.body.prepend(h);addEventListener("scroll",dsScroll,{passive:true})}dsScroll()}
 function dsScroll(){const h=document.getElementById("b2h");if(!h)return;const y=Math.min(320,scrollY||0);h.style.setProperty("--y",y.toFixed(0))}
 /* после каждой отрисовки: раздел для стилей, отклик дизайна на новые заказы и смену статусов */
 let DSIG=null,DSTB="";function dsAfterDraw(){const ds=dsGet(),r=document.documentElement;if(typeof tab!=="undefined"){r.dataset.tab=tab;/* анимация появления — только при переходе в раздел, не при каждом обновлении данных */if(tab!==DSTB){DSTB=tab;r.classList.add("dsin");clearTimeout(dsAfterDraw.t);dsAfterDraw.t=setTimeout(()=>r.classList.remove("dsin"),900)}}if(!ds){DSIG=null;return}
@@ -3877,7 +3875,7 @@ document.addEventListener("click",e=>{const b=e.target.closest('[data-a="cur_tak
 document.addEventListener("click",e=>{const b=e.target.closest('[data-a="adv"]');if(!b||!S||S.role==="courier")return;const o=O.find(x=>x.id===b.dataset.id);if(!o)return;const n=next(o);if(!n||(n[0]!==1&&n[0]!==2))return;
  e.stopImmediatePropagation();if(n[0]===1)takeConfirm(o);else if(xfPend(o))toast("Ожидает подтверждения передачи");else if(n[0]===2&&o.takenBy&&o.takenBy!==U.uid&&!adm())toast("Этот заказ собирает "+nm(o.takenBy)+". «Готов» может отметить только он(а) или администратор");else readyFlow(o)},true);
 document.addEventListener("click",e=>{const b=e.target.closest('[data-a^="rv_"],[data-a^="cm_"],[data-a="unpay"]');if(!b||!S)return;const a=b.dataset.a,o=O.find(x=>x.id===b.dataset.id);if(!o)return;
- if(a==="rv_ok"&&isOp()&&!adm()&&o.asm===U.uid)toast("Свой заказ принимает другой сотрудник");else if(a==="rv_ok"&&isOp()){const give=b.dataset.x==="give";run(async()=>{await db.collection("orders").doc(o.id).update({rv:"ok",accBy:U.uid,accAt:Date.now(),updatedAt:TS()});log("Заказ принят (приёмка)",o);modal("");o.rv="ok";if(give)setTimeout(()=>{const t=document.createElement("button");t.dataset.a="adv";t.dataset.id=o.id;t.hidden=true;document.body.appendChild(t);t.click();t.remove()},350)/* после завершения приёмки — тот же путь, что кнопка «Выдать» (оплата, проверки) */;else toast("Заказ принят")})}
+ if(a==="rv_ok"&&isOp()&&!adm()&&o.asm===U.uid)toast("Свой заказ принимает другой сотрудник");else if(a==="rv_ok"&&isOp()){const give=b.dataset.x==="give",dd=document.querySelector("#m [data-det]");if(dd&&dd.dataset.det===o.id)modal("")/* окно этого заказа закрываем сразу, а не после ответа сервера: иначе закроется окно, открытое за это время */;run(async()=>{await db.collection("orders").doc(o.id).update({rv:"ok",accBy:U.uid,accAt:Date.now(),updatedAt:TS()});log("Заказ принят (приёмка)",o);o.rv="ok";if(give)setTimeout(()=>{const t=document.createElement("button");t.dataset.a="adv";t.dataset.id=o.id;t.hidden=true;document.body.appendChild(t);t.click();t.remove()},350)/* после завершения приёмки — тот же путь, что кнопка «Выдать» (оплата, проверки) */;else toast("Заказ принят")})}
  else if(a==="rv_redo"&&isOp())redoForm(o);else if(a==="cm_add"&&mgr())cmForm(o);
  else if(a==="unpay"&&mgr()&&confirm("Снять отметку об оплате?"))run(async()=>{await db.collection("orders").doc(o.id).update({paid:false,paidAt:0,updatedAt:TS()});log("Оплата снята",o);modal("");toast("Отметка об оплате снята")})});
 

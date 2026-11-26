@@ -30,10 +30,13 @@ function comet(){if(!O||!O.motion)return;PULSE=1;const {c,x,d}=fx(),W=c.width,H=
   const g=x.createLinearGradient(tx,ty,hx2,hy);g.addColorStop(0,"rgba(0,0,0,0)");g.addColorStop(1,a);x.strokeStyle=g;x.lineWidth=p.w;x.globalAlpha=1-kk*kk;x.beginPath();x.moveTo(tx,ty);x.lineTo(hx2,hy);x.stroke();
   const gl2=x.createRadialGradient(hx2,hy,0,hx2,hy,9*d);gl2.addColorStop(0,"#fff");gl2.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=gl2;x.beginPath();x.arc(hx2,hy,9*d,0,7);x.fill()});
   if(k<1)requestAnimationFrame(st);else c.remove()};requestAnimationFrame(st)}
-function warp(then){if(!O||!O.motion){then();return}const {c,x,d}=fx(),W=c.width,H=c.height,cx=W/2,cy=H*.4,ps=[];for(let i=0;i<140;i++)ps.push({a:Math.random()*Math.PI*2,r:Math.random()*40*d,v:.6+Math.random()});
- const t0=performance.now(),D=900;let sw=false;const st=ts=>{const k=Math.min(1,(ts-t0)/D),a=acc(),f=k<.5?k*2:1-(k-.5)*2;x.clearRect(0,0,W,H);x.globalCompositeOperation="lighter";x.fillStyle=`rgba(255,255,255,${f*.16})`;x.fillRect(0,0,W,H);
-  ps.forEach(p=>{const e=Math.pow(k,2.2),r1=p.r+e*W*p.v,r0=r1-(40+e*260)*d*p.v;x.strokeStyle=k<.5?"#fff":a;x.globalAlpha=f;x.lineWidth=1.2*d;x.beginPath();x.moveTo(cx+Math.cos(p.a)*Math.max(0,r0),cy+Math.sin(p.a)*Math.max(0,r0));x.lineTo(cx+Math.cos(p.a)*r1,cy+Math.sin(p.a)*r1);x.stroke()});
-  if(!sw&&k>.45){sw=true;try{then()}catch(e){}}if(k<1)requestAnimationFrame(st);else c.remove()};requestAnimationFrame(st)}
+/* смена палитры: от центра расходится мягкая волна света с тонким светлым краем; на пике сцена меняет цвета, волна гаснет */
+function warp(then){if(!O||!O.motion){then();return}const {c,x,d}=fx(),W=c.width,H=c.height,cx=W/2,cy=H*.38,R=Math.hypot(W,H)*.75;
+ const t0=performance.now(),D=950;let sw=false;const st=ts=>{const k=Math.min(1,(ts-t0)/D),a=acc(),e=1-Math.pow(1-k,3),r=R*e,f=Math.sin(Math.PI*k);x.clearRect(0,0,W,H);
+  const g=x.createRadialGradient(cx,cy,0,cx,cy,Math.max(1,r));g.addColorStop(0,"rgba(255,255,255,0)");g.addColorStop(.7,"rgba(255,255,255,0)");g.addColorStop(.93,a);g.addColorStop(1,"rgba(255,255,255,0)");
+  x.globalAlpha=.55*f;x.fillStyle=g;x.fillRect(0,0,W,H);
+  const v=x.createRadialGradient(cx,cy,0,cx,cy,R);v.addColorStop(0,a);v.addColorStop(1,"rgba(0,0,0,0)");x.globalAlpha=.22*f;x.fillStyle=v;x.fillRect(0,0,W,H);x.globalAlpha=1;
+  if(!sw&&k>.42){sw=true;try{then()}catch(err){}}if(k<1)requestAnimationFrame(st);else c.remove()};requestAnimationFrame(st)}
 window.COSMOS={
  start(o){O=o;TAB=o.tab||TAB;if(!cv&&!mk())return;size();if(raf){cancelAnimationFrame(raf);raf=0}if(O.motion)raf=requestAnimationFrame(loop);else still()},
  stop(){O=null;if(raf)cancelAnimationFrame(raf);raf=0;if(cv){const e=gl&&gl.getExtension("WEBGL_lose_context");if(e)e.loseContext();cv.remove()}cv=null;gl=null},
