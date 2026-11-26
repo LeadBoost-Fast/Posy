@@ -38,7 +38,7 @@
 @keyframes b2drop{from{opacity:0;transform:translateY(-28px) scale(.96)}}
 @keyframes b2breath{40%{transform:scale(1.06)}}
 @keyframes b2spin{to{transform:rotate(360deg)}}
-:root[data-ds=b2] #v>.card:nth-child(-n+8),:root[data-ds=b2] #v .oc:nth-of-type(-n+6){animation:b2in .54s var(--b2s) both}
+:root.dsin[data-ds=b2] #v>.card:nth-child(-n+8),:root.dsin[data-ds=b2] #v .oc:nth-of-type(-n+6){animation:b2in .54s var(--b2s) both}
 :root[data-ds=b2] #v>.card:nth-child(2){animation-delay:40ms}:root[data-ds=b2] #v>.card:nth-child(3){animation-delay:80ms}:root[data-ds=b2] #v>.card:nth-child(4){animation-delay:120ms}
 :root[data-ds=b2].dsfx-new #v .oc:first-of-type{animation:b2drop .64s var(--b2s) both}
 :root[data-ds=b2].dsfx-st #b2h{animation:b2breath .9s var(--b2s)}

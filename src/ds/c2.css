@@ -31,7 +31,7 @@
 @keyframes c2fab{50%{box-shadow:0 0 34px color-mix(in srgb,var(--ac) 90%,transparent)}}
 @keyframes c2in{from{opacity:0;transform:translateY(14px) scale(.98);filter:blur(4px)}}
 @keyframes c2arr{from{opacity:0;transform:translateX(50px) scale(.94);filter:blur(8px)}}
-:root[data-ds=c2] #v>.card:nth-child(-n+8),:root[data-ds=c2] #v .oc:nth-of-type(-n+6){animation:c2in .62s var(--c2e) both}
+:root.dsin[data-ds=c2] #v>.card:nth-child(-n+8),:root.dsin[data-ds=c2] #v .oc:nth-of-type(-n+6){animation:c2in .62s var(--c2e) both}
 :root[data-ds=c2] #v>.card:nth-child(2){animation-delay:55ms}:root[data-ds=c2] #v>.card:nth-child(3){animation-delay:110ms}:root[data-ds=c2] #v>.card:nth-child(4){animation-delay:165ms}
 :root[data-ds=c2].dsfx-new #v .oc:first-of-type{animation:c2arr .9s .3s var(--c2e) both}
 :root.lite[data-ds=c2] *,:root.noanim[data-ds=c2] *{animation:none!important}

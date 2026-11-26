@@ -373,7 +373,7 @@ function dsHero(){let h=document.getElementById("b2h");if(dsGet()!=="b2"){if(h)h
  const u=dsPhoto(),im=h.querySelector("img");if(u&&im.getAttribute("src")!==u){im.src=u}h.classList.toggle("nop",!u);dsScroll()}
 function dsScroll(){const h=document.getElementById("b2h");if(!h)return;const y=Math.min(320,scrollY||0);h.style.setProperty("--y",y.toFixed(0))}
 /* после каждой отрисовки: раздел для стилей, отклик дизайна на новые заказы и смену статусов */
-let DSIG=null;function dsAfterDraw(){const ds=dsGet(),r=document.documentElement;if(typeof tab!=="undefined")r.dataset.tab=tab;if(!ds){DSIG=null;return}
+let DSIG=null,DSTB="";function dsAfterDraw(){const ds=dsGet(),r=document.documentElement;if(typeof tab!=="undefined"){r.dataset.tab=tab;/* анимация появления — только при переходе в раздел, не при каждом обновлении данных */if(tab!==DSTB){DSTB=tab;r.classList.add("dsin");clearTimeout(dsAfterDraw.t);dsAfterDraw.t=setTimeout(()=>r.classList.remove("dsin"),900)}}if(!ds){DSIG=null;return}
  const now=new Map((typeof L!=="undefined"?L:[]).map(o=>[o.id,o.st]));
  if(DSIG){let nw=0,ch=0;now.forEach((s,id)=>{if(!DSIG.has(id))nw++;else if(DSIG.get(id)!==s)ch++});
   if(nw&&nw<5)dsFx("new");else if(ch&&ch<5)dsFx("st")}
