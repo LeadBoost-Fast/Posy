@@ -110,3 +110,5 @@ nav [data-t="more"] .nb{font-size:0!important;min-width:9px!important;width:9px;
 .tfnew>summary::-webkit-details-marker{display:none}
 .tfnew[open]>summary{margin-bottom:6px}
 .card .tfnew+form,.card>.tfnew{margin-top:10px}
+/* время непрочитанного чата: на светлом фоне зелёный WhatsApp слишком бледный, берём тёмный зелёный */
+:root:not([data-t=dark]) .chi.un .chtm{color:#0b7a3e}

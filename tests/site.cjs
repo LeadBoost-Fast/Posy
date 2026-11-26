@@ -1,6 +1,8 @@
 // Проверка сайта как живой пользователь (Chromium, эмулятор Firestore и Auth). Запуск: см. tests/README.md
 const fs=require("fs"),path=require("path"),http=require("http"),{chromium,devices}=require("playwright");
 const ROOT=process.env.SITE||path.resolve(__dirname,".."),NM=process.env.FB_DIR||path.join(__dirname,"node_modules/firebase"),OUT=path.join(__dirname,"out");fs.mkdirSync(OUT,{recursive:true});
+/* раздел онлайн-витрины теперь выбирается из списка, который задаёт владелец; на чистой базе списка нет, поэтому добавляем нужный раздел в выпадающий список и выбираем его */
+const vtTag=async(pg,v)=>{await pg.evaluate(v=>{const s=document.querySelector("#vtif [name=tag]");if(![...s.options].some(o=>o.value===v||o.text===v)){const o=document.createElement("option");o.value=o.text=v;s.appendChild(o)}s.value=v;s.dispatchEvent(new Event("change",{bubbles:true}))},v)};
 const fbfix=h=>h.replace(/https:\/\/www\.gstatic\.com\/firebasejs\/[0-9.]+\//g,"/fb/");
 // Сайт берётся из корня готовым (после сборки), без правки текста кода: флаги для проверок задаются в начале страницы
 let html=fbfix(fs.readFileSync(path.join(ROOT,"index.html"),"utf8")).replace("<head>","<head><script>window.__EMU=1;window.__NOGEO=1;window.__NATIVEASK=1;window.__FSREST='http://127.0.0.1:8080';try{localStorage.setItem('cacheV','3')}catch(e){}</script>");
@@ -33,7 +35,7 @@ const PNG=Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42
   const gi=await pg.evaluate(()=>{GALL=galItems();return GALL.findIndex(g=>g.name==="Розы нежные")});
   await pg.evaluate(gi=>{const t=document.createElement("button");t.dataset.a="g_o";t.dataset.id=String(gi);t.dataset.s="0";document.body.appendChild(t);t.click();t.remove()},gi);await pg.waitForTimeout(600);
   ok(await pg.locator('[data-a=vt_add]').count()===1,"в просмотре фото есть «На онлайн-витрину»");
-  await pg.locator('[data-a=vt_add]').click();await pg.waitForTimeout(500);await pg.locator('#vtif [name=tag]').fill("Романтика");await pg.locator('#vtif [name=ig]').fill("https://www.instagram.com/p/ABC123/");await pg.screenshot({path:OUT+"/crm-add.png"});await pg.locator('#vtif button').last().click();await pg.waitForTimeout(2000);
+  await pg.locator('[data-a=vt_add]').click();await pg.waitForTimeout(500);await vtTag(pg,"Романтика");await pg.locator('#vtif [name=ig]').fill("https://www.instagram.com/p/ABC123/");await pg.screenshot({path:OUT+"/crm-add.png"});await pg.locator('#vtif button').last().click();await pg.waitForTimeout(2000);
   let it=((await doc()).fields.items||{}).arrayValue||{};ok((it.values||[]).length===1,"опубликовано 1 фото");
   /* плохая ссылка instagram */
   await pg.context().close()}
@@ -41,7 +43,7 @@ const PNG=Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42
  {const pg=await lg("adm@x.kz");await pg.evaluate(()=>{tab="gal";draw()});await pg.waitForTimeout(800);
   const gi=await pg.evaluate(()=>{GALL=galItems();return GALL.findIndex(g=>g.name==="Белое облако")});
   await pg.evaluate(gi=>{const t=document.createElement("button");t.dataset.a="g_o";t.dataset.id=String(gi);t.dataset.s="0";document.body.appendChild(t);t.click();t.remove()},gi);await pg.waitForTimeout(600);
-  await pg.locator('[data-a=vt_add]').click();await pg.waitForTimeout(400);await pg.locator('#vtif [name=tag]').fill("Свадьба");await pg.locator('#vtif [name=price]').fill("");await pg.locator('#vtif button').last().click();await pg.waitForTimeout(2000);
+  await pg.locator('[data-a=vt_add]').click();await pg.waitForTimeout(400);await vtTag(pg,"Свадьба");await pg.locator('#vtif [name=price]').fill("");await pg.locator('#vtif button').last().click();await pg.waitForTimeout(2000);
   const it=(((await doc()).fields.items||{}).arrayValue||{}).values||[];ok(it.length===2,"админ добавил второе фото, всего "+it.length);
   const bad=await pg.evaluate(async()=>{try{await vtDoc().update({name:"Mirflowers",updatedAt:TS()});return "прошло"}catch(e){return e.code}});ok(bad==="прошло","админ теперь может менять название витрины: "+bad);
   const bad2=await pg.evaluate(async()=>{try{await vtDoc().update({on:true,updatedAt:TS()});return "прошло"}catch(e){return e.code}});ok(bad2==="прошло","админ теперь может включать и выключать витрину: "+bad2);

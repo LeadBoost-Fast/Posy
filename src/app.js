@@ -1358,10 +1358,12 @@ WGD.tcw="Последние сообщения командного чата";
 document.addEventListener("click",e=>{const b=e.target.closest('[data-a="nw_f"]');if(!b||!S)return;e.preventDefault();NWF=b.dataset.id||"";draw()});
 document.addEventListener("submit",e=>{const f=e.target;if(!f||f.id!=="nwcf"||!S)return;e.preventDefault();const i=f.elements.t,v=(i.value||"").trim();if(!v)return;i.value="";run(async()=>{await db.collection("team").add({t:v,ts:Date.now(),by:U.uid,byName:S.name||"",role:own()?"owner":S.role});toast("Сообщение отправлено команде")})});
 /* Окно «Не сданы отчёты»: по каждой точке видно, какие именно отчёты и за какой день */
+/* «Точки не сдали отчёт» в «Требует внимания»: по нажатию — список несданных отчётов за рабочий день */
+document.addEventListener("click",e=>{const b=e.target.closest('[data-a="cmiss"]');if(!b||!S)return;e.preventDefault();cmissShow()});
 function cmissShow(){const m=rpMissLoc(),d=rpDay(),t=today(),dl=(d===t?"сегодня, ":wdn(d)+", ")+dm(d);
- modal(hd("Не сданы отчёты")+`<p class="mut">Рабочий день: <b>${dl}</b>. Список считается только за этот день и каждый день начинается заново. Для админа показывается с ${rpAt()}.</p>`
+ modal(hd("Не сданы отчёты")+`<p class="mut">Рабочий день: <b>${dl}</b> Список считается только за этот день и каждый день начинается заново. Для админа показывается с ${rpAt()}.</p>`
   +(m.length?m.map(([l,ks])=>`<div class="card"><b>${esc(l.name)}</b>${ks.map(k=>`<div class="ln"><span>${RPT[k].ic} ${RPT[k].n}</span><span class="pill bad">не сдан</span></div>`).join("")}</div>`).join(""):'<div class="card"><span class="pill ok">Все отчёты за день сданы</span></div>')
-  +`<p class="mut">Уведомление скрыто: оно вернётся завтра или если появятся новые несданные отчёты.</p><div class="acts"><button class="btn g" type="button" data-a="x">Закрыть</button><button class="btn" type="button" data-a="go2" data-id="rep|">Открыть отчёты</button></div>`)}
+  +`<div class="acts"><button class="btn g" type="button" data-a="x">Закрыть</button><button class="btn" type="button" data-a="go2" data-id="rep|">Открыть отчёты</button></div>`)}
 document.addEventListener("click",e=>{if(!S||!adm())return;const r=e.target.closest('[data-a="cdisreset"]');
  if(r){e.preventDefault();e.stopPropagation();STO.set(ctrlDKey(),"{}");draw();return}
  const b=e.target.closest("[data-dk]");if(!b)return;const n=+b.dataset.dn||0;if(n)ctrlDisSet(b.dataset.dk,n);
@@ -3004,7 +3006,7 @@ const tm15=v=>{const p=n=>String(n).padStart(2,"0"),a=[];for(let h=0;h<24;h++)fo
  preChips=()=>`<div class="chips" data-pre>${shPre().map(p=>`<button type="button" class="chip" data-pf="${p[0]}" data-pt="${p[1]}">${p[0]}–${p[1]}</button>`).join("")}</div>`,
  segHtml=(name,items,cur)=>`<div class="chips" data-seg="${name}">${items.map(i=>`<button type="button" class="chip${i[0]===cur?" on":""}" data-sv="${esc(i[0])}">${esc(i[1])}</button>`).join("")}</div>`,
  locSeg=(ly)=>{const L=locs();return L.length>1?`<label>Точка</label><input type="hidden" name="loc" value="${esc(ly)}">${segHtml("loc",L.map(l=>[l.id,lcS(l.id)]),ly)}`:`<input type="hidden" name="loc" value="${esc(ly)}">`};
-function segBind(f){f.addEventListener("click",e=>{const b=e.target.closest("[data-sv]");if(b){const g=b.closest("[data-seg]"),n=g.dataset.seg;f.elements[n].value=b.dataset.sv;g.querySelectorAll("[data-sv]").forEach(c=>c.classList.toggle("on",c===b));if(f.onseg)f.onseg(n)}const q=e.target.closest("[data-pf]");if(q){f.elements.from.value=q.dataset.pf;f.elements.to.value=q.dataset.pt}})}
+function segBind(f){f.addEventListener("click",e=>{const b=e.target.closest("[data-sv]");if(b){const g=b.closest("[data-seg]"),n=g.dataset.seg;f.elements[n].value=b.dataset.sv;g.querySelectorAll("[data-sv]").forEach(c=>c.classList.toggle("on",c===b));if(f.onseg)f.onseg(n)}const q=e.target.closest("[data-pf]");if(q){f.elements.from.value=q.dataset.pf;f.elements.to.value=q.dataset.pt;/* видно, какая смена выбрана */(q.closest("[data-pre]")||f).querySelectorAll("[data-pf]").forEach(c=>c.classList.toggle("on",c===q))}})}
 (()=>{const st=document.createElement("style");st.textContent=".chips[data-seg],.chips[data-pre]{flex-wrap:wrap;overflow:visible;margin:4px 0 8px}.sc.l0{box-shadow:inset 0 -3px #8b5cf6}.sc.l1{box-shadow:inset 0 -3px #ec4899}.sc.l2{box-shadow:inset 0 -3px #0ea5e9}.sc.l3{box-shadow:inset 0 -3px #f59e0b}.wgn{background:none;border:0;color:var(--ink);font:inherit;font-weight:700;padding:0;text-align:left;cursor:pointer}.wgl{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px}";document.head.appendChild(st)})();
 function shiftReq(d){const x=sh(U.uid,d)||{},df=shDef(),f0=x.from||df[0],t0=x.to||df[1],ly=x.loc||lcDef(U.uid),cur=x.t==="off"?"off":"work";
  modal(hd("Запрос смены")+`<p class="mut">${wdn(d)}, ${dm(d)}. Администратор должен подтвердить.</p><form id="wf"><input type="hidden" name="t" value="${cur}">${segHtml("t",[["work","Смена"],["off","Выходной"],["clr","Убрать смену"]],cur)}
@@ -3926,7 +3928,7 @@ function tc(){if(!FX("teamChat"))return `<h1>Чат команды</h1><div clas
 function tcFit(){const c=document.querySelector(".tcc");if(!c)return;if(innerWidth>=900){c.style.height="";return}const n=document.querySelector("nav"),pl=n&&n.querySelector(".plus"),nb=n&&!n.hidden&&getComputedStyle(n).position==="fixed"?Math.min(n.getBoundingClientRect().top,pl?pl.getBoundingClientRect().top:innerHeight):innerHeight;c.style.height=Math.max(300,Math.round(nb-(c.getBoundingClientRect().top+scrollY)-10))+"px"}
 addEventListener("resize",()=>tcFit());
 function tcBind(){tcFit();const i=$("tcin");if(!i)return;i.oninput=()=>{tcDraft=i.value;i.style.height="auto";i.style.height=Math.min(i.scrollHeight,120)+"px"};i.onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey&&matchMedia("(pointer:fine)").matches){e.preventDefault();tcSend()}}}
-function tcSend(){const i=$("tcin"),t=(i?i.value:tcDraft).trim();if(!t)return;tcDraft="";if(i){i.value="";i.style.height="auto"}
+function tcSend(){const i=$("tcin"),t=(i?i.value:tcDraft).trim();if(!t){if(i)i.focus();return toast("Напишите сообщение")}tcDraft="";if(i){i.value="";i.style.height="auto"}
  run(async()=>{await db.collection("team").add({t,ts:Date.now(),by:U.uid,byName:S.name||"",role:own()?"owner":S.role})})}
 document.addEventListener("click",e=>{const b=e.target.closest('[data-a="tc_send"]');if(b&&S)tcSend()});
 

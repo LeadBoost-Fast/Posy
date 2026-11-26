@@ -1,6 +1,7 @@
 // Проверка умного поиска без браузера. Запуск: node tests/search.test.js
 const fs=require("fs");const h=fs.readFileSync(require("path").join(__dirname,"..","src","app.js"),"utf8");
-const a=h.indexOf("const sNrm=");const b=h.indexOf("function orders(){const QT=");
+const a=h.indexOf("const sNrm=");/* конец куска — начало доски заказов, сразу после функций поиска */
+const b=h.indexOf("/* ===== Доска заказов по статусам");if(b<a)throw new Error("Не найдены функции поиска в src/app.js");
 const code=h.slice(a,b);
 const ST=["Новый","Собирается","Готов","В пути","Выдан","Отменён"];
 const SF={c1:{name:"Бек курьер"}};
