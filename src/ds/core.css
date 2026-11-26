@@ -92,3 +92,4 @@ nav [data-t="more"] .nb{font-size:0!important;min-width:9px!important;width:9px;
 /* состав в карточке: заметно, количество жирным */
 .oc5k{margin:10px 0 0;padding:8px 10px;border-radius:12px;background:color-mix(in srgb,var(--ink) 5%,var(--card));font-size:14.5px;line-height:1.35}
 .oc5k b{font-weight:800;font-size:1.12em;color:var(--ac)}
+.oc5n{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
