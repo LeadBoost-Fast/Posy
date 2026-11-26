@@ -188,7 +188,6 @@ const PALS={"Blooming Glass":{l:["#f4d7e0","#fbeef3","#efc9d6","#4a2433","#d1567
 "Neon Flowers":{l:["#0a0a14","#15122a","#221c3d","#f4e8ff","#ff4ed8","#1a0826"],d:["#0a0a14","#15122a","#221c3d","#f4e8ff","#ff4ed8","#1a0826"]},
 "Soft Dream":{l:["#fde7ec","#fff6f8","#f8d5de","#5a3240","#e07591","#2e0f1a"],d:["#fde7ec","#fff6f8","#f8d5de","#5a3240","#e07591","#2e0f1a"]},
 "Bloom":{l:["#ffffff","#fff6f9","#fbe3ea","#222222","#c9416a","#ffffff"],d:["#ffffff","#fff6f9","#fbe3ea","#222222","#c9416a","#ffffff"]},
-"Космос":{l:["#000000","#0b0c12","#16171f","#f2f3f7","#8fb8ff","#06101f"],d:["#000000","#0b0c12","#16171f","#f2f3f7","#8fb8ff","#06101f"]},
 "Ч/Б":{l:["#ffffff","#f4f4f5","#e7e7ea","#000000","#000000","#ffffff"],d:["#000000","#121214","#232326","#ffffff","#ffffff","#000000"]},
 "Жемчуг":{l:["#f8f4ef","#ffffff","#efe7df","#3d3536","#96626a","#ffffff"],d:["#171415","#221e1f","#302a2b","#f3ece8","#d8b0b4","#2a1a1c"]},
 "Нежная роза":{l:["#f9eeee","#ffffff","#f1dfe1","#43333a","#a65d6c","#ffffff"],d:["#1a1315","#261c1f","#35272b","#f6e9ec","#e3aab5","#2a1519"]},
@@ -230,146 +229,28 @@ PZA['Dark Elegance']=['Роза в кольце','<circle cx="50" cy="50" r="46"
 PZA['Neon Flowers']=['Неоновая звезда','<path d="M50 50L57 24L50 6L43 24Z" transform="rotate(0.0 50 50)"/><path d="M50 50L57 24L50 6L43 24Z" transform="rotate(45.0 50 50)"/><path d="M50 50L57 24L50 6L43 24Z" transform="rotate(90.0 50 50)"/><path d="M50 50L57 24L50 6L43 24Z" transform="rotate(135.0 50 50)"/><path d="M50 50L57 24L50 6L43 24Z" transform="rotate(180.0 50 50)"/><path d="M50 50L57 24L50 6L43 24Z" transform="rotate(225.0 50 50)"/><path d="M50 50L57 24L50 6L43 24Z" transform="rotate(270.0 50 50)"/><path d="M50 50L57 24L50 6L43 24Z" transform="rotate(315.0 50 50)"/><circle cx="50" cy="50" r="7"/><circle cx="50" cy="50" r="46" stroke-dasharray="2 6"/>','<path d="M8 8L9.2 3.8L8 1L6.8 3.8Z" transform="rotate(0.0 8 8)"/><path d="M8 8L9.2 3.8L8 1L6.8 3.8Z" transform="rotate(45.0 8 8)"/><path d="M8 8L9.2 3.8L8 1L6.8 3.8Z" transform="rotate(90.0 8 8)"/><path d="M8 8L9.2 3.8L8 1L6.8 3.8Z" transform="rotate(135.0 8 8)"/><path d="M8 8L9.2 3.8L8 1L6.8 3.8Z" transform="rotate(180.0 8 8)"/><path d="M8 8L9.2 3.8L8 1L6.8 3.8Z" transform="rotate(225.0 8 8)"/><path d="M8 8L9.2 3.8L8 1L6.8 3.8Z" transform="rotate(270.0 8 8)"/><path d="M8 8L9.2 3.8L8 1L6.8 3.8Z" transform="rotate(315.0 8 8)"/>','spin'];
 PZA['Soft Dream']=['Сакура','<path d="M50 50C38 40 36 22 44 12L50 18L56 12C64 22 62 40 50 50" transform="rotate(0.0 50 50)"/><path d="M50 50C38 40 36 22 44 12L50 18L56 12C64 22 62 40 50 50" transform="rotate(72.0 50 50)"/><path d="M50 50C38 40 36 22 44 12L50 18L56 12C64 22 62 40 50 50" transform="rotate(144.0 50 50)"/><path d="M50 50C38 40 36 22 44 12L50 18L56 12C64 22 62 40 50 50" transform="rotate(216.0 50 50)"/><path d="M50 50C38 40 36 22 44 12L50 18L56 12C64 22 62 40 50 50" transform="rotate(288.0 50 50)"/><circle cx="50" cy="50" r="4"/><path d="M50 46L50 36" transform="rotate(0.0 50 50)"/><path d="M50 46L50 36" transform="rotate(72.0 50 50)"/><path d="M50 46L50 36" transform="rotate(144.0 50 50)"/><path d="M50 46L50 36" transform="rotate(216.0 50 50)"/><path d="M50 46L50 36" transform="rotate(288.0 50 50)"/>','<path d="M8 8C6 6.4 5.7 3.6 7 2L8 3L9 2C10.3 3.6 10 6.4 8 8" transform="rotate(0.0 8 8)"/><path d="M8 8C6 6.4 5.7 3.6 7 2L8 3L9 2C10.3 3.6 10 6.4 8 8" transform="rotate(72.0 8 8)"/><path d="M8 8C6 6.4 5.7 3.6 7 2L8 3L9 2C10.3 3.6 10 6.4 8 8" transform="rotate(144.0 8 8)"/><path d="M8 8C6 6.4 5.7 3.6 7 2L8 3L9 2C10.3 3.6 10 6.4 8 8" transform="rotate(216.0 8 8)"/><path d="M8 8C6 6.4 5.7 3.6 7 2L8 3L9 2C10.3 3.6 10 6.4 8 8" transform="rotate(288.0 8 8)"/>','sway'];
 PZA['Bloom']=['Веточка','<path d="M28 94Q44 62 70 14"/><path d="M40 70c-10-2-16-8-17-15c9 0 15 6 17 15"/><path d="M47 56c9-5 17-4 21 1c-7 5-15 5-21-1"/><path d="M55 40c-8-4-12-10-11-17c8 2 12 9 11 17"/><path d="M62 28c7-4 14-3 17 1c-6 4-12 4-17-1"/><circle cx="71" cy="12" r="5"/><circle cx="80" cy="22" r="3.5"/><circle cx="22" cy="52" r="3.5"/>','<path d="M4 15Q7 9 12 2"/><path d="M6 11c-2 0-3-1.6-3-3c1.6 0 2.8 1.2 3 3"/><path d="M8.6 7.6c1.6-1 3-.8 3.8.2c-1.3.9-2.6.9-3.8-.2"/><circle cx="12.4" cy="2" r="1.2"/>','sway'];
-PZA['Космос']=['Планета с кольцом','<g transform="rotate(-20 50 50)"><circle cx="50" cy="50" r="22"/><path d="M30 45Q50 49 70 45M33 60Q50 63 67 60"/><path d="M6 50A44 11 0 0 0 94 50M6 50A44 11 0 0 1 30.3 40.2M69.7 40.2A44 11 0 0 1 94 50"/></g><path d="M17 10v12M11 16h12M84 76v8M80 80h8"/><circle cx="82" cy="17" r="1.6"/><circle cx="14" cy="84" r="1.2"/>','<g transform="rotate(-20 8 8)"><circle cx="8" cy="8" r="3.6"/><path d="M1 8A7 1.8 0 0 0 15 8M1 8A7 1.8 0 0 1 4.8 6.4M11.2 6.4A7 1.8 0 0 1 15 8"/></g>','sway'];
 const pzA=n=>PZA[n]||PZA["Ч/Б"],pzSvg=(inner,vb,col,sw)=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${vb}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`,pzUri=s=>`url("data:image/svg+xml,${encodeURIComponent(s)}")`;
 const thGet=()=>{try{return JSON.parse(STO.get("th")||"{}")||{}}catch(e){return{}}},lum=h=>{const n=parseInt(h.slice(1),16),f=v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(n>>16&255)+.7152*f(n>>8&255)+.0722*f(n&255)};
 const PAL0="Ч/Б";
 /* пять оформлений на весь сайт: свой фон, стекло, шрифт, знак и движение. Режим (светлый/тёмный) у каждого свой */
-const SKN=["Blooming Glass","Dark Elegance","Neon Flowers","Soft Dream","Bloom","Космос"],SKID={"Blooming Glass":"glass","Dark Elegance":"dark","Neon Flowers":"neon","Soft Dream":"soft","Bloom":"bloom","Космос":"cosmos"},SKINM={"Blooming Glass":"light","Dark Elegance":"dark","Neon Flowers":"dark","Soft Dream":"light","Bloom":"light","Космос":"dark"},SKDS={"Космос":"Чёрная дыра на чёрном: минимализм, свой цвет","Blooming Glass":"Прозрачная элегантность: розовое стекло и блики","Dark Elegance":"Роскошь: чёрный, бордо и золото","Neon Flowers":"Цветы, которые сияют: неон на тёмном","Soft Dream":"Нежность: пудровый розовый и лепестки","Bloom":"Чисто и легко: белый с розовым"},PZX=n=>PZ.includes(n)||SKN.includes(n);
+const SKN=["Blooming Glass","Dark Elegance","Neon Flowers","Soft Dream","Bloom"],SKID={"Blooming Glass":"glass","Dark Elegance":"dark","Neon Flowers":"neon","Soft Dream":"soft","Bloom":"bloom"},SKINM={"Blooming Glass":"light","Dark Elegance":"dark","Neon Flowers":"dark","Soft Dream":"light","Bloom":"light"},SKDS={"Blooming Glass":"Прозрачная элегантность: розовое стекло и блики","Dark Elegance":"Роскошь: чёрный, бордо и золото","Neon Flowers":"Цветы, которые сияют: неон на тёмном","Soft Dream":"Нежность: пудровый розовый и лепестки","Bloom":"Чисто и легко: белый с розовым"},PZX=n=>PZ.includes(n)||SKN.includes(n);
 /* «Цветник»: шрифт заголовков и падающие лепестки на фоне (лепестки только когда движение разрешено) */
-/* «Космос»: живые сцены на фоне (WebGL, рисует сам сайт). У каждого цвета своя сцена (th.cz): чёрная дыра, галактика, туманность, планета, звёзды.
-   Движение медленное; в лёгком режиме, при «меньше движения» или выключенных анимациях — один неподвижный кадр. Не рисует, когда вкладка скрыта или фон прокручен */
-const CZ={blue:["Чёрная дыра","#8fb8ff",[.03,.09,.4],[.34,.6,1],[.86,.93,1],"bh"],violet:["Галактика","#b9a2ff",[.16,.05,.4],[.6,.45,1],[.95,.9,1],"gal"],pink:["Туманность","#ff92c9",[.36,.03,.2],[1,.42,.72],[1,.92,.97],"neb"],teal:["Планета","#72e6d6",[.02,.2,.24],[.26,.82,.78],[.86,1,.97],"pla"],white:["Звёзды","#e8eaf0",[.2,.22,.3],[.62,.7,.9],[1,1,1],"star"]},czGet=()=>CZ[thGet().cz]?thGet().cz:"blue";
-/* положение сцены: [телефон: масштаб от ширины, центр x, центр y от верха], [компьютер: то же] */
-const CZL={bh:[[.17,.7,.19],[.08,.76,.34]],gal:[[.42,.62,.22],[.2,.72,.36]],neb:[[.4,.66,.22],[.22,.72,.36]],pla:[[.2,.7,.2],[.09,.76,.34]],star:[[.5,.5,.3],[.35,.62,.42]]};
-const CZH=`#ifdef GL_FRAGMENT_PRECISION_HIGH
-precision highp float;
-#else
-precision mediump float;
-#endif
-uniform vec2 C;uniform float S,T,K;uniform vec3 A,B,W;
-float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
-float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1.,0.)),f.x),mix(h(i+vec2(0.,1.)),h(i+vec2(1.,1.)),f.x),f.y);}
-float fb(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*n(p);p=p*2.07+vec2(3.1,1.7);a*=.5;}return v;}
-vec2 rt(vec2 p,float a){float c=cos(a),s=sin(a);return vec2(c*p.x-s*p.y,s*p.x+c*p.y);}
-vec3 rp(float x){return mix(A,B,smoothstep(0.,.55,x))+W*smoothstep(.6,1.3,x);}
-float st(vec2 f){float s=h(floor(f/2.));return s>.9962?(s-.9962)*260.*(.65+.35*sin(T*1.1+s*70.)):0.;}
-vec3 tm(vec3 c){c=1.-exp(-c*1.4);return pow(c,vec3(.9));}
-`;
-const CZS={
-/* чёрная дыра: тёмный круг, кольцо света, диск вращается; дальняя часть диска изогнута над дырой */
-bh:`void main(){vec2 f=gl_FragCoord.xy,p=(f-C)/S;float r=length(p);vec3 c=vec3(st(f));
-c+=B*.035*fb(p*.22+vec2(T*.01,0.))*smoothstep(10.,2.,r);c+=B*.2*exp(-max(r-1.,0.)*2.4);
-vec2 d=vec2(p.x,p.y/.21);float dr=length(d),di=0.;
-if(dr>1.2&&dr<4.8){float a=atan(d.y,d.x)+T*.5/pow(dr,1.5);float tx=fb(vec2(cos(a),sin(a))*2.4+vec2(dr*6.,dr*2.)),rg=.78+.22*sin(dr*12.+tx*7.);
- di=smoothstep(1.2,1.6,dr)*(1.-smoothstep(2.4,4.8,dr))*(.35+tx)*rg*(1.+.5*(-d.x/dr))*1.9/pow(dr*.8,1.1);}
-float li=0.;if(r>1.&&r<2.4){float a2=atan(p.y,p.x)+T*.35/r;float tx=fb(vec2(cos(a2),sin(a2))*2.4+vec2(r*7.,r*2.));
- li=(exp(-pow((r-1.32)/.28,2.))*smoothstep(-.35,.85,p.y/r)+smoothstep(-.1,.9,-p.y/r)*exp(-pow((r-1.12)/.1,2.))*.45)*(.5+tx)*1.25;}
-float bh=li+(d.y>0.?di:0.);c+=rp(bh)*bh;c*=smoothstep(.97,1.01,r);c+=rp(1.1)*exp(-pow((r-1.04)*30.,2.))*.9;
-if(d.y<=0.)c+=rp(di*1.35)*di*1.35;gl_FragColor=vec4(tm(c),1.);}`,
-/* галактика: две спиральные ветви, яркое ядро, пылевые полосы, вокруг туманность; вращается */
-gal:`void main(){vec2 f=gl_FragCoord.xy,p=(f-C)/S;vec3 c=vec3(st(f)*.8);
-vec2 q=rt(p,-.45);q.y/=.5;float r=length(q),a=atan(q.y,q.x);vec2 q2=rt(q,T*.05/(r+.35));
-float arm=pow(.5+.5*cos(2.*(a-log(r+.02)*2.4)-T*.08),2.5),cl=fb(q2*3.5);
-float I=exp(-r*6.)*2.2+arm*cl*exp(-r*1.3)*1.7+.2*exp(-r*1.8);
-I=max(I-smoothstep(.45,.75,fb(q2*5.+3.))*arm*exp(-r*1.5)*.6,0.);c+=rp(I)*I;
-c+=mix(B,vec3(.2,.45,1.),.4)*.09*fb(p*.45+vec2(T*.008,0.))*smoothstep(4.5,.4,r);
-float sc=h(floor(f/1.5));if(sc>.996)c+=W*arm*exp(-r*.9)*(sc-.996)*260.;gl_FragColor=vec4(tm(c),1.);}`,
-/* туманность: облака газа текут (два цвета), тёмная пыль, в центре звезда с лучами */
-neb:`void main(){vec2 f=gl_FragCoord.xy,p=(f-C)/S;vec3 c=vec3(st(f));
-vec2 q=p*.9,w=vec2(fb(q+vec2(0.,T*.02)),fb(q+vec2(5.2,1.3)-vec2(T*.015,0.)));float v=fb(q+2.2*w+vec2(T*.01,0.));
-float d=smoothstep(.35,.85,v)*smoothstep(3.2,.2,length(p*vec2(.8,1.)));
-vec3 nb=mix(vec3(.2,.38,1.),B,smoothstep(.22,.52,w.x))*d*1.3+W*pow(d,3.)*.8;nb*=1.-smoothstep(.55,.75,fb(q*1.7+w*1.5+7.))*.75;c+=nb;
-float r=length(p),tw=.85+.15*sin(T*2.);c+=W*(exp(-r*r*60.)*2.+exp(-r*7.)*.5)*tw;
-c+=W*(exp(-abs(p.y)*90.)*exp(-abs(p.x)*4.)+exp(-abs(p.x)*90.)*exp(-abs(p.y)*4.))*.5*tw;gl_FragColor=vec4(tm(c),1.);}`,
-/* планета: газовый гигант с полосами (вращается), атмосфера, кольца с щелью, луна на орбите */
-pla:`void main(){vec2 f=gl_FragCoord.xy,p=rt((f-C)/S,.35);float r=length(p);vec3 c=vec3(st(f));
-vec2 d=vec2(p.x,p.y/.24);float rr=length(d);
-float ring=smoothstep(1.3,1.38,rr)*(1.-smoothstep(2.15,2.3,rr))*(.72+.28*sin(rr*34.))*(.75+.25*sin(rr*8.))*(1.-.85*smoothstep(.035,0.,abs(rr-1.74)));
-vec3 rc=mix(B,W,.45)*ring*.8;c+=B*.55*exp(-max(r-1.,0.)*7.)*step(1.,r);if(d.y>0.&&r>1.)c+=rc;
-vec3 L=normalize(vec3(-.55,.45,.7));
-if(r<1.){float z=sqrt(1.-r*r),df=max(dot(vec3(p,z),L),0.),lon=atan(p.x,z)+T*.04;
- float bd=fb(vec2(lon*2.,p.y*14.))*.55+.25*sin(p.y*22.+fb(vec2(lon*3.,p.y*5.))*3.)+.2;
- vec3 pc=mix(A*1.6,B,smoothstep(.15,.85,bd));pc=mix(pc,W*.9,smoothstep(.7,1.,bd)*.45);
- c=pc*(.1+1.05*df)*pow(z,.35)+B*.3*pow(1.-z,3.);}
-if(d.y<=0.)c+=rc;
-float ma=T*.12;vec2 mp=vec2(cos(ma)*2.7,sin(ma)*.5),mq=(p-mp)/.13;float mr=length(mq);
-if(mr<1.&&!(sin(ma)>0.&&r<1.)){float z=sqrt(1.-mr*mr);c=vec3(.72,.76,.8)*(.06+max(dot(vec3(mq,z),L),0.));}
-gl_FragColor=vec4(tm(c),1.);}`,
-/* звёзды: поле звёзд летит навстречу, Млечный Путь; при «прыжке» звёзды вытягиваются в лучи */
-star:`void main(){vec2 f=gl_FragCoord.xy,p=(f-C)/S;vec3 c=vec3(0.);
-vec2 mb=rt(p,.5);c+=mix(B,W,.3)*exp(-mb.y*mb.y*3.)*fb(mb*1.5+vec2(T*.005,0.))*.35;
-for(int i=0;i<4;i++){float fi=float(i),z=fract(fi*.25+T*.03),sc=mix(16.,1.2,z);
- vec2 uv=p*sc+vec2(fi*13.1,fi*7.7),id=floor(uv),g=fract(uv)-.5,o=vec2(h(id),h(id+7.3))-.5,dv=g-o*.8,rd=normalize(p+1e-4);
- float al=dot(dv,rd),pe=dot(dv,vec2(-rd.y,rd.x)),ln=.015+.3*(K-1.)*z/5.,dd=length(vec2(max(abs(al)-ln,0.),pe));
- c+=mix(W,B,h(id+1.7)*.6)*smoothstep(.05,0.,dd)*smoothstep(0.,.3,z)*smoothstep(1.,.85,z)*step(.55,h(id+3.1))*1.3;}
-c+=vec3(st(f))*.6;gl_FragColor=vec4(tm(c),1.);}`};
-function czSet(k){if(!CZ[k])return;const th=thGet();th.cz=k;th.acd=th.acl=CZ[k][1];STO.set("th",JSON.stringify(th));applyTheme();if(S)draw()}
-let COS=null;
-function cosBg(on){const z=CZ[czGet()];if(!on||(COS&&COS.sc!==z[5])){if(COS){cancelAnimationFrame(COS.raf);COS.el.remove();COS=null}if(!on)return}
- if(COS){COS.z=z;if(COS.draw)COS.draw();if(!fxOk()&&COS.raf){cancelAnimationFrame(COS.raf);COS.raf=0}else if(fxOk()&&!COS.raf&&COS.loop){COS.last=0;COS.raf=requestAnimationFrame(COS.loop)}return}
- const el=document.createElement("canvas");el.id="cosbg";el.setAttribute("aria-hidden","true");document.body.prepend(el);
- let gl=null;try{gl=el.getContext("webgl",{alpha:false,antialias:false,depth:false,powerPreference:"low-power"})}catch(e){}
- COS={el,z,sc:z[5],raf:0,last:0,t:20,boost:0};if(!gl){el.classList.add("nogl");return}
- const sh=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);return o},pr=gl.createProgram();
- gl.attachShader(pr,sh(gl.VERTEX_SHADER,"attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}"));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,CZH+CZS[z[5]]));gl.linkProgram(pr);
- if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){el.classList.add("nogl");return}
- gl.useProgram(pr);const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
- const lp=gl.getAttribLocation(pr,"p");gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
- const U={};["C","S","T","K","A","B","W"].forEach(k=>U[k]=gl.getUniformLocation(pr,k));
- const size=()=>{const k=Math.min(devicePixelRatio||1,2)*.55,w=innerWidth,hh=Math.round(innerHeight*.8);el.width=Math.max(2,Math.round(w*k));el.height=Math.max(2,Math.round(hh*k));gl.viewport(0,0,el.width,el.height)};
- COS.draw=()=>{const W0=el.width,H0=el.height,g=CZL[COS.sc][innerWidth>=900?1:0],now=performance.now();
-  gl.uniform2f(U.C,g[1]*W0,H0-g[2]*H0);gl.uniform1f(U.S,g[0]*W0);gl.uniform1f(U.T,COS.t);gl.uniform1f(U.K,now<COS.boost?6:1);
-  gl.uniform3fv(U.A,COS.z[2]);gl.uniform3fv(U.B,COS.z[3]);gl.uniform3fv(U.W,COS.z[4]);gl.drawArrays(gl.TRIANGLES,0,3)};
- const loop=ts=>{if(!COS||COS.el!==el)return;COS.raf=requestAnimationFrame(loop);if(document.hidden||scrollY>innerHeight*.8||ts-COS.last<33)return;const dt=Math.min(.1,(ts-(COS.last||ts))/1000);COS.last=ts;COS.t+=dt*(ts<COS.boost?9:1);COS.draw()};
- COS.loop=loop;size();COS.draw();if(fxOk())COS.raf=requestAnimationFrame(loop);
- addEventListener("resize",()=>{if(COS&&COS.el===el&&COS.draw){size();COS.draw()}});
- el.addEventListener("webglcontextlost",e=>{e.preventDefault();if(COS&&COS.el===el){cancelAnimationFrame(COS.raf);el.classList.add("nogl")}})}
-function floraSync(pn){const sk=SKID[pn]||"",fl=pn==="Цветник"||(sk&&sk!=="bloom"&&sk!=="cosmos");try{cosBg(sk==="cosmos")}catch(e){eLog(e)}if(sk&&!document.getElementById("skfont")){const l=document.createElement("link");l.id="skfont";l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Unbounded:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap";document.head.appendChild(l)}let lf=document.getElementById("flfont");if(fl&&!lf&&!document.querySelector('link[href*="Lora"]')){lf=document.createElement("link");lf.id="flfont";lf.rel="stylesheet";lf.href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Lora:ital,wght@0,600;1,500;1,600&display=swap";document.head.appendChild(lf)}
+function floraSync(pn){const sk=SKID[pn]||"",fl=pn==="Цветник"||(sk&&sk!=="bloom");if(sk&&!document.getElementById("skfont")){const l=document.createElement("link");l.id="skfont";l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Unbounded:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap";document.head.appendChild(l)}let lf=document.getElementById("flfont");if(fl&&!lf&&!document.querySelector('link[href*="Lora"]')){lf=document.createElement("link");lf.id="flfont";lf.rel="stylesheet";lf.href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Lora:ital,wght@0,600;1,500;1,600&display=swap";document.head.appendChild(lf)}
  const on=fl&&!(typeof LITE!=="undefined"&&LITE)&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&thGet().anim!==0;let el=document.getElementById("petals");
  if(!on){if(el)el.remove();return}
  if(el&&el.dataset.sk!==sk){el.remove();el=null}if(!el){el=document.createElement("div");el.id="petals";el.dataset.sk=sk;el.className=sk?"pt-"+sk:"";el.setAttribute("aria-hidden","true");el.innerHTML=Array.from({length:sk==="neon"||sk==="dark"?14:7},(_,i)=>`<i style="--y:${(i*41+13)%94}%;--x:${(6+i*14+(i>6?7:0))%100}%;--d:${22+(i*5)%11}s;--t:${-i*3.1}s;--s:${.7+((i*37)%5)/10}"></i>`).join("");document.body.appendChild(el)}}
 /* ===== Дизайн-системы Posy V5 =====
    Подключаются в «Профиль → Оформление». Каждая — модуль: свои стили (src/ds/<код>.css, по атрибуту html[data-ds])
    и, если нужно, тяжёлая часть в отдельном файле, который грузится только когда дизайн выбран.
-   На сайте два дизайна: Bento 2.0 (по умолчанию) и Космос. Прежние оформления убраны (решение владельца). Функции CRM дизайн не меняет. */
-const DSYS={b2:{n:"Bento 2.0",d:"Свои палитры и знаки, стекло, мягкие анимации"},
- c2:{n:"Космос",d:"Живая сцена, орбиты и сияние. 9 палитр, включая Ч/Б",lazy:"d-cosmos.js"}};
-/* палитры Космоса: имя, вид сцены (0 планета, 1 край планеты, 2 туманность, 3 затмение), цвета сцены, акцент, статусы, ч/б */
-const DSC={ame:["Аметист",0,["#070616","#2a1b6b","#8b6bff","#d6c8ff"],"#c3b2ff",["#d4c8ff","#f2c4ff","#a9dcff","#ffd8b4","#8c88aa","#ff9fbc"]],
- azur:["Лазурь",1,["#020a18","#0e3a74","#3fa9ff","#9ff6ff"],"#8fe9ff",["#a6f0ff","#b9c8ff","#9ff2d6","#ffe0aa","#7e8ca6","#ffa3b6"]],
- neb:["Туманность",2,["#0b0614","#4a1450","#ff6fb8","#ffe0f0"],"#ffa6d4",["#ffc0e0","#d9b8ff","#ffd4c0","#b8cfff","#9a86a6","#ff8fa5"]],
- ecl:["Затмение · Лёд",3,["#03060c","#0c2236","#7fc8ff","#eef8ff"],"#a9dcff",["#bfe6ff","#c9c2ff","#a8f0dc","#ffe3b8","#7f8ea3","#ffa8b8"]],
- eclr:["Затмение · Роза",3,["#08040a","#2c0f26","#ff8fc8","#fff0f7"],"#ffb3d9",["#ffc6e2","#d6c0ff","#bfe8ff","#ffe0b8","#9b8798","#ff94a8"]],
- ecle:["Затмение · Изумруд",3,["#020806","#0b2a22","#4fe0b4","#e9fff7"],"#8af0cf",["#a8f5dc","#bcd0ff","#e3f7a6","#ffe0b0","#7c968d","#ff9fae"]],
- ecls:["Затмение · Серебро",3,["#050506","#1a1b20","#c9ccd6","#ffffff"],"#e4e6ee",["#e8eaf2","#c7cbe0","#cfe6da","#eadfcf","#8a8c94","#f0b8c0"]],
- coral:["Коралл",0,["#0b0507","#3a1218","#ff7d5e","#ffd1bd"],"#ffad94",["#ffc4b2","#ffd99a","#bfe6cf","#b6c8ff","#8f7f7b","#ff8f9e"]],
- mono:["Ч/Б",0,["#000000","#1e1e1e","#d2d2d2","#ffffff"],"#ffffff",["#ffffff","#d9d9d9","#bdbdbd","#e8e8e8","#7a7a7a","#9a9a9a"],1]};
-const dsGet=()=>{try{return JSON.parse(STO.get("th")||"{}").ds==="c2"?"c2":"b2"}catch(e){return"b2"}},
- cpGet=()=>{try{const c=JSON.parse(STO.get("th")||"{}").cp;return DSC[c]?c:"ame"}catch(e){return"ame"}},
- dsDark=h=>"#"+[1,3,5].map(i=>Math.round(parseInt(h.substr(i,2),16)*.55).toString(16).padStart(2,"0")).join("");
-/* включить дизайн: "b2", "c2" или "" (прежние оформления) */
-function setDS(k){if(!DSYS[k])k="b2";const go=()=>{const th=thGet();th.ds=k;th.ui="g";if(!PZN.includes(th.p)){th.p=PZN.includes(th.pb)?th.pb:PAL0;delete th.acd;delete th.acl}STO.set("th",JSON.stringify(th));applyTheme();if(S)draw()};
- /* смена дизайна перетекает: Bento 2.0 раскрывается кругом от знака палитры, Космос проявляется из глубины. Без движения — сразу */
- const r=document.documentElement;if(k===dsGet()||!dsMotion()){go();return}r.dataset.dsto=k;
- if(document.startViewTransition){try{document.startViewTransition(go).finished.finally(()=>delete r.dataset.dsto);return}catch(e){}}
- go();r.classList.add("dsx");setTimeout(()=>{r.classList.remove("dsx");delete r.dataset.dsto},700)}
-function dsPick(){const ds=dsGet();return `<div class="dsv5">${Object.entries(DSYS).map(([k,x])=>`<button type="button" class="dsb ${ds===k?"on":""}" aria-pressed="${ds===k}" onclick="setDS('${k}')"><span class="dsp dsp-${k}"><i></i></span><b>${x.n}</b><small>${x.d}</small></button>`).join("")}</div>`}
-function dsCosSw(){const cp=cpGet();return `<div class="dscp">${Object.entries(DSC).map(([k,c])=>`<button type="button" class="dsc ${cp===k?"on":""}" aria-pressed="${cp===k}" onclick="setCP('${k}')" style="--a:${c[2][2]};--b:${c[2][0]};--c:${c[2][1]}"><i></i>${c[0]}</button>`).join("")}</div>`}
-function setCP(k){if(!DSC[k])return;const go=()=>{const th=thGet();th.cp=k;th.ds="c2";STO.set("th",JSON.stringify(th));applyTheme();if(S)draw()};if(window.COSMOS&&dsGet()==="c2")COSMOS.warp(go);else go()}
-/* переменные цвета для Космоса: тёмная тема по умолчанию, светлая — если выбрана явно */
-function dsCosmosCss(e){const c=DSC[cpGet()],d=e==="dark",st=d?c[4]:c[4].map(dsDark);
- const v=d?{bg:c[2][0],card:`color-mix(in srgb,${c[2][1]} 30%,rgba(8,8,16,.62))`,c2:"rgba(255,255,255,.08)",ink:"#f1f0fa",ac:c[3],on:c[2][0],mut:`color-mix(in srgb,${c[2][3]} 42%,#8a8aa0)`,line:"rgba(255,255,255,.1)",glass:`color-mix(in srgb,${c[2][1]} 26%,rgba(8,8,16,.55))`}
-  :{bg:"#f2f1f8",card:"rgba(255,255,255,.7)",c2:"rgba(20,20,60,.07)",ink:"#14142a",ac:dsDark(c[3]),on:"#ffffff",mut:"#5d5d78",line:"rgba(20,20,60,.1)",glass:"rgba(255,255,255,.62)"};
- return `:root[data-ds=c2]{${Object.entries(v).map(([k,x])=>`--${k}:${x}`).join(";")};${st.map((x,i)=>`--s${i}:${x}`).join(";")};--cz0:${c[2][0]};--cz1:${c[2][1]};--cz2:${c[2][2]};--cz3:${c[2][3]}}`}
+   На сайте один дизайн: Bento 2.0. Космос и прежние оформления убраны (решение владельца). Функции CRM дизайн не меняет. */
+const DSYS={b2:{n:"Bento 2.0",d:"Свои палитры и знаки, стекло, мягкие анимации"}};
+const dsGet=()=>"b2";
+/* включить дизайн (остался один — Bento 2.0) */
+function setDS(){const th=thGet();th.ds="b2";th.ui="g";if(!PZN.includes(th.p)){th.p=PZN.includes(th.pb)?th.pb:PAL0;delete th.acd;delete th.acl}STO.set("th",JSON.stringify(th));applyTheme();if(S)draw()}
 /* лёгкий режим и «меньше движения» выключают живые сцены */
 const dsMotion=()=>{try{return thGet().anim!==0&&!(typeof LITE!=="undefined"&&LITE)&&!matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}};
-let DSL=0;function dsLazy(f,cb){if(window.COSMOS){cb();return}if(DSL)return;DSL=1;const e=document.createElement("script");e.src=f+"?v="+DSG_V;e.async=true;e.onload=()=>{DSL=0;cb()};e.onerror=()=>{DSL=0};document.head.appendChild(e)}
 /* после применения оформления: включить или выключить части дизайна */
-function dsApply(){const ds=dsGet(),r=document.documentElement;r.dataset.ds=ds;
- if(ds==="c2"){r.dataset.cp=cpGet();const c=DSC[cpGet()],go=()=>window.COSMOS&&COSMOS.start({v:c[1],c:c[2],bw:c[5]?1:0,light:r.dataset.t==="light",motion:dsMotion(),tab:typeof tab!=="undefined"?tab:"home"});dsLazy(DSYS.c2.lazy,go)}
- else{delete r.dataset.cp;window.COSMOS&&COSMOS.stop()}
- dsHero()}
+function dsApply(){document.documentElement.dataset.ds="b2";dsHero()}
 /* Bento 2.0: шапка у каждой палитры своя — её цвета и её знак (крупно, медленно движется) и лёгкий узор из маленьких знаков */
 function dsHero(){let h=document.getElementById("b2h");if(dsGet()!=="b2"){if(h)h.remove();return}
  if(!h){h=document.createElement("div");h.id="b2h";h.setAttribute("aria-hidden","true");h.innerHTML="<s></s><b></b><i></i>";document.body.prepend(h);addEventListener("scroll",dsScroll,{passive:true})}dsScroll()}
@@ -379,21 +260,21 @@ let DSIG=null,DSTB="";function dsAfterDraw(){const ds=dsGet(),r=document.documen
  const now=new Map((typeof L!=="undefined"?L:[]).map(o=>[o.id,o.st]));
  if(DSIG){let nw=0,ch=0;now.forEach((s,id)=>{if(!DSIG.has(id))nw++;else if(DSIG.get(id)!==s)ch++});
   if(nw&&nw<5)dsFx("new");else if(ch&&ch<5)dsFx("st")}
- DSIG=now;if(ds==="b2")dsHero();if(ds==="c2"&&window.COSMOS)COSMOS.tab(typeof tab!=="undefined"?tab:"home")}
+ DSIG=now;dsHero()}
 /* новое сообщение в открытом чате: в каждом дизайне свой эффект. Первое открытие чата не анимируется */
 const DSMS={k:"",ids:new Set()};
 function dsMsgs(){if(!dsGet()||!dsMotion())return;const box=document.getElementById("cht");if(!box)return;const ms=[...box.querySelectorAll(".chm[data-id]")];if(!ms.length)return;const k=ms[0].dataset.id;
  if(k!==DSMS.k){DSMS.k=k;DSMS.ids=new Set(ms.map(m=>m.dataset.id));return}
- let n=0;ms.forEach(m=>{const id=m.dataset.id;if(DSMS.ids.has(id))return;DSMS.ids.add(id);if(n++<3){m.classList.add("dsnew");if(dsGet()==="c2"&&window.COSMOS)COSMOS.pulse()}})}
+ let n=0;ms.forEach(m=>{const id=m.dataset.id;if(DSMS.ids.has(id))return;DSMS.ids.add(id);if(n++<3){m.classList.add("dsnew")}})}
 try{new MutationObserver(()=>{clearTimeout(dsMsgs.t);dsMsgs.t=setTimeout(dsMsgs,40)}).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
-function dsFx(k){const r=document.documentElement;if(!dsMotion())return;r.classList.remove("dsfx-new","dsfx-st");void r.offsetWidth;r.classList.add("dsfx-"+k);clearTimeout(dsFx.t);dsFx.t=setTimeout(()=>r.classList.remove("dsfx-new","dsfx-st"),1200);if(dsGet()==="c2"&&window.COSMOS)k==="new"?COSMOS.comet():COSMOS.pulse()}
-function applyTheme(){try{const t0=thGet();if(!t0.g1){t0.ui="g";t0.g1=1;STO.set("th",JSON.stringify(t0))}if(!t0.pz1){t0.p=PAL0;t0.pz1=1;t0.fl1=1;delete t0.acd;delete t0.acl;delete t0.inkd;delete t0.inkl;STO.set("th",JSON.stringify(t0))}/* один раз всем: чёрно-белое оформление Posy (потом каждый меняет цвет сам) */if(!PZN.includes(t0.p)){t0.p=PZN.includes(t0.pb)?t0.pb:PAL0;delete t0.acd;delete t0.acl;STO.set("th",JSON.stringify(t0))}/* V5: прежние оформления убраны, остаются палитры Bento */}catch(e){eLog(e)}/* один раз: всем новый дизайн Bento (вернуть старый — Профиль → Оформление) */const m=STO.get("t")||"auto",th=thGet(),pn=PALS[th.p]?th.p:PAL0,e=dsGet()==="c2"?(m==="light"?"light":"dark"):(SKINM[pn]||(m==="auto"?(sysDark.matches?"dark":"light"):m)),P=PALS[pn][e==="dark"?"d":"l"],k=th.ct==null?50:+th.ct,sx=e==="dark"?"d":"l",ci=th["ink"+sx],ca=th["ac"+sx],ink=ci&&/^#[0-9a-f]{6}$/i.test(ci)&&Math.abs(lum(ci)-lum(P[0]))>.25?ci:P[3],ac=ca&&/^#[0-9a-f]{6}$/i.test(ca)?ca:P[4],on=ac!==P[4]?(lum(ac)>.45?"#1a140e":"#ffffff"):P[5],rd=th.rd==null?20:+th.rd,hi=Math.max(0,k-50)*1.6,tc=document.querySelector('meta[name=theme-color]');document.documentElement.dataset.t=e;document.documentElement.dataset.pal=pn;document.documentElement.dataset.pz=PZX(pn)&&dsGet()!=="c2"?"1":"";document.documentElement.dataset.pzm=PZX(pn)?pzA(pn)[3]:"";document.documentElement.dataset.sk=dsGet()?"":(SKID[pn]||"");document.documentElement.classList.toggle("noanim",th.anim===0);document.documentElement.dataset.ui="a";{const w="g";if(!dsgReady(w))dsgLoad(w);document.documentElement.dataset.ly=dsgReady(w)?w:"g"}{const hh=document.documentElement.dataset.ly==="h",dk=e==="dark";STO.set("bp",JSON.stringify(hh?{bg:dk?"#000000":"#ffffff",fg:dk?"#ffffff":"#000000",ac:dk?"#ffffff":"#000000",dk:dk?1:0}:{bg:P[0],fg:P[3],ac:ac,dk:dk?1:0}))}document.documentElement.dataset.acl=Math.abs(lum(ac)-lum(P[0]))<.12?"1":"";document.documentElement.dataset.mc=th.mc?"1":"0";
+function dsFx(k){const r=document.documentElement;if(!dsMotion())return;r.classList.remove("dsfx-new","dsfx-st");void r.offsetWidth;r.classList.add("dsfx-"+k);clearTimeout(dsFx.t);dsFx.t=setTimeout(()=>r.classList.remove("dsfx-new","dsfx-st"),1200)}
+function applyTheme(){try{const t0=thGet();if(!t0.g1){t0.ui="g";t0.g1=1;STO.set("th",JSON.stringify(t0))}if(!t0.pz1){t0.p=PAL0;t0.pz1=1;t0.fl1=1;delete t0.acd;delete t0.acl;delete t0.inkd;delete t0.inkl;STO.set("th",JSON.stringify(t0))}/* один раз всем: чёрно-белое оформление Posy (потом каждый меняет цвет сам) */if(!PZN.includes(t0.p)){t0.p=PZN.includes(t0.pb)?t0.pb:PAL0;delete t0.acd;delete t0.acl;STO.set("th",JSON.stringify(t0))}/* V5: прежние оформления убраны, остаются палитры Bento */}catch(e){eLog(e)}/* один раз: всем новый дизайн Bento (вернуть старый — Профиль → Оформление) */const m=STO.get("t")||"auto",th=thGet(),pn=PALS[th.p]?th.p:PAL0,e=(SKINM[pn]||(m==="auto"?(sysDark.matches?"dark":"light"):m)),P=PALS[pn][e==="dark"?"d":"l"],k=th.ct==null?50:+th.ct,sx=e==="dark"?"d":"l",ci=th["ink"+sx],ca=th["ac"+sx],ink=ci&&/^#[0-9a-f]{6}$/i.test(ci)&&Math.abs(lum(ci)-lum(P[0]))>.25?ci:P[3],ac=ca&&/^#[0-9a-f]{6}$/i.test(ca)?ca:P[4],on=ac!==P[4]?(lum(ac)>.45?"#1a140e":"#ffffff"):P[5],rd=th.rd==null?20:+th.rd,hi=Math.max(0,k-50)*1.6,tc=document.querySelector('meta[name=theme-color]');document.documentElement.dataset.t=e;document.documentElement.dataset.pal=pn;document.documentElement.dataset.pz=PZX(pn)?"1":"";document.documentElement.dataset.pzm=PZX(pn)?pzA(pn)[3]:"";document.documentElement.dataset.sk=dsGet()?"":(SKID[pn]||"");document.documentElement.classList.toggle("noanim",th.anim===0);document.documentElement.dataset.ui="a";{const w="g";if(!dsgReady(w))dsgLoad(w);document.documentElement.dataset.ly=dsgReady(w)?w:"g"}{const hh=document.documentElement.dataset.ly==="h",dk=e==="dark";STO.set("bp",JSON.stringify(hh?{bg:dk?"#000000":"#ffffff",fg:dk?"#ffffff":"#000000",ac:dk?"#ffffff":"#000000",dk:dk?1:0}:{bg:P[0],fg:P[3],ac:ac,dk:dk?1:0}))}document.documentElement.dataset.acl=Math.abs(lum(ac)-lum(P[0]))<.12?"1":"";document.documentElement.dataset.mc=th.mc?"1":"0";
 let st=$("thc");if(!st){st=document.createElement("style");st.id="thc";document.head.appendChild(st)}
-st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--ink:color-mix(in srgb,${ink} ${100-hi}%,${e==="dark"?"#fff":"#000"});--ac:${ac};--on:${on};--mut:color-mix(in srgb,${ink} ${35+k*.5}%,${P[0]});--line:color-mix(in srgb,${ink} ${10+k*.22}%,${P[0]});--glass:color-mix(in srgb,${P[1]} 86%,transparent)}body{font-size:${+th.fz||16}px}.card{border-radius:${rd}px}.tile{border-radius:${Math.max(8,rd-2)}px}`+(PZX(pn)?`:root{--pza:${pzUri(pzSvg(pzA(pn)[1],"100 100",ac,1.3))};--pzd:${pzUri(pzSvg(pzA(pn)[2]+'<path d="M24 8H120"/>',"120 16",ac,1))};--pzi:${pzUri(pzSvg(pzA(pn)[2],"16 16",ac,1.3))}}`:"")+(dsGet()==="c2"?dsCosmosCss(e):"");
+st.textContent=`:root[data-t=${e}]{--bg:${P[0]};--card:${P[1]};--c2:${P[2]};--ink:color-mix(in srgb,${ink} ${100-hi}%,${e==="dark"?"#fff":"#000"});--ac:${ac};--on:${on};--mut:color-mix(in srgb,${ink} ${35+k*.5}%,${P[0]});--line:color-mix(in srgb,${ink} ${10+k*.22}%,${P[0]});--glass:color-mix(in srgb,${P[1]} 86%,transparent)}body{font-size:${+th.fz||16}px}.card{border-radius:${rd}px}.tile{border-radius:${Math.max(8,rd-2)}px}`+(PZX(pn)?`:root{--pza:${pzUri(pzSvg(pzA(pn)[1],"100 100",ac,1.3))};--pzd:${pzUri(pzSvg(pzA(pn)[2]+'<path d="M24 8H120"/>',"120 16",ac,1))};--pzi:${pzUri(pzSvg(pzA(pn)[2],"16 16",ac,1.3))}}`:"");
 if(tc)tc.content=P[0];try{floraSync(pn)}catch(e){eLog(e)}try{dsgAfter()}catch(e){}try{dsApply()}catch(e){eLog(e)}}
 const UIS=["g","h","m","p"];/* у каждого — своя архитектура экранов */
 /* Тяжёлые дизайны лежат в отдельных файлах и грузятся только когда выбраны (пока файл не загрузился, работает Bento) */
-const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261126a",
+const DLIB={}/* дизайны h, m, p удалены (аудит): сайт всегда работает в Bento-макете "g" */,DSTAT={},DSG_V=window.DSGV||"20261126b",
  dsgReady=k=>k==="g"||DSTAT[k]===2,uiSel=()=>{try{const u=JSON.parse(STO.get("th")||"{}").ui;return UIS.includes(u)?u:"g"}catch(e){return"g"}},
  dsgAfter=()=>{const x=SHELL[LY()];if(x&&x.after)x.after()};
 function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;const e=document.createElement("script");e.src=DLIB[k]+"?v="+DSG_V;e.async=true;
@@ -401,14 +282,13 @@ function dsgLoad(k){if(!DLIB[k]||DSTAT[k]===1||DSTAT[k]===2)return;DSTAT[k]=1;co
  e.onerror=()=>{DSTAT[k]=-1;e.remove();try{toast("Не удалось загрузить дизайн — работает Bento")}catch(x){}};document.head.appendChild(e)}
 const DESIGNS=[
  ["g","Bento","Блочная сетка, крупные цифры, матовое стекло"],
- ["h","Космос","Чёрная дыра: заказы на орбитах, планеты-разделы, радар дня, считыватель"],
  ["m","Командный центр","Рельса разделов · KPI и таблица · постоянный инспектор заказа"],
  ["p","Атлас","Ботанический журнал: обложка номера, главы, каталог гербария"],
 ];
 
 function setDesign(i){const d=DESIGNS[i];if(DSTAT[d[0]]===-1)DSTAT[d[0]]=0;let th=thGet();th.ui=d[0];STO.set("th",JSON.stringify(th));applyTheme();if(S)draw()}
 function setBento(){const th=thGet();setPal(th.pb&&PALS[th.pb]&&!SKN.includes(th.pb)?th.pb:PAL0)}
-function setPal(n){if(!PZN.includes(n))n=PAL0;let th=thGet();th.p=n;th.ui="g";if(!SKN.includes(n))th.pb=n;delete th.acd;delete th.acl;delete th.inkd;delete th.inkl;if(n==="Космос"&&CZ[th.cz])th.acd=th.acl=CZ[th.cz][1];STO.set("th",JSON.stringify(th));applyTheme();if(S)draw()}
+function setPal(n){if(!PZN.includes(n))n=PAL0;let th=thGet();th.p=n;th.ui="g";if(!SKN.includes(n))th.pb=n;delete th.acd;delete th.acl;delete th.inkd;delete th.inkl;STO.set("th",JSON.stringify(th));applyTheme();if(S)draw()}
 function thSet(k,v,r){let th=thGet();if(k==="reset")th={};else{if(k==="ac"||k==="ink")k+=(document.documentElement.dataset.t==="dark"?"d":"l");th[k]=v}STO.set("th",JSON.stringify(th));applyTheme();if(r||k==="reset")draw()}
 function setTh(m){STO.set("t",m);applyTheme();if(S)draw();else if(typeof login==="function"&&!U)login()}
 const themeChips=()=>`<div class="chips" style="margin:10px 0 0;justify-content:center">${[["auto","Авто"],["light","Светлая"],["dark","Тёмная"]].map(c=>`<button type="button" class="chip ${(STO.get("t")||"auto")===c[0]?"on":""}" onclick="setTh('${c[0]}')">${c[1]}</button>`).join("")}</div>`,
@@ -424,20 +304,20 @@ themeCard=()=>{const t=thGet(),cur=PALS[t.p]?t.p:PAL0,dk=document.documentElemen
  rg=(l,k,mn,mx,d)=>`<label>${l}</label><input type="range" min="${mn}" max="${mx}" value="${t[k]==null?d:t[k]}" oninput="thSet('${k}',+this.value)">`,
  dz=`<div class="dzr">${DESIGNS.map((d,i)=>`<button type="button" class="dzb ${ui===d[0]?"on":""}" onclick="setDesign(${i})" title="${d[2]}">${miniPv(d[0])}<b>${d[1]}</b></button>`).join("")}</div><div class="mut" style="font-size:13px;margin:6px 2px 0">${(DESIGNS.find(d=>d[0]===ui)||DESIGNS[0])[2]}</div>`,
  sw0=`<div class="pzl">${PZN.map(n=>{const q=PALS[n][dk];return `<button type="button" class="pzt ${cur===n&&!t["ac"+dk]?"on":""}" onclick="setPal('${n}')" style="--a:${q[4]};--b:${q[0]};--c:${q[3]}" title="${PZA[n]?PZA[n][0]:"Пион и лепестки"}">${PZA[n]?`<svg viewBox="0 0 16 16" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PZA[n][2]}</svg>`:"<i></i>"}${n==="Ч/Б"?"Чёрно-белое":n}</button>`}).join("")}</div><details class="imore" style="margin:8px 0 0" ${PZN.includes(cur)&&!t["ac"+dk]?"":"open"}><summary>Другие цвета</summary><div class="pzr">${Object.keys(PALS).filter(n=>!PZN.includes(n)&&!SKN.includes(n)).map(n=>{const q=PALS[n][dk];return `<button type="button" class="pzb ${cur===n&&!t["ac"+dk]?"on":""}" onclick="setPal('${n}')" title="${n}" aria-label="${n}" style="--a:${q[4]};--b:${q[1]}"><i></i></button>`}).join("")}<label class="pzb pzc ${t["ac"+dk]?"on":""}" title="Свой цвет" style="--a:${t["ac"+dk]||P[4]}"><i></i><input type="color" value="${t["ac"+dk]||P[4]}" oninput="thSet('ac',this.value)" onchange="draw()"></label></div></details>`,
- sw=dsGet()==="c2"?dsCosSw():dsGet()==="b2"?sw0.replace(/<details class="imore"[\s\S]*<\/details>$/,""):sw0;
- return `<h2>Оформление</h2><div class="card"><label style="margin-top:0">Дизайн</label>${dsPick()}<label class="row" style="color:var(--ink);margin:10px 2px 0;justify-content:space-between;font-size:15px">Анимации: фон, раскрытие цветка после заказа, сияние<input type="checkbox" style="width:auto;min-height:0" ${t.anim===0?"":"checked"} onchange="thSet('anim',this.checked?1:0,1)"></label>${hh?`<label>Сцена</label><div class="chips" style="flex-wrap:wrap">${CSC.map(c=>`<button type="button" class="chip ${csScene()===c[0]?"on":""}" onclick="setScene('${c[0]}')">${c[1]}</button>`).join("")}</div><div class="mut" style="font-size:13px;margin:10px 2px 0">В этом дизайне строгий монохром: только чёрный и белый, цветные — только фото. Светлая тема — «Негатив». Выбранные раньше палитра и акцент сохранены и вернутся в Bento.</div>${rg("Яркость свечения","hb",20,100,70)}${rg("Плотность звёзд","hd",20,100,60)}${rg("Скорость вращения (0 — выкл)","hs",0,100,40)}`:`<label>Цвет</label>${sw}<label class="row" style="color:var(--ink);margin:12px 2px 0;justify-content:space-between;font-size:15px">Разноцветные карточки<input type="checkbox" style="width:auto;min-height:0" ${t.mc?"checked":""} onchange="thSet('mc',this.checked?1:0,1)"></label>`}${themeChips()}
+ sw=sw0.replace(/<details class="imore"[\s\S]*<\/details>$/,"");
+ return `<h2>Оформление</h2><div class="card"><label class="row" style="color:var(--ink);margin:0 2px;justify-content:space-between;font-size:15px">Анимации: фон, раскрытие цветка после заказа, сияние<input type="checkbox" style="width:auto;min-height:0" ${t.anim===0?"":"checked"} onchange="thSet('anim',this.checked?1:0,1)"></label>${hh?`<label>Сцена</label><div class="chips" style="flex-wrap:wrap">${CSC.map(c=>`<button type="button" class="chip ${csScene()===c[0]?"on":""}" onclick="setScene('${c[0]}')">${c[1]}</button>`).join("")}</div><div class="mut" style="font-size:13px;margin:10px 2px 0">В этом дизайне строгий монохром: только чёрный и белый, цветные — только фото. Светлая тема — «Негатив». Выбранные раньше палитра и акцент сохранены и вернутся в Bento.</div>${rg("Яркость свечения","hb",20,100,70)}${rg("Плотность звёзд","hd",20,100,60)}${rg("Скорость вращения (0 — выкл)","hs",0,100,40)}`:`<label>Цвет</label>${sw}<label class="row" style="color:var(--ink);margin:12px 2px 0;justify-content:space-between;font-size:15px">Разноцветные карточки<input type="checkbox" style="width:auto;min-height:0" ${t.mc?"checked":""} onchange="thSet('mc',this.checked?1:0,1)"></label>`}${themeChips()}
  <details class="imore" style="margin-top:10px"><summary>Ещё настройки</summary>${rg("Размер текста","fz",13,21,16)}${hh?"":rg("Скругление карточек","rd",6,30,20)}${rg("Контраст текста","ct",0,100,50)}${hh?"":`<label>`}Цвет текста</label><input type="color" value="${t["ink"+dk]||P[3]}" oninput="thSet('ink',this.value)"><div class="mut" style="font-size:13px;margin-top:8px">Видно только вам и только на этом устройстве.</div><div class="acts"><button class="btn g s" type="button" onclick="thSet('reset');toast('Оформление сброшено')">Сбросить</button></div></details></div>`}
 applyTheme();if(sysDark.addEventListener)sysDark.addEventListener("change",()=>{if((STO.get("t")||"auto")==="auto")applyTheme()});
 /* анимации оформлений: можно, если не «лёгкий режим» и телефон не просит меньше движения */
 const skAnimOk=()=>!!document.documentElement.dataset.sk&&!(typeof LITE!=="undefined"&&LITE)&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&thGet().anim!==0;
 /* при входе: знак оформления рисуется линиями и раскрывается, затем исчезает (один раз за сеанс) */
-function skIntro(){try{if(!skAnimOk()||sessionStorage.getItem("skI"))return;sessionStorage.setItem("skI","1")}catch(e){return}const pn=thGet().p,a=PZA[pn];if(!a)return;if(pn==="Космос"){const r=document.documentElement;r.classList.add("cos-in");setTimeout(()=>r.classList.remove("cos-in"),2000);return}const el=document.createElement("div");el.className="skintro";el.setAttribute("aria-hidden","true");
+function skIntro(){try{if(!skAnimOk()||sessionStorage.getItem("skI"))return;sessionStorage.setItem("skI","1")}catch(e){return}const pn=thGet().p,a=PZA[pn];if(!a)return;const el=document.createElement("div");el.className="skintro";el.setAttribute("aria-hidden","true");
  el.innerHTML=`<div class="ski-in"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${a[1]}</svg><b>Posy</b><small>${esc((SH&&SH.name)||"")}</small></div>`;document.body.appendChild(el);setTimeout(()=>el.classList.add("out"),1500);setTimeout(()=>el.remove(),2200)}
 /* после заказа: цветок раскрывается и появляется галочка */
 const fxOk=()=>!(typeof LITE!=="undefined"&&LITE)&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&thGet().anim!==0;
-function skBloom(t){if(!fxOk())return;const old=document.querySelector(".skbloom");if(old)old.remove();const sk=document.documentElement.dataset.sk||"",n=sk==="cosmos"?12:8,el=document.createElement("div");el.className="skbloom"+(sk?" sk-"+sk:"");el.setAttribute("aria-hidden","true");
- /* «Космос»: вспышка прыжка — лучи от центра экрана */if(sk==="cosmos"){if(COS)COS.boost=performance.now()+900;const j=document.createElement("div");j.className="skjump";j.setAttribute("aria-hidden","true");document.body.appendChild(j);setTimeout(()=>j.remove(),900)}
- el.innerHTML=`<div class="skb-f">${Array.from({length:n},(_,i)=>`<i style="--r:${i*360/n}deg;--d:${i*(sk==="cosmos"?20:40)}ms"></i>`).join("")}<span class="skb-c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div><b>${esc(t||"Готово")}</b>`;document.body.appendChild(el);setTimeout(()=>el.classList.add("out"),1300);setTimeout(()=>el.remove(),1900)}
+function skBloom(t){if(!fxOk())return;const old=document.querySelector(".skbloom");if(old)old.remove();const sk=document.documentElement.dataset.sk||"",n=8,el=document.createElement("div");el.className="skbloom"+(sk?" sk-"+sk:"");el.setAttribute("aria-hidden","true");
+ 
+ el.innerHTML=`<div class="skb-f">${Array.from({length:n},(_,i)=>`<i style="--r:${i*360/n}deg;--d:${i*40}ms"></i>`).join("")}<span class="skb-c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div><b>${esc(t||"Готово")}</b>`;document.body.appendChild(el);setTimeout(()=>el.classList.add("out"),1300);setTimeout(()=>el.remove(),1900)}
 function toast(m){if(typeof m==="string"&&/^Заказ создан/.test(m))try{skBloom("Заказ оформлен")}catch(x){}const e=$("toast");if(typeof unemo==="function")m=unemo(m);e.textContent=(typeof tr==="function"?tr(m):m);e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,3500)}
 /* Форма не отправилась из-за пустого или неверного поля: на iPhone подсказка браузера у поля за краем окна не видна,
    кнопка «не работает». Прокручиваем к полю, подсвечиваем и пишем внизу, что не так (для всех форм сайта). */
@@ -702,7 +582,7 @@ const LY=()=>document.documentElement.dataset.ly||"g",SLB=["Новые","В сб
  osum=o=>M(+o.p+(+o.fee||0)),oK=o=>Math.min(5,Math.max(0,+o.st||0)),
  oNx=o=>{const n=next(o);return (S.role==="courier"&&dvFree(o)?`<button class="btn s" data-a="cur_take" data-id="${o.id}">Принять доставку</button>`:"")+waitPill(o)+(dvBtn(o,1)||dvPill(o))+(n?`<button class="btn s" data-a="adv" data-id="${o.id}"${mgr()&&wait(o)>0?` data-w="${shipT(o)+180000}"`:""}>${n[1]}</button>`:"")},
  oAv=o=>th(o.img)||`<span class="oav" style="--c:var(--s${oK(o)})">${esc(String(o.bn||"З").trim().charAt(0).toUpperCase())}</span>`;
-function oRender(l){if(!l.length)return"";const y=LY();if(cosOn())return `<div class="cz-tl">${l.map(cosCard).join("")}</div>`;
+function oRender(l){if(!l.length)return"";const y=LY();
  /* у каждого дизайна своя конструкция списка — не общий card */
 
  return l.map(card).join("")}
@@ -1011,32 +891,8 @@ function rolePins(){const R=roleFor(rkey())||{nav:["home","orders"]},p=pinSrc();
 const BentoShell={id:"g",root:()=>"",nav:(T,h)=>h,home:()=>roleHome(),orders:()=>orders(),openOrder:id=>detail(id),closeOrder:()=>modal(""),dense:(t,h)=>h,newOrder:()=>newPick(),onData(){},destroy(){}};
 /* h/m/k/d пока используют прежнюю разметку; свои оболочки появятся в фазах 2–6 */
 const SHELL={g:BentoShell},csPh=()=>!matchMedia("(min-width:900px)").matches;
-/* ===== «Космос»: свой макет. Главная — центр (главная цифра дня или следующее дело) и орбиты статусов, дальше блоки главной;
-   заказы — траектория по времени; снизу — капсула разделов (подпись только у открытого) и отдельная кнопка-портал «Новый заказ»;
-   на компьютере — узкая панель значков слева. Данные и права те же, что в Bento: меняется только вид и способ пользоваться ===== */
-const cosOn=()=>document.documentElement.dataset.sk==="cosmos";
-function cosHero(){const t=today(),L=O.filter(o=>o.date===t&&+o.st!==5),sum=L.reduce((a,o)=>a+(+o.p||0)+(+o.fee||0),0),act=O.filter(o=>+o.st<4).length,
- hr=new Date().getHours(),hi=hr<5?"Доброй ночи":hr<12?"Доброе утро":hr<18?"Добрый день":"Добрый вечер",nm=esc(String(S.name||"").trim());
- if(own()||adm()||S.role==="operator")return `<section class="cz-hero" data-a="go2" data-id="orders|today"><p class="cz-hi">${hi}${nm?", "+nm:""}</p><b class="cz-big">${M(sum)}</b><p class="cz-sub">${L.length} ${pl(L.length,"заказ","заказа","заказов")} на сегодня · в работе ${act}</p></section>`;
- const q=typeof nxtQueue==="function"?nxtQueue():[],o=q[0];
- if(!o)return `<section class="cz-hero"><p class="cz-hi">${hi}${nm?", "+nm:""}</p><b class="cz-big cz-sm">Всё сделано</b><p class="cz-sub">Новые дела появятся здесь сами</p></section>`;
- const mk=mkOf(o)||(o.date&&o.time?o.date+"T"+String(o.time).slice(0,5):""),left=mk?Math.round((new Date(mk).getTime()-Date.now())/6e4):null,
-  lt=left==null||isNaN(left)?"":left<0?"просрочено на "+(Math.floor(-left/60)?Math.floor(-left/60)+" ч ":"")+(-left)%60+" мин":"через "+(Math.floor(left/60)?Math.floor(left/60)+" ч ":"")+left%60+" мин";
- return `<section class="cz-hero"><p class="cz-hi">${S.role==="courier"?"Следующая доставка":"Следующий заказ"}${q.length>1?" · далее "+(q.length-1):""}</p><b class="cz-big cz-sm" data-a="det" data-id="${esc(o.id)}">${esc(o.client||(o.phone?fPh(o.phone):"Клиент"))}</b><p class="cz-sub${left!=null&&left<0?" al":""}">${esc(String(o.time||"").slice(0,5)||"без времени")}${lt?" · "+lt:""}${o.dv?" · доставка":""}</p>${nxtBtn(o)}</section>`}
-function cosOrbits(){const N=["Новые","В сборке","Готовы","В пути"],cnt=[0,1,2,3].map(i=>O.filter(o=>+o.st===i).length),tot=Math.max(1,...cnt),C=2*Math.PI*27;
- return `<div class="cz-orb">${N.map((n,i)=>`<button type="button" class="cz-o" data-a="tf" data-id="${i}" aria-label="${n}: ${cnt[i]}"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" class="tr"/><circle cx="32" cy="32" r="27" class="pg" style="stroke-dasharray:${(C*cnt[i]/tot).toFixed(1)} ${C.toFixed(1)}"/></svg><b>${cnt[i]}</b><span>${n}</span></button>`).join("")}</div>`}
-function cosHome(){return `<div class="cz-home">${cosHero()}${cosOrbits()}</div>`+roleHome()}
-/* карточка заказа «траектория»: время слева на линии, точка — статус, справа клиент, букет, сумма и нужные кнопки */
-function cosCard(o){const n=next(o),k=Math.min(5,Math.max(0,+o.st||0)),tm=o.time?esc(String(o.time).slice(0,5)):"—",dd=o.date&&o.date!==today()?hdt(o.date):"";
- return `<div class="cz-oc k-${k}" data-a="det" data-id="${o.id}"><div class="cz-t"><b>${tm}</b>${dd?`<small>${dd}</small>`:""}</div><div class="cz-b">
- <div class="cz-r1"><b class="cz-c">${esc(o.client||(o.phone?fPh(o.phone):"Клиент не указан"))}</b><b class="cz-p">${M(+o.p+(+o.fee||0))}</b></div>
- <div class="cz-r2">${o.no?"№"+esc(String(o.no))+" · ":""}${esc(o.bn||"Заказ")} · ${o.dv?"доставка"+(o.addr?": "+esc(o.addr):""):"самовывоз"}</div>
- <div class="cz-r3"><span class="cz-st">${stL(o)}</span>${late(o)}${o.paid?'<span class="cz-ok">оплачен</span>':payPill(o)}</div>
- <div class="acts">${o.dv&&(S.role==="courier"||adm())?gisBtnO(o):""}${isOp()&&+o.st===2&&o.rv==="wait"&&(adm()||own()||o.asm!==U.uid)?`<button class="btn s" data-a="rv_ok" data-id="${o.id}">Принять</button><button class="btn r s" data-a="rv_redo" data-id="${o.id}">На переделку</button>`:""}${n?`<button class="btn ${mgr()&&wait(o)>0?"g ":""}s" data-a="adv" data-id="${o.id}"${mgr()&&wait(o)>0?` data-w="${shipT(o)+180000}"`:""}>${n[1]}</button>`:""}${!o.paid&&isOp()?`<button class="btn g s" data-a="o_pay" data-id="${o.id}">Оплачено</button>`:""}${S.role==="courier"&&dvFree(o)?`<button class="btn s" data-a="cur_take" data-id="${o.id}">Принять доставку</button>`:""}${waitPill(o)}${dvBtn(o,1)||dvPill(o)}</div></div></div>`}
-const CosmosShell={...BentoShell,id:"c",home:()=>cosHome(),nav:(T,h)=>{(T||[]).forEach(t=>{h=h.replace(`data-t="${t[0]}"`,`data-t="${t[0]}" title="${esc(String(t[2]))}"`)});return h}};
-SHELL.c=CosmosShell;
 
-function shl(){const n=(cosOn()&&SHELL.c)||SHELL[LY()]||BentoShell;if(shl.c&&shl.c!==n){try{shl.c.destroy()}catch(e){console.warn(e)}}shl.c=n;return n}
+function shl(){const n=SHELL[LY()]||BentoShell;if(shl.c&&shl.c!==n){try{shl.c.destroy()}catch(e){console.warn(e)}}shl.c=n;return n}
 function home(){return shl().home()}
 /* ---- Профиль → Мой экран ---- */
 function msMove(k,d){const def=roleOf().home,p=hbP(),o=(p.o||[]).filter(x=>def.includes(x));def.forEach(x=>{if(!o.includes(x))o.push(x)});const i=o.indexOf(k),j=i+d;if(i<0||j<0||j>=o.length)return;[o[i],o[j]]=[o[j],o[i]];p.o=o;hbS(p);draw()}
@@ -4165,7 +4021,7 @@ document.addEventListener("click",e=>{const b=e.target.closest('[data-a="tpw"]')
    увеличивают, свайп влево и вправо листает фото того же чата или окна. В лёгком режиме и при «меньше движения» — простое затухание ===== */
 const lbCan=i=>i&&i.tagName==="IMG"&&!i.classList.contains("nolb")&&!i.closest("button")&&!i.closest("#lb")&&(i.currentSrc||i.src)&&(i.currentSrc||i.src).indexOf("image/svg")<0;
 const lbCalm=()=>(typeof LITE!=="undefined"&&LITE)||matchMedia("(prefers-reduced-motion: reduce)").matches;
-function lbSign(){try{if(dsGet()==="c2")return '<circle cx="50" cy="50" r="13"/><ellipse cx="50" cy="50" rx="40" ry="13" transform="rotate(-22 50 50)"/><circle cx="85" cy="36" r="3"/>';const n=thGet().p,a=(typeof PZA!=="undefined"&&(PZA[n]||PZA["Ч/Б"]));return a?a[1]:""}catch(e){return""}}
+function lbSign(){try{const n=thGet().p,a=(typeof PZA!=="undefined"&&(PZA[n]||PZA["Ч/Б"]));return a?a[1]:""}catch(e){return""}}
 function lbOpen(src,from){let old=$("lb");if(old)old.remove();
  const root=from&&from.closest?from.closest("#cht,.chmsgs,#m,#v,#gpov")||document:document,list=[...root.querySelectorAll("img")].filter(lbCan),srcs=[...new Set(list.map(i=>i.currentSrc||i.src))];
  let idx=Math.max(0,srcs.indexOf(src));if(!srcs.length)srcs.push(src);

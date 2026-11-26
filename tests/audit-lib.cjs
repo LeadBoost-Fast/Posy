@@ -57,8 +57,7 @@ async function login(br, role, o = {}) {
   await pg.locator("form button[type=submit], button:has-text('Войти'), button:has-text('Кіру')").first().click();
   await pg.waitForFunction(() => typeof S !== "undefined" && S, null, { timeout: 25000 });
   await pg.waitForTimeout(1800);
-  if (o.design === "Космос") await pg.evaluate(() => setDS("c2"));
-  else if (o.design && o.design !== "Bento") await pg.evaluate(n => setPal(n), o.design);
+  if (o.design && o.design !== "Bento") await pg.evaluate(n => setPal(n), o.design);
   else await pg.evaluate(() => { try { if (typeof setBento === "function") setBento(); } catch (e) {} });
   await pg.waitForTimeout(400);
   return { ctx, pg, errors };
