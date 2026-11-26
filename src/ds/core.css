@@ -79,3 +79,13 @@ nav [data-t="more"] .nb{font-size:0!important;min-width:9px!important;width:9px;
 #lvf .acts{position:sticky;bottom:0;z-index:3;margin:14px -4px -4px;padding:10px 4px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--card) 18%)}
 #lvf .acts .btn{flex:1}
 #lvf .lvx{margin-top:10px}
+/* приёмка: полоса «Ждут приёмки» с фото и «Принять все»; быстрые причины переделки */
+.rvb{padding:12px!important}
+.rvbh{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rvbs{display:flex;gap:8px;overflow-x:auto;margin-top:10px;scrollbar-width:none}
+.rvbs::-webkit-scrollbar{display:none}
+.rvbi{all:unset;cursor:pointer;flex:none;width:56px;height:64px;border-radius:12px;overflow:hidden;background:color-mix(in srgb,var(--ac) 14%,var(--card));display:grid;place-items:center;font-weight:700;color:var(--ac)}
+.rvbi img{width:100%;height:100%;object-fit:cover}
+.rvbi:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.rdq{margin:4px 0 8px}
+.rdq .chip.on{background:var(--ac)!important;color:var(--on)!important;opacity:1!important}
