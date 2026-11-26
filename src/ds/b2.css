@@ -1,0 +1,47 @@
+/* ===== Bento 2.0 =====
+   Основа — Bento с палитрами и знаками (data-pz). Сверху: живая шапка с фото букета магазина (#b2h),
+   матовое стекло, названия шрифтом Cormorant, мягкие пружинистые анимации. */
+:root[data-ds=b2]{--gr:20px;--gl:color-mix(in srgb,var(--card) 74%,transparent);--gb:color-mix(in srgb,var(--ink) 8%,transparent);--fh:"Cormorant Garamond",Georgia,serif;--b2s:cubic-bezier(.34,1.3,.64,1)}
+:root[data-ds=b2] body{background:var(--bg)}
+#b2h{position:absolute;left:0;right:0;top:0;height:300px;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(70% 90% at 80% 0%,color-mix(in srgb,var(--ac) 30%,transparent),transparent 70%),var(--bg)}
+:root:not([data-tab=home]) #b2h{height:200px}
+@media(min-width:900px){#b2h{left:240px;height:280px}:root:not([data-tab=home]) #b2h{height:180px}}
+#b2h img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 30%;transform:translateY(calc(var(--y,0)*-.35px)) scale(calc(1 + var(--y,0)/900));filter:var(--b2f,) blur(calc(var(--y,0)/40*1px));will-change:transform}
+#b2h i{position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 90%,transparent) 0%,color-mix(in srgb,var(--bg) 45%,transparent) 22%,transparent 38%,color-mix(in srgb,var(--bg) 78%,transparent) 62%,var(--bg) 84%)}
+#b2h.nop img{display:none}
+#b2h.nop::before{content:"";position:absolute;right:-24px;top:24px;width:230px;height:230px;background:var(--pza,none) center/contain no-repeat;opacity:.3;animation:b2spin 80s linear infinite}
+:root[data-ds=b2][data-t=dark]{--b2f:brightness(.58) saturate(.9)}
+:root[data-ds=b2][data-pal="Ч/Б"]{--b2f:grayscale(1) contrast(1.05)}
+:root[data-ds=b2][data-pal="Ч/Б"][data-t=dark]{--b2f:grayscale(1) brightness(.6)}
+:root[data-ds=b2][data-pal="Ч/Б"] .oc img,:root[data-ds=b2][data-pal="Ч/Б"] .galc img{filter:grayscale(1)}
+:root[data-ds=b2] #tb{background:color-mix(in srgb,var(--bg) 55%,transparent);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3)}
+:root[data-ds=b2] #v{position:relative;z-index:1}
+:root[data-ds=b2][data-tab=home] #v{padding-top:120px}
+:root[data-ds=b2]:not([data-tab=home]) #v{padding-top:40px}
+@media(min-width:900px){:root[data-ds=b2][data-tab=home] #v{padding-top:110px}:root[data-ds=b2]:not([data-tab=home]) #v{padding-top:30px}}
+:root[data-ds=b2] h1{font-family:var(--fh);font-weight:500;font-size:36px;letter-spacing:-.2px;line-height:1.05;text-shadow:0 1px 24px color-mix(in srgb,var(--bg) 70%,transparent)}
+:root[data-ds=b2] .card,:root[data-ds=b2] .tile,:root[data-ds=b2] .kpi{box-shadow:0 10px 30px -14px color-mix(in srgb,var(--ink) 22%,transparent)!important}
+:root[data-ds=b2] .oc5 .ocb{font-family:var(--fh);font-size:20px;font-weight:600;letter-spacing:0}
+:root[data-ds=b2] .btn{border-radius:999px;text-transform:none;letter-spacing:0;font-size:14px;font-weight:700;box-shadow:none}
+:root[data-ds=b2] .pill{border-radius:999px;text-transform:none;letter-spacing:0;font-size:12px;font-weight:700}
+:root[data-ds=b2] .chip{border-radius:999px}
+:root[data-ds=b2] .gtab{border-radius:999px;padding:4px}
+:root[data-ds=b2] .gtab button{border-radius:999px}
+:root[data-ds=b2] h2{letter-spacing:.06em}
+:root[data-ds=b2] nav{border-radius:26px}
+:root[data-ds=b2] nav button{border-radius:16px;text-transform:none;letter-spacing:0;font-size:11px;font-weight:700}
+:root[data-ds=b2] nav button.on{background:color-mix(in srgb,var(--ac) 14%,transparent);box-shadow:none}
+:root[data-ds=b2] nav .plus{border-radius:18px!important}
+@media(min-width:900px){:root[data-ds=b2] nav{border-radius:0}:root[data-ds=b2] nav button{font-size:14px;border-radius:12px}:root[data-ds=b2] nav button.on{background:var(--ink);color:var(--bg)}}
+/* движение: карточки появляются пружиной, новый заказ падает сверху, при смене статуса шапка «вздыхает» */
+@keyframes b2in{from{opacity:0;transform:translateY(18px)}}
+@keyframes b2drop{from{opacity:0;transform:translateY(-28px) scale(.96)}}
+@keyframes b2breath{40%{transform:scale(1.06)}}
+@keyframes b2spin{to{transform:rotate(360deg)}}
+:root.dsin[data-ds=b2] #v>.card:nth-child(-n+8),:root.dsin[data-ds=b2] #v .oc:nth-of-type(-n+6){animation:b2in .54s var(--b2s) both}
+:root[data-ds=b2] #v>.card:nth-child(2){animation-delay:40ms}:root[data-ds=b2] #v>.card:nth-child(3){animation-delay:80ms}:root[data-ds=b2] #v>.card:nth-child(4){animation-delay:120ms}
+:root[data-ds=b2].dsfx-new #v .oc:first-of-type{animation:b2drop .64s var(--b2s) both}
+:root[data-ds=b2].dsfx-st #b2h{animation:b2breath .9s var(--b2s)}
+:root.lite[data-ds=b2] #b2h img{filter:var(--b2f,);transform:none}
+:root.lite[data-ds=b2] *,:root.noanim[data-ds=b2] *{animation:none!important}
+@media(prefers-reduced-motion:reduce){:root[data-ds=b2] *{animation:none!important}#b2h img{transform:none!important;filter:var(--b2f,)!important}}

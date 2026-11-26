@@ -1,0 +1,91 @@
+/* Дизайн-системы Posy V5: общий выбор в «Профиль → Оформление». Стили самих дизайнов — в b2.css и c2.css */
+.dsv5{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:4px 0 2px}
+.dsb{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:var(--card);border:1px solid var(--line);color:var(--ink);transition:transform .2s,box-shadow .2s}
+.dsb:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.dsb.on{border-color:var(--ac);box-shadow:0 0 0 2px color-mix(in srgb,var(--ac) 45%,transparent)}
+.dsb b{font-size:15px;padding:10px 12px 0}.dsb small{font-size:12px;line-height:1.35;color:var(--mut);padding:2px 12px 12px}
+.dsp{height:84px;position:relative;display:block;overflow:hidden}
+.dsp-b2{background:linear-gradient(180deg,transparent 40%,color-mix(in srgb,var(--card) 90%,transparent)),radial-gradient(60% 80% at 30% 30%,#f6c9d3,transparent 70%),radial-gradient(60% 80% at 80% 40%,#e9a8b8,transparent 70%),#f9eeee}
+.dsp-b2 i{position:absolute;right:12px;top:12px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.7) var(--pza,none) center/70% no-repeat;box-shadow:0 4px 14px rgba(0,0,0,.1)}
+.dsp-c2{background:radial-gradient(28% 46% at 70% 40%,#b9a4ff 0%,#6c4bdc 55%,transparent 58%),radial-gradient(80% 120% at 70% 0%,#2a1b6b,#070616 70%)}
+.dsp-c2 i{position:absolute;left:30%;top:36%;width:64%;height:22%;border:1px solid rgba(214,200,255,.55);border-radius:50%;transform:rotate(-14deg)}
+.dsold{margin-top:12px}
+.dscp{display:flex;flex-wrap:wrap;gap:8px}
+.dsc{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:7px 12px 7px 7px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;font-weight:600;color:var(--ink)}
+.dsc i{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--a),var(--c) 60%,var(--b));box-shadow:0 0 8px color-mix(in srgb,var(--a) 50%,transparent)}
+.dsc.on{border-color:var(--ac);box-shadow:0 0 0 2px color-mix(in srgb,var(--ac) 40%,transparent)}
+.dsc:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+
+/* ===== Общая конструкция V5 (оба дизайна) ===== */
+/* Карточка заказа: фото, время и способ, название, клиент; справа сумма и статус; ниже — только необычное и одна главная кнопка */
+.oc5{padding:12px!important}
+.oc5r{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:start}
+.oc5 .th,.oc5 .oav{width:64px;height:72px;border-radius:14px;object-fit:cover;flex:none;margin:0}
+.oc5 .oav{display:grid;place-items:center;font-size:24px;font-weight:700;background:color-mix(in srgb,var(--c,var(--ac)) 16%,var(--card));color:var(--c,var(--ac))}
+.oc5m{min-width:0}
+.oc5t{font-size:12.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc5t b{color:var(--ink);font-variant-numeric:tabular-nums}
+.oc5 .ocb{display:block;font-size:17px;line-height:1.2;margin:3px 0 2px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.oc5c{font-size:13px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc5s{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right}
+.oc5sum{font-size:16px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.oc5 .pill.st{background:color-mix(in srgb,var(--sk,var(--ac)) 16%,transparent);color:color-mix(in srgb,var(--sk,var(--ac)) 70%,var(--ink))}
+:root[data-t=dark] .oc5 .pill.st{color:var(--sk,var(--ac))}
+.oc5x{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0}
+.oc5a{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center}
+.oc5a .btn{flex:none;min-height:38px}
+.oc5a .oc5p{flex:1 1 100%;min-height:44px;font-size:15px}
+@media(min-width:900px){.oc5a .oc5p{flex:1 1 auto}}
+/* Проверка оплат: способы оплаты (Kaspi, Halyk, наличные, остальные) и короткая карточка */
+.pvmb-h{display:flex;justify-content:space-between;align-items:baseline}
+.pvmb .stbar{display:flex;height:12px;border-radius:999px;overflow:hidden;gap:2px;margin:10px 0}
+.pvmb .stbar i{display:block;height:100%}
+.pvmb-l{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media(min-width:900px){.pvmb-l{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.pvmk{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:auto 1fr;gap:2px 8px;align-items:center;padding:10px;border-radius:14px;border:1px solid var(--line);background:color-mix(in srgb,var(--c) 7%,transparent)}
+.pvmk i{width:10px;height:10px;border-radius:50%;background:var(--c);grid-row:span 1}
+.pvmk span{font-weight:700;font-size:13.5px}.pvmk b{grid-column:1/-1;font-size:17px;font-variant-numeric:tabular-nums}.pvmk small{grid-column:1/-1;color:var(--mut);font-size:12px}
+.pvmk.on{border-color:var(--c);box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 40%,transparent)}
+.pvmk:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.pvc5{padding:12px!important}
+.pvc5r{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start}
+.pvc5t{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px}
+.pvc5 b{font-size:16px}.pvc5m>b{display:block;margin:4px 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pvc5c{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pvc5s{font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pvmt{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-weight:700;font-size:12px;color:#fff;background:var(--c)}
+.pvc5d{margin-top:8px}.pvc5d summary{cursor:pointer;color:var(--mut);font-size:13px;list-style:none}.pvc5d summary::-webkit-details-marker{display:none}.pvc5d summary::after{content:" ›"}
+.pvc5d[open] summary::after{content:" ˅"}
+.pvmt[style*="var(--ac)"]{color:var(--on)}
+/* Главная V5: дата и приветствие вместо карточки «имя и почта» */
+.megr{margin:4px 2px 6px}
+.megr>.mut{display:block;font-size:13px}
+.megr h1{margin:2px 0 0!important}
+/* бейдж «Ещё»: точка вместо большого числа */
+nav [data-t="more"] .nb{font-size:0!important;min-width:9px!important;width:9px;height:9px;padding:0!important;border-radius:50%}
+.oc5o{font-size:12px;color:var(--mut);margin-top:2px;line-height:1.35}
+/* комментарии в карточке заказа — заметно, но спокойно */
+.oc5 .cmt{margin-top:8px;padding:8px 10px;border-radius:12px;background:color-mix(in srgb,var(--ac) 8%,var(--card));font-size:13.5px;line-height:1.35}
+.oc5 .cmt b{font-weight:700}
+/* форма заказа: списки «Получение» и «Оплата» — кнопками; итог и «Создать заказ» всегда внизу */
+.segsel{display:none!important}
+.segc{flex-wrap:wrap;margin:4px 0 2px}
+#of .ofa{position:sticky;bottom:0;z-index:3;margin:14px -4px -4px;padding:10px 4px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--card) 18%);display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+#of .ofa #otot2{flex:1 1 100%;margin:0 2px;font-size:15px;color:var(--ink)}
+#of .ofa #otot2:empty{display:none}
+#of .ofa .btn{flex:1}
+#of textarea[name=note]{min-height:64px}
+/* «Живой клиент»: кнопка с суммой всегда внизу, допы свёрнуты */
+#lvf .acts{position:sticky;bottom:0;z-index:3;margin:14px -4px -4px;padding:10px 4px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--card) 18%)}
+#lvf .acts .btn{flex:1}
+#lvf .lvx{margin-top:10px}
+/* приёмка: полоса «Ждут приёмки» с фото и «Принять все»; быстрые причины переделки */
+.rvb{padding:12px!important}
+.rvbh{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rvbs{display:flex;gap:8px;overflow-x:auto;margin-top:10px;scrollbar-width:none}
+.rvbs::-webkit-scrollbar{display:none}
+.rvbi{all:unset;cursor:pointer;flex:none;width:56px;height:64px;border-radius:12px;overflow:hidden;background:color-mix(in srgb,var(--ac) 14%,var(--card));display:grid;place-items:center;font-weight:700;color:var(--ac)}
+.rvbi img{width:100%;height:100%;object-fit:cover}
+.rvbi:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.rdq{margin:4px 0 8px}
+.rdq .chip.on{background:var(--ac)!important;color:var(--on)!important;opacity:1!important}

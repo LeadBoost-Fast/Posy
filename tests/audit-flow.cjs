@@ -88,7 +88,7 @@ async function newOrder(pg) {
   // 5. доставка: новый заказ с доставкой, выставить курьеру, курьер принимает, доставлено
   await op.pg.evaluate(() => { modal(""); tab = "orders"; draw(); }); await newOrder(op.pg);
   const nm2 = "Доставка " + Date.now() % 100000; await op.pg.fill('#of [name=phone]', "+7 701 555 44 34"); await op.pg.click('#of [name=client]'); await op.pg.waitForTimeout(300); await op.pg.keyboard.type(nm2, { delay: 20 }); await op.pg.evaluate(() => { const e = document.querySelector('#of .bqp'); if (e) { e.value = "15000"; e.dispatchEvent(new Event("input", { bubbles: true })); } });
-  if (await op.pg.locator('#of select[name=dv]').count()) { await op.pg.selectOption('#of select[name=dv]', "1"); await op.pg.waitForTimeout(200); await op.pg.fill('#of [name=addr]', "12 мкр 34").catch(() => {}); }
+  if (await op.pg.locator('#of select[name=dv]').count()) { const dvb = op.pg.locator('#of .segc [data-sv="1"]'); if (await dvb.count()) await dvb.click(); else await op.pg.selectOption('#of select[name=dv]', "1"); await op.pg.waitForTimeout(200); await op.pg.fill('#of [name=addr]', "12 мкр 34").catch(() => {}); }
   await op.pg.locator("#of .acts .btn:not(.g)").last().click(); await op.pg.waitForTimeout(2200);
   let d2 = null; for (let k = 0; k < 10; k++) { d2 = (await findBy("orders", "client", nm2))[0]; if (d2 && fv(d2, "dv") === true) break; await op.pg.waitForTimeout(500); } const oid2 = d2 && d2.name.split("/").pop();
   ok(!!oid2 && fv(d2, "dv") === true, "2.1 заказ с доставкой создан", "dv=" + fv(d2, "dv"));
@@ -151,6 +151,42 @@ async function newOrder(pg) {
     ok(ch.every((v, i) => i === 0 || v <= ch[i - 1]), "Р5.5 заказы клиента: действующие сверху, старые ниже", ch.join(""));
     await pg.evaluate(() => { tab = "jr"; JRV = "chg"; lgp = "a"; draw(); }); await pg.waitForTimeout(900);
     ok(await pg.locator("#lgo").count() > 0 && await pg.locator(".jrseg").innerText().then(t => /Важное/.test(t)), "Р5.6 журнал: вкладка «Важное» и поиск по заказу");
+  }
+
+  // 10. дизайн-системы V5: включение в «Оформлении», палитры Космоса, сохранение выбора, возврат к прежнему оформлению
+  { const pg = ad.pg, w = ms => new Promise(r => setTimeout(r, ms));
+    const card = await pg.evaluate(() => themeCard());
+    ok(/Bento 2\.0/.test(card) && /Космос/.test(card) && !/Прежние оформления|Blooming Glass/.test(card), "Р6.1 «Оформление»: только Bento 2.0 и Космос");
+    await pg.evaluate(() => setDS("b2")); await w(400);
+    const b = await pg.evaluate(() => ({ ds: document.documentElement.dataset.ds, p: thGet().p, pz: document.documentElement.dataset.pz, sv: thGet().ds }));
+    ok(b.ds === "b2" && b.sv === "b2" && ["Ч/Б","Жемчуг","Нежная роза","Персик","Лаванда","Мята","Сумерки","Туман"].includes(b.p) && b.pz === "1", "Р6.2 Bento 2.0 включается и сохраняется, палитра со знаком Bento", JSON.stringify(b));
+    await pg.evaluate(() => setDS("c2")); await w(2500);
+    const c = await pg.evaluate(() => ({ ds: document.documentElement.dataset.ds, cp: document.documentElement.dataset.cp, js: !!window.COSMOS, t: document.documentElement.dataset.t, sk: document.documentElement.dataset.sk }));
+    ok(c.ds === "c2" && c.cp === "ame" && c.js && c.sk === "", "Р6.3 Космос включается, модуль сцены загружается только сейчас", JSON.stringify(c));
+    await pg.evaluate(() => setCP("mono")); await w(1500);
+    const m = await pg.evaluate(() => ({ cp: document.documentElement.dataset.cp, sv: thGet().cp, ac: getComputedStyle(document.documentElement).getPropertyValue("--ac").trim() }));
+    ok(m.cp === "mono" && m.sv === "mono", "Р6.4 палитра Космоса меняется и сохраняется (Ч/Б)", JSON.stringify(m));
+    const tabsOk = await pg.evaluate(() => { const bad = []; for (const t of ["home", "orders", "chats", "stock", "fin"]) { try { modal(""); tab = t; draw(); if (!document.querySelector("#v").children.length) bad.push(t) } catch (e) { bad.push(t + ":" + e.message) } } return bad; });
+    ok(!tabsOk.length, "Р6.5 в Космосе разделы открываются как обычно", tabsOk.join(", "));
+    await pg.evaluate(() => setDS("b2")); await w(600);
+    const o = await pg.evaluate(() => ({ ds: document.documentElement.dataset.ds, sv: thGet().ds, cv: !!document.getElementById("c2bg"), h: !!document.getElementById("b2h") }));
+    ok(o.ds === "b2" && o.sv === "b2" && !o.cv && o.h, "Р6.6 обратно в Bento 2.0: сцена Космоса убрана, фото-шапка на месте", JSON.stringify(o));
+  }
+
+  // 11. зарплата: смена один раз в день, часы без двойного счёта, забытая смена, сборка по дню и за каждый букет
+  { const r = await ad.pg.evaluate(() => { const keep = { s: SLG, p: SH.pay, de: SH.dayEnd }, U1 = "tU1", d = addD(today(), -2), D = h => new Date(d + "T" + h).getTime(), res = {};
+      SH.pay = { shift: 5000, hour: 500, asmPct: 0, asmFix: 300, opPct: 0, opFix: 0, scPct: 0 }; SH.dayEnd = "01:00"; SF[U1] = { name: "Тест", role: "florist", active: true };
+      SLG = [{ uid: U1, start: D("10:00"), end: D("12:00") }, { uid: U1, start: D("12:30"), end: D("18:00") }]; res.two = earn(U1, d, d).total;
+      SLG = [{ uid: U1, start: D("10:00"), end: D("14:00") }, { uid: U1, start: D("13:00"), end: D("15:00") }]; res.ov = earn(U1, d, d).total;
+      SLG = [{ uid: U1, start: D("10:00"), end: D("10:10") }]; res.short = earn(U1, d, d).rows.find(x => /Смены/.test(x[0]));
+      SLG = [{ uid: U1, start: D("10:00"), end: 0 }]; res.forgot = earn(U1, d, d);
+      SLG = []; O.push({ id: "tO1", bn: "Тест", qty: 3, p: 30000, st: 4, asm: U1, readyAt: D("15:00"), date: addD(d, 1), by: "x", ts: D("09:00") }); res.asm = earn(U1, d, d).total; res.asmNext = earn(U1, addD(d, 1), addD(d, 1)).total;
+      O.splice(O.findIndex(o => o.id === "tO1"), 1); delete SF[U1]; SLG = keep.s; SH.pay = keep.p; SH.dayEnd = keep.de; return res; });
+    ok(r.two === 8750, "Р7.1 две смены за день: оплата за смену один раз + 7,5 ч", "итого " + r.two);
+    ok(r.ov === 7500, "Р7.2 пересекающиеся смены: часы не удваиваются (5 ч)", "итого " + r.ov);
+    ok(r.short && r.short[1] === 0, "Р7.3 смена на 10 минут: за смену не начисляется", JSON.stringify(r.short));
+    ok(r.forgot.open === 1 && r.forgot.total === 5000, "Р7.4 забытая смена без графика: за смену есть, часов нет, видно «не закрыто»", JSON.stringify(r.forgot));
+    ok(r.asm === 900 && r.asmNext === 0, "Р7.5 сборка: по дню нажатия «Готов» и за каждый букет (3 × 300)", r.asm + " / " + r.asmNext);
   }
 
   ok(!errs.length, "ошибок JS за сценарии: " + errs.length, errs.slice(0, 3).join(" | "));
