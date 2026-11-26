@@ -88,7 +88,7 @@ async function newOrder(pg) {
   // 5. доставка: новый заказ с доставкой, выставить курьеру, курьер принимает, доставлено
   await op.pg.evaluate(() => { modal(""); tab = "orders"; draw(); }); await newOrder(op.pg);
   const nm2 = "Доставка " + Date.now() % 100000; await op.pg.fill('#of [name=phone]', "+7 701 555 44 34"); await op.pg.click('#of [name=client]'); await op.pg.waitForTimeout(300); await op.pg.keyboard.type(nm2, { delay: 20 }); await op.pg.evaluate(() => { const e = document.querySelector('#of .bqp'); if (e) { e.value = "15000"; e.dispatchEvent(new Event("input", { bubbles: true })); } });
-  if (await op.pg.locator('#of select[name=dv]').count()) { await op.pg.selectOption('#of select[name=dv]', "1"); await op.pg.waitForTimeout(200); await op.pg.fill('#of [name=addr]', "12 мкр 34").catch(() => {}); }
+  if (await op.pg.locator('#of select[name=dv]').count()) { const dvb = op.pg.locator('#of .segc [data-sv="1"]'); if (await dvb.count()) await dvb.click(); else await op.pg.selectOption('#of select[name=dv]', "1"); await op.pg.waitForTimeout(200); await op.pg.fill('#of [name=addr]', "12 мкр 34").catch(() => {}); }
   await op.pg.locator("#of .acts .btn:not(.g)").last().click(); await op.pg.waitForTimeout(2200);
   let d2 = null; for (let k = 0; k < 10; k++) { d2 = (await findBy("orders", "client", nm2))[0]; if (d2 && fv(d2, "dv") === true) break; await op.pg.waitForTimeout(500); } const oid2 = d2 && d2.name.split("/").pop();
   ok(!!oid2 && fv(d2, "dv") === true, "2.1 заказ с доставкой создан", "dv=" + fv(d2, "dv"));
