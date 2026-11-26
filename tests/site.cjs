@@ -160,9 +160,9 @@ const PNG=Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42
   const flId=await pg.evaluate(()=>Object.keys(SF).find(i=>SF[i].email==="fl@x.kz")),opId=await pg.evaluate(()=>Object.keys(SF).find(i=>SF[i].email==="op@x.kz")),ownId=await pg.evaluate(()=>Object.keys(SF).find(i=>SF[i].email==="tilegen615@gmail.com"));
   ok(await pg.locator('[data-a=t_perm]').count()>=2,"в «Команде» у сотрудников есть кнопка «Доступ»");ok(await pg.locator('[data-a=t_perm][data-id="'+ownId+'"]').count()===0,"у владельца и админов кнопки «Доступ» нет");
   await pg.locator('[data-a=t_perm][data-id="'+flId+'"]').click();await pg.waitForTimeout(500);
-  /* что открыто по умолчанию, берём из правил сайта: флористу по умолчанию закрыты разделы из PROFF.florist */
-  const pexp=await pg.evaluate(()=>{const b=[...document.querySelectorAll('#tpf input[type=checkbox]')],off=(typeof PROFF!=="undefined"&&PROFF.florist)||[];return {n:b.length,on:b.filter(x=>!off.includes(x.name)).length}});
-  ok(pexp.n>=6,"в окне «Доступ» "+pexp.n+" разделов (пункт «Карта» скрыт, пока карта выключена)");ok(await pg.locator('#tpf input[type=checkbox]:checked').count()===pexp.on,"по умолчанию у флориста открыто "+pexp.on+" из "+pexp.n+" (чаты, клиенты и оплаты закрыты)");
+  /* в окне есть галочки разделов и галочки особых прав (ab_…, по умолчанию выключены); считаем только разделы. Что закрыто по умолчанию, берём из правил сайта (PROFF) */
+  const pexp=await pg.evaluate(()=>{const b=[...document.querySelectorAll('#tpf input[type=checkbox]')].filter(x=>!x.name.startsWith("ab_")),off=(typeof PROFF!=="undefined"&&PROFF.florist)||[];return {n:b.length,on:b.filter(x=>!off.includes(x.name)).length,ch:b.filter(x=>x.checked).length}});
+  ok(pexp.n>=6,"в окне «Доступ» "+pexp.n+" разделов (пункт «Карта» скрыт, пока карта выключена)");ok(pexp.ch===pexp.on,"по умолчанию у флориста открыто "+pexp.ch+" из "+pexp.n+" разделов, как задано в правилах");
   await pg.screenshot({path:OUT+"/perm.png"});
   await pg.locator('#tpf [name=chats]').uncheck();await pg.locator('#tpf [name=crm]').uncheck();await pg.locator('#tpf [name=stock]').uncheck();await pg.locator('#tpf button').last().click();await pg.waitForTimeout(1800);
   const sf=(await(await fetch(FS+"/staff/"+flId,{headers:{Authorization:"Bearer owner"}})).json()).fields;const pf=(sf.perms&&sf.perms.mapValue&&sf.perms.mapValue.fields)||{};
