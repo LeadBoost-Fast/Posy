@@ -21,7 +21,7 @@
 @media(min-width:900px){:root[data-ds=b2][data-tab=home] #v{padding-top:110px}:root[data-ds=b2]:not([data-tab=home]) #v{padding-top:30px}}
 :root[data-ds=b2] h1{font-family:var(--fh);font-weight:500;font-size:36px;letter-spacing:-.2px;line-height:1.05;text-shadow:0 1px 24px color-mix(in srgb,var(--bg) 70%,transparent)}
 :root[data-ds=b2] .card,:root[data-ds=b2] .tile,:root[data-ds=b2] .kpi{box-shadow:0 10px 30px -14px color-mix(in srgb,var(--ink) 22%,transparent)!important}
-:root[data-ds=b2] .oc b:first-child{font-family:var(--fh);font-size:20px;font-weight:600;letter-spacing:0}
+:root[data-ds=b2] .oc5 .ocb{font-family:var(--fh);font-size:20px;font-weight:600;letter-spacing:0}
 :root[data-ds=b2] .btn{border-radius:999px;text-transform:none;letter-spacing:0;font-size:14px;font-weight:700;box-shadow:none}
 :root[data-ds=b2] .pill{border-radius:999px;text-transform:none;letter-spacing:0;font-size:12px;font-weight:700}
 :root[data-ds=b2] .chip{border-radius:999px}

@@ -156,7 +156,7 @@ async function newOrder(pg) {
   // 10. дизайн-системы V5: включение в «Оформлении», палитры Космоса, сохранение выбора, возврат к прежнему оформлению
   { const pg = ad.pg, w = ms => new Promise(r => setTimeout(r, ms));
     const card = await pg.evaluate(() => themeCard());
-    ok(/Bento 2\.0/.test(card) && /Космос/.test(card) && /Прежние оформления/.test(card), "Р6.1 «Оформление»: выбор Bento 2.0, Космос и прежние оформления");
+    ok(/Bento 2\.0/.test(card) && /Космос/.test(card) && !/Прежние оформления|Blooming Glass/.test(card), "Р6.1 «Оформление»: только Bento 2.0 и Космос");
     await pg.evaluate(() => setDS("b2")); await w(400);
     const b = await pg.evaluate(() => ({ ds: document.documentElement.dataset.ds, p: thGet().p, pz: document.documentElement.dataset.pz, sv: thGet().ds }));
     ok(b.ds === "b2" && b.sv === "b2" && ["Ч/Б","Жемчуг","Нежная роза","Персик","Лаванда","Мята","Сумерки","Туман"].includes(b.p) && b.pz === "1", "Р6.2 Bento 2.0 включается и сохраняется, палитра со знаком Bento", JSON.stringify(b));
@@ -168,9 +168,9 @@ async function newOrder(pg) {
     ok(m.cp === "mono" && m.sv === "mono", "Р6.4 палитра Космоса меняется и сохраняется (Ч/Б)", JSON.stringify(m));
     const tabsOk = await pg.evaluate(() => { const bad = []; for (const t of ["home", "orders", "chats", "stock", "fin"]) { try { modal(""); tab = t; draw(); if (!document.querySelector("#v").children.length) bad.push(t) } catch (e) { bad.push(t + ":" + e.message) } } return bad; });
     ok(!tabsOk.length, "Р6.5 в Космосе разделы открываются как обычно", tabsOk.join(", "));
-    await pg.evaluate(() => dsClassic("")); await w(500);
+    await pg.evaluate(() => setDS("b2")); await w(600);
     const o = await pg.evaluate(() => ({ ds: document.documentElement.dataset.ds, sv: thGet().ds, cv: !!document.getElementById("c2bg"), h: !!document.getElementById("b2h") }));
-    ok(!o.ds && !o.sv && !o.cv && !o.h, "Р6.6 возврат к прежнему оформлению: сцена и фото-шапка убраны", JSON.stringify(o));
+    ok(o.ds === "b2" && o.sv === "b2" && !o.cv && o.h, "Р6.6 обратно в Bento 2.0: сцена Космоса убрана, фото-шапка на месте", JSON.stringify(o));
   }
 
   ok(!errs.length, "ошибок JS за сценарии: " + errs.length, errs.slice(0, 3).join(" | "));

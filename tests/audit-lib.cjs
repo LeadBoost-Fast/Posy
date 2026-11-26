@@ -14,8 +14,8 @@ const ROLES = {
   operator: "op1@x.kz", florist: "fl1@x.kz", assistant: "as@x.kz", courier: "co1@x.kz"
 };
 const SIZES = { phone: { width: 390, height: 844 }, small: { width: 360, height: 780 }, tablet: { width: 768, height: 1024 }, laptop: { width: 1440, height: 900 } };
-// Дизайны: Bento (палитра по умолчанию) и пять оформлений сайта
-const DESIGNS = ["Bento", "Blooming Glass", "Dark Elegance", "Neon Flowers", "Soft Dream", "Bloom"];
+// Дизайны V5: Bento 2.0 (по умолчанию) и Космос
+const DESIGNS = ["Bento", "Космос"];
 
 let server = null;
 function serve() {
@@ -57,7 +57,8 @@ async function login(br, role, o = {}) {
   await pg.locator("form button[type=submit], button:has-text('Войти'), button:has-text('Кіру')").first().click();
   await pg.waitForFunction(() => typeof S !== "undefined" && S, null, { timeout: 25000 });
   await pg.waitForTimeout(1800);
-  if (o.design && o.design !== "Bento") await pg.evaluate(n => setPal(n), o.design);
+  if (o.design === "Космос") await pg.evaluate(() => setDS("c2"));
+  else if (o.design && o.design !== "Bento") await pg.evaluate(n => setPal(n), o.design);
   else await pg.evaluate(() => { try { if (typeof setBento === "function") setBento(); } catch (e) {} });
   await pg.waitForTimeout(400);
   return { ctx, pg, errors };
