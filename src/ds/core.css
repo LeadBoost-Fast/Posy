@@ -112,3 +112,17 @@ nav [data-t="more"] .nb{font-size:0!important;min-width:9px!important;width:9px;
 .card .tfnew+form,.card>.tfnew{margin-top:10px}
 /* время непрочитанного чата: на светлом фоне зелёный WhatsApp слишком бледный, берём тёмный зелёный */
 :root:not([data-t=dark]) .chi.un .chtm{color:#0b7a3e}
+/* ===== смена дизайна: перетекание (View Transitions; где их нет — мягкое появление) ===== */
+::view-transition-old(root){animation:dsxOut .5s cubic-bezier(.4,0,.2,1) both}
+::view-transition-new(root){animation:dsxIn .7s cubic-bezier(.2,.8,.2,1) both}
+:root[data-dsto=b2]::view-transition-new(root){animation:dsxInB .8s cubic-bezier(.2,.8,.2,1) both}
+:root[data-dsto=c2]::view-transition-new(root){animation:dsxInC .9s cubic-bezier(.22,1,.36,1) both}
+@keyframes dsxOut{to{opacity:0;filter:blur(6px)}}
+@keyframes dsxIn{from{opacity:0}}
+@keyframes dsxInB{from{clip-path:circle(0% at 86% 10%)}to{clip-path:circle(150% at 86% 10%)}}
+@keyframes dsxInC{from{opacity:0;transform:scale(1.05);filter:blur(12px)}}
+:root.dsx body{animation:dsxIn .6s ease both}
+/* служебные состояния: пустой экран и загрузка — общая основа, рисунок задаёт дизайн */
+:root[data-ds] .card.emp{text-align:center;padding:26px 18px}
+:root[data-ds] .card.ldg{display:flex;align-items:center;gap:12px}
+@media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}:root.dsx body{animation:none}}

@@ -45,3 +45,31 @@
 :root[data-ds=b2].dsfx-st #b2h{animation:b2breath .9s var(--b2s)}
 :root.lite[data-ds=b2] *,:root.noanim[data-ds=b2] *{animation:none!important}
 @media(prefers-reduced-motion:reduce){:root[data-ds=b2] *{animation:none!important}#b2h b,#b2h s{translate:none!important}}
+/* ===== Bento 2.0: кнопки, списки, сообщения, фото, служебные состояния =====
+   Язык движения — мягкая пружина (--b2s): подъём при наведении, «вжатие» при нажатии, появление снизу. */
+:root[data-ds=b2] .btn,:root[data-ds=b2] .chip,:root[data-ds=b2] .gtab button,:root[data-ds=b2] nav button{transition:transform .32s var(--b2s),box-shadow .32s ease,background-color .2s,color .2s}
+@media(hover:hover){:root[data-ds=b2] .btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px -12px color-mix(in srgb,var(--ac) 75%,transparent)}:root[data-ds=b2] .chip:hover{background:color-mix(in srgb,var(--ac) 10%,var(--card))}}
+:root[data-ds=b2] .btn:active,:root[data-ds=b2] .chip:active,:root[data-ds=b2] .gtab button:active,:root[data-ds=b2] nav button:active{transform:scale(.95);transition-duration:.08s}
+:root[data-ds=b2] .btn:focus-visible,:root[data-ds=b2] .chip:focus-visible,:root[data-ds=b2] .gtab button:focus-visible,:root[data-ds=b2] nav button:focus-visible{outline:none;box-shadow:0 0 0 3px var(--bg),0 0 0 5px color-mix(in srgb,var(--ac) 75%,transparent)}
+/* списки склада, чатов и витрины появляются по очереди при входе в раздел */
+:root.dsin[data-ds=b2] #v :is(.skw,.chi,.vcard):nth-child(-n+10){animation:b2in .5s var(--b2s) both}
+:root.dsin[data-ds=b2] #v :is(.skw,.chi,.vcard):nth-child(2){animation-delay:30ms}:root.dsin[data-ds=b2] #v :is(.skw,.chi,.vcard):nth-child(3){animation-delay:60ms}:root.dsin[data-ds=b2] #v :is(.skw,.chi,.vcard):nth-child(4){animation-delay:90ms}:root.dsin[data-ds=b2] #v :is(.skw,.chi,.vcard):nth-child(5){animation-delay:120ms}:root.dsin[data-ds=b2] #v :is(.skw,.chi,.vcard):nth-child(6){animation-delay:150ms}:root.dsin[data-ds=b2] #v :is(.skw,.chi,.vcard):nth-child(7){animation-delay:180ms}:root.dsin[data-ds=b2] #v :is(.skw,.chi,.vcard):nth-child(8){animation-delay:210ms}
+/* новое сообщение: пузырь вырастает из своего угла с пружиной */
+@keyframes b2msg{from{opacity:0;transform:translateY(12px) scale(.92)}}
+:root[data-ds=b2] .chm.dsnew{animation:b2msg .46s var(--b2s) both;transform-origin:0 100%}
+:root[data-ds=b2] .chm.out.dsnew{transform-origin:100% 100%}
+/* просмотр фото: рамка цвета палитры, сверху рисуется её знак, кнопки-пилюли */
+:root[data-ds=b2] #lb .lbfr{border:0;border-radius:30px;background:color-mix(in srgb,var(--ac) 20%,#0c0a0f);box-shadow:0 0 0 1px color-mix(in srgb,var(--ac) 55%,transparent),0 0 0 9px color-mix(in srgb,var(--ac) 14%,transparent),0 40px 80px -30px rgba(0,0,0,.7)}
+:root[data-ds=b2] #lb .lbim{border-radius:22px}
+:root[data-ds=b2] #lb .lbsg{width:52px;height:52px;margin:-26px 0 0 -26px;background:var(--bg);color:var(--ac);border-color:color-mix(in srgb,var(--ac) 60%,transparent)}
+:root[data-ds=b2] #lb .lbbar .btn{border-radius:999px;color:color-mix(in srgb,var(--ac) 65%,#15121a)}
+:root[data-ds=b2] #lb .lbbar .btn.g{color:#fff}
+/* пустой экран: знак палитры покачивается; загрузка: знак медленно вращается */
+:root[data-ds=b2] .card.emp::before{content:"";display:block;width:72px;height:72px;margin:0 auto 12px;background:var(--pza,none) center/contain no-repeat;opacity:.6;transform-origin:50% 90%;animation:b2sway 6s ease-in-out infinite}
+:root[data-ds=b2] .card.ldg::before{content:"";flex:none;width:34px;height:34px;background:var(--pza,none) center/contain no-repeat;animation:b2spin 2.6s linear infinite}
+/* сообщение внизу экрана (успех или ошибка) выпадает пилюлей */
+:root[data-ds=b2] #toast{border-radius:999px;padding:11px 18px;box-shadow:0 14px 30px -14px color-mix(in srgb,var(--ink) 60%,transparent);animation:b2drop .5s var(--b2s) both}
+:root.lite[data-ds=b2] .btn,:root.lite[data-ds=b2] .chip{transition:none}
+@media(prefers-reduced-motion:reduce){:root[data-ds=b2] .btn,:root[data-ds=b2] .chip,:root[data-ds=b2] .gtab button,:root[data-ds=b2] nav button{transition:none}}
+:root[data-ds=b2] #lb .lbx{background:var(--bg);color:var(--ink);border-color:color-mix(in srgb,var(--ac) 50%,transparent);transition:transform .32s var(--b2s)}
+:root[data-ds=b2] #lb .lbx:active{transform:scale(.9)}

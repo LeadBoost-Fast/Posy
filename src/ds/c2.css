@@ -37,3 +37,36 @@
 :root.lite[data-ds=c2] *,:root.noanim[data-ds=c2] *{animation:none!important}
 :root.lite[data-ds=c2] .card,:root.lite[data-ds=c2] .tile,:root.lite[data-ds=c2] .kpi,:root.lite[data-ds=c2] nav,:root.lite[data-ds=c2] #tb{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 @media(prefers-reduced-motion:reduce){:root[data-ds=c2] *{animation:none!important}}
+/* ===== Космос: кнопки, списки, сообщения, фото, служебные состояния =====
+   Язык движения — свечение и плавное «всплытие из глубины» (--c2e): свет при наведении, вспышка при нажатии. */
+@property --c2a{syntax:"<angle>";inherits:false;initial-value:0deg}
+:root[data-ds=c2] .btn,:root[data-ds=c2] .chip,:root[data-ds=c2] .gtab button,:root[data-ds=c2] nav button{transition:transform .4s var(--c2e),box-shadow .4s var(--c2e),filter .3s,background-color .3s}
+@media(hover:hover){:root[data-ds=c2] .btn:hover{transform:translateY(-1px);box-shadow:0 0 0 1px color-mix(in srgb,var(--ac) 60%,transparent),0 0 26px -4px var(--ac)}:root[data-ds=c2] .chip:hover{box-shadow:0 0 12px -4px var(--ac)}}
+:root[data-ds=c2] .btn:active,:root[data-ds=c2] .chip:active,:root[data-ds=c2] .gtab button:active,:root[data-ds=c2] nav button:active{transform:scale(.95);filter:brightness(1.25);transition-duration:.1s}
+:root[data-ds=c2] .btn:focus-visible,:root[data-ds=c2] .chip:focus-visible,:root[data-ds=c2] .gtab button:focus-visible,:root[data-ds=c2] nav button:focus-visible{outline:none;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ac),0 0 22px var(--ac)}
+/* списки всплывают из глубины по очереди */
+:root.dsin[data-ds=c2] #v :is(.skw,.chi,.vcard):nth-child(-n+10){animation:c2in .6s var(--c2e) both}
+:root.dsin[data-ds=c2] #v :is(.skw,.chi,.vcard):nth-child(2){animation-delay:40ms}:root.dsin[data-ds=c2] #v :is(.skw,.chi,.vcard):nth-child(3){animation-delay:80ms}:root.dsin[data-ds=c2] #v :is(.skw,.chi,.vcard):nth-child(4){animation-delay:120ms}:root.dsin[data-ds=c2] #v :is(.skw,.chi,.vcard):nth-child(5){animation-delay:160ms}:root.dsin[data-ds=c2] #v :is(.skw,.chi,.vcard):nth-child(6){animation-delay:200ms}:root.dsin[data-ds=c2] #v :is(.skw,.chi,.vcard):nth-child(7){animation-delay:240ms}:root.dsin[data-ds=c2] #v :is(.skw,.chi,.vcard):nth-child(8){animation-delay:280ms}
+/* новое сообщение: пузырь проявляется из размытия, вокруг вспыхивает свет; сцена отвечает пульсом */
+@keyframes c2msg{0%{opacity:0;filter:blur(6px);transform:translateY(10px) scale(.96)}55%{box-shadow:0 0 26px -2px var(--ac)}100%{}}
+:root[data-ds=c2] .chm.dsnew{animation:c2msg .7s var(--c2e) both}
+/* просмотр фото: фон — глубина сцены, по рамке бежит световая дуга, сверху рисуется орбита */
+:root[data-ds=c2] #lb .lbbg{background:radial-gradient(80% 60% at 50% 40%,color-mix(in srgb,var(--cz1) 55%,#000),#020208 78%)}
+:root[data-ds=c2] #lb .lbfr{border:0;border-radius:26px;background:rgba(8,8,16,.6);box-shadow:0 0 0 1px color-mix(in srgb,var(--ac) 50%,transparent),0 0 40px -8px var(--ac),0 0 120px -30px var(--cz2)}
+:root[data-ds=c2] #lb .lbfr::after{content:"";position:absolute;inset:-2px;border-radius:28px;padding:2px;background:conic-gradient(from var(--c2a),transparent 0 72%,var(--ac) 86%,transparent);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:c2orb 5s linear infinite;pointer-events:none}
+@keyframes c2orb{to{--c2a:360deg}}
+:root[data-ds=c2] #lb .lbim{border-radius:20px}
+:root[data-ds=c2] #lb .lbsg{background:#05050c;color:var(--ac);filter:drop-shadow(0 0 6px var(--ac))}
+:root[data-ds=c2] #lb .lbbar .btn{border-radius:999px;background:color-mix(in srgb,var(--ac) 85%,#fff);color:#05050c;box-shadow:0 0 22px -6px var(--ac)}
+:root[data-ds=c2] #lb .lbbar .btn.g{background:rgba(255,255,255,.08);color:#fff;border-color:color-mix(in srgb,var(--ac) 45%,transparent)}
+/* пустой экран: маленькая планета с кольцом плывёт; загрузка: светящаяся орбита */
+@keyframes c2float{50%{transform:translateY(-6px) rotate(-18deg)}}
+@keyframes c2spin{to{transform:rotate(360deg)}}
+:root[data-ds=c2] .card.emp::before{content:"";display:block;width:84px;height:84px;margin:0 auto 12px;border-radius:50%;transform:rotate(-18deg);background:radial-gradient(ellipse 50% 13% at 50% 52%,transparent 86%,color-mix(in srgb,var(--ac) 75%,transparent) 89%,transparent 94%),radial-gradient(circle at 40% 36%,#fff 0,var(--ac) 22%,color-mix(in srgb,var(--ac) 25%,transparent) 44%,transparent 46%);filter:drop-shadow(0 0 14px color-mix(in srgb,var(--ac) 60%,transparent));animation:c2float 6s ease-in-out infinite}
+:root[data-ds=c2] .card.ldg::before{content:"";flex:none;width:28px;height:28px;border-radius:50%;border:2px solid color-mix(in srgb,var(--ac) 25%,transparent);border-top-color:var(--ac);box-shadow:0 0 14px -2px var(--ac);animation:c2spin .9s linear infinite}
+/* сообщение внизу экрана всплывает стеклом со свечением */
+:root[data-ds=c2] #toast{border-radius:999px;padding:11px 18px;background:color-mix(in srgb,var(--card) 85%,transparent);color:var(--ink);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 0 0 1px color-mix(in srgb,var(--ac) 40%,transparent),0 0 30px -8px var(--ac);animation:c2in .55s var(--c2e) both}
+:root.lite[data-ds=c2] .btn,:root.lite[data-ds=c2] .chip{transition:none}
+:root.lite[data-ds=c2] #lb .lbfr::after{animation:none}
+@media(prefers-reduced-motion:reduce){:root[data-ds=c2] .btn,:root[data-ds=c2] .chip,:root[data-ds=c2] .gtab button,:root[data-ds=c2] nav button{transition:none}:root[data-ds=c2] #lb .lbfr::after{animation:none}}
+:root[data-ds=c2] #lb .lbx{background:rgba(255,255,255,.06);border-color:color-mix(in srgb,var(--ac) 50%,transparent);box-shadow:0 0 18px -6px var(--ac)}
