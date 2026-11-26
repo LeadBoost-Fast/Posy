@@ -73,3 +73,14 @@
 @media(prefers-reduced-motion:reduce){:root[data-ds=b2] .btn,:root[data-ds=b2] .chip,:root[data-ds=b2] .gtab button,:root[data-ds=b2] nav button{transition:none}}
 :root[data-ds=b2] #lb .lbx{background:var(--bg);color:var(--ink);border-color:color-mix(in srgb,var(--ac) 50%,transparent);transition:transform .32s var(--b2s)}
 :root[data-ds=b2] #lb .lbx:active{transform:scale(.9)}
+/* выбранный раздел в боковом меню: сильнее старого правила [data-sk][data-ly=g], иначе в Ч/Б текст сливается */
+@media(min-width:900px){:root[data-ds=b2][data-ly] nav button.on{background:var(--ink);color:var(--bg)}}
+/* плитки дня: крупные цифры шрифтом шапки, стекло с бликом сверху */
+:root[data-ds=b2] .mest>div{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 12px 26px -18px color-mix(in srgb,var(--ink) 40%,transparent)}
+:root[data-ds=b2][data-t=dark] .mest>div{box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 26px -18px #000}
+:root[data-ds=b2] .mest b{font-family:var(--fh);font-weight:600;font-size:28px}
+:root.dsin[data-ds=b2] .mest>div{animation:b2in .5s var(--b2s) both}:root.dsin[data-ds=b2] .mest>div:nth-child(2){animation-delay:50ms}:root.dsin[data-ds=b2] .mest>div:nth-child(3){animation-delay:100ms}
+/* значки в «Нужно сделать»: объёмные плитки цвета значка */
+:root[data-ds=b2] .tdi .ti{width:42px;height:42px;border-radius:14px;background:linear-gradient(150deg,color-mix(in srgb,var(--k,var(--ac)) 24%,#fff),color-mix(in srgb,var(--k,var(--ac)) 12%,var(--card)));box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 8px 16px -10px color-mix(in srgb,var(--k,var(--ac)) 75%,transparent);color:color-mix(in srgb,var(--k,var(--ac)) 85%,var(--ink))}
+:root[data-ds=b2][data-t=dark] .tdi .ti{background:linear-gradient(150deg,color-mix(in srgb,var(--k,var(--ac)) 34%,var(--card)),color-mix(in srgb,var(--k,var(--ac)) 14%,var(--card)));box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 8px 16px -10px #000;color:color-mix(in srgb,var(--k,var(--ac)) 70%,#fff)}
+:root[data-ds=b2] .mest b{font-size:clamp(19px,5.6vw,28px)}

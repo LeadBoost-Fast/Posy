@@ -1064,7 +1064,11 @@ function msView(r){if(!(own()||adm()&&r!=="admin")||!ROLE[r])return;const s0={ro
 /* Главная по профессиям (разд. 37): флорист и оператор — рабочая очередь без графиков; помощник — витрина и свежесть, затем очередь; админ и владельцы — сводка */
 /* V5: верх главной — дата и приветствие по имени (почта и роль — в «Профиле», на главной это не нужно) */
 function meLine(){const n=String(S.name||"").trim().split(/\s+/)[0]||"",h=new Date().getHours(),g=h<5?"Доброй ночи":h<12?"Доброе утро":h<18?"Добрый день":"Добрый вечер",d=new Date().toLocaleDateString(STO.get("lang")==="kk"?"kk-KZ":"ru-RU",{weekday:"long",day:"numeric",month:"long"});
- return `<div class="megr"><span class="mut">${esc(d.charAt(0).toUpperCase()+d.slice(1))}</span><h1>${g}${n?", "+esc(n):""}</h1></div>`}
+ /* под приветствием — три стеклянные плитки дня: владельцу и админу деньги, сотрудникам — что готово к выдаче */
+ let st="";try{const t=today(),A=(typeof L!=="undefined"?L:O).filter(o=>o.date===t&&+o.st!==5),now=Date.now(),on=typeof SLG!=="undefined"?new Set(SLG.filter(x=>!x.end&&now-(+x.start||0)<20*36e5).map(x=>x.uid)).size:0,mg=own()||sad();
+  const it=[[A.length,"заказов сегодня"],mg?[M(A.reduce((q,o)=>q+(+o.p||0)+(+o.fee||0),0)),"выручка сегодня"]:[A.filter(o=>+o.st===2).length,"готовы к выдаче"],[on,"на смене"]];
+  st=`<div class="mest">${it.map(([v,k])=>`<div><b>${v}</b><span>${k}</span></div>`).join("")}</div>`}catch(e){}
+ return `<div class="megr"><span class="mut">${esc(d.charAt(0).toUpperCase()+d.slice(1))}</span><h1>${g}${n?", "+esc(n):""}</h1>${st}</div>`}
 function home0(){return shiftCard()+todoTop()+rqHome()+home00()}
 function home00(){if(S.role==="courier")return homeC();if(["assistant","florist","operator"].includes(S.role))return homeFl()+staffChips()+earnMini();/* флорист, оператор, помощник — одна компактная рабочая главная */if(own())return homeOw();/* владелец: деньги и поставка */return homeAd()/* администратор: кто на смене, проблемы, деньги, процесс */}
 /* ===== Заработок сотрудников (разд. 46): ставки владельца в settings/main.pay ===== */

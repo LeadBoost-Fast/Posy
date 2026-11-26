@@ -126,3 +126,10 @@ nav [data-t="more"] .nb{font-size:0!important;min-width:9px!important;width:9px;
 :root[data-ds] .card.emp{text-align:center;padding:26px 18px}
 :root[data-ds] .card.ldg{display:flex;align-items:center;gap:12px}
 @media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}:root.dsx body{animation:none}}
+/* плитки дня под приветствием */
+.mest{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0 4px;max-width:620px}
+.mest>div{background:var(--gl,var(--card));-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2);border:1px solid var(--gb,var(--line));border-radius:20px;padding:12px 14px;min-width:0}
+.mest b{display:block;font-size:22px;line-height:1.15;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mest span{display:block;font-size:12px;color:var(--mut);margin-top:2px}
+:root.lite .mest>div{-webkit-backdrop-filter:none;backdrop-filter:none}
+.mest b{font-size:clamp(17px,5vw,22px)}
