@@ -140,7 +140,8 @@ const PNG=Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42
   await ord("s2",{client:"Марат",phone:"8 706 707 36 22",bn:"Мандала ×31",comp:"Хризантема",st:4});
   await ord("s3",{client:"Живой клиент",phone:"",bn:"Лаванда",comp:"Лаванда ×7",st:4});
   const pg=await lg("tilegen615@gmail.com");await pg.evaluate(()=>{tab="orders";draw()});await pg.waitForTimeout(1800);
-  const cnt=async()=>{await pg.waitForTimeout(450);return +(((await pg.locator("p.mut",{hasText:"Найдено"}).first().innerText()).match(/\d+/)||[0])[0])};
+  /* «Найдено: N» видно только при поиске или фильтре; без них считаем карточки заказов */
+  const cnt=async()=>{await pg.waitForTimeout(450);const p=pg.locator("p.mut",{hasText:"Найдено"});if(await p.count())return +(((await p.first().innerText()).match(/\d+/)||[0])[0]);return await pg.locator("#v .oc").count()};
   const base=await cnt();ok(base>=3,"поиск: всего заказов в списке "+base);
   const type=async q=>{await pg.locator("#q").fill("");await pg.locator("#q").pressSequentially(q,{delay:25})};
   await type("айгер");ok(await cnt()===1,"поиск «айгер» → 1");ok(await pg.evaluate(()=>document.activeElement&&document.activeElement.id==="q"),"поле поиска остаётся в фокусе, пока печатаешь");
