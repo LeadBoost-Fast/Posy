@@ -160,7 +160,9 @@ const PNG=Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42
   const flId=await pg.evaluate(()=>Object.keys(SF).find(i=>SF[i].email==="fl@x.kz")),opId=await pg.evaluate(()=>Object.keys(SF).find(i=>SF[i].email==="op@x.kz")),ownId=await pg.evaluate(()=>Object.keys(SF).find(i=>SF[i].email==="tilegen615@gmail.com"));
   ok(await pg.locator('[data-a=t_perm]').count()>=2,"в «Команде» у сотрудников есть кнопка «Доступ»");ok(await pg.locator('[data-a=t_perm][data-id="'+ownId+'"]').count()===0,"у владельца и админов кнопки «Доступ» нет");
   await pg.locator('[data-a=t_perm][data-id="'+flId+'"]').click();await pg.waitForTimeout(500);
-  ok(await pg.locator('#tpf input[type=checkbox]').count()===6,"в окне «Доступ» 6 разделов (пункт «Карта» скрыт, пока карта выключена), у каждого значок и описание");ok(await pg.locator('#tpf input[type=checkbox]:checked').count()===6,"по умолчанию всё открыто");
+  /* число разделов и что открыто по умолчанию берём из правил сайта: «Карта» скрыта, пока карта выключена; флористу по умолчанию закрыты разделы из PROFF */
+  const pexp=await pg.evaluate(()=>{const L=PERMS.filter(p=>p[0]!=="map"||mapOn()),off=(typeof PROFF!=="undefined"&&PROFF.florist)||[];return {n:L.length,on:L.filter(p=>!off.includes(p[0])).length}});
+  ok(await pg.locator('#tpf input[type=checkbox]').count()===pexp.n,"в окне «Доступ» "+pexp.n+" разделов (пункт «Карта» скрыт, пока карта выключена)");ok(await pg.locator('#tpf input[type=checkbox]:checked').count()===pexp.on,"по умолчанию у флориста открыто "+pexp.on+" из "+pexp.n+" (чаты, клиенты и оплаты закрыты)");
   await pg.screenshot({path:OUT+"/perm.png"});
   await pg.locator('#tpf [name=chats]').uncheck();await pg.locator('#tpf [name=crm]').uncheck();await pg.locator('#tpf [name=stock]').uncheck();await pg.locator('#tpf button').last().click();await pg.waitForTimeout(1800);
   const sf=(await(await fetch(FS+"/staff/"+flId,{headers:{Authorization:"Bearer owner"}})).json()).fields;const pf=(sf.perms&&sf.perms.mapValue&&sf.perms.mapValue.fields)||{};
@@ -195,7 +197,7 @@ const PNG=Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42
  /* 4h. свои профессии и доставка */
  {const pg=await lg("adm@x.kz");await pg.evaluate(()=>{tab="team";draw()});await pg.waitForTimeout(1200);
   ok(await pg.locator("#ttf").count()===1,"в «Команде» есть карточка «Профессии»");
-  await pg.locator('#ttf [name=tn]').fill("Декоратор");await pg.locator('#ttf [name=tb]').selectOption("florist");await pg.locator('#ttf [name=stock]').uncheck();await pg.locator('#ttf button').last().click();await pg.waitForTimeout(1500);
+  await pg.evaluate(()=>document.querySelectorAll('details.tfnew').forEach(d=>d.open=true));/* форма «Добавить профессию» свёрнута */await pg.locator('#ttf [name=tn]').fill("Декоратор");await pg.locator('#ttf [name=tb]').selectOption("florist");await pg.locator('#ttf [name=stock]').uncheck();await pg.locator('#ttf button').last().click();await pg.waitForTimeout(1500);
   const tt=await pg.evaluate(()=>TT().map(t=>t.name+"|"+t.base+"|"+JSON.stringify(t.perms)));ok(tt.length===1&&tt[0]==='Декоратор|florist|{"stock":false}',"профессия «Декоратор» сохранена с закрытым складом: "+tt.join(";"));
   const opId=await pg.evaluate(()=>Object.keys(SF).find(i=>SF[i].email==="op@x.kz"));await pg.evaluate(()=>{tab="team";draw()});await pg.waitForTimeout(800);
   ok(await pg.locator('[data-a=role][data-id="'+opId+'"] optgroup option').count()===1,"в списке роли сотрудника появилась «Декоратор»");
