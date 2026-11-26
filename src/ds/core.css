@@ -89,3 +89,6 @@ nav [data-t="more"] .nb{font-size:0!important;min-width:9px!important;width:9px;
 .rvbi:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 .rdq{margin:4px 0 8px}
 .rdq .chip.on{background:var(--ac)!important;color:var(--on)!important;opacity:1!important}
+/* состав в карточке: заметно, количество жирным */
+.oc5k{margin:10px 0 0;padding:8px 10px;border-radius:12px;background:color-mix(in srgb,var(--ink) 5%,var(--card));font-size:14.5px;line-height:1.35}
+.oc5k b{font-weight:800;font-size:1.12em;color:var(--ac)}

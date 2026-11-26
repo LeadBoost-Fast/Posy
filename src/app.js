@@ -668,6 +668,8 @@ const bnQty=bn=>String(bn||"").split(" + ").reduce((q,p)=>{const m=p.match(/×\s
 /* Карточка заказа V5: только главное. Обычное (1 букет, оплачен, самовывоз в магазине, кто принял) не показывается —
    метка появляется, только когда отличается от обычного: букетов больше одного, не оплачен, просрочен, есть открытка и т. п.
    Всё остальное — в заказе (нажать на карточку). Кнопка следующего шага одна и самая заметная. */
+/* состав в карточке: сколько и каких цветов, количество жирным; если состав не указан — ничего не показываем (подсказка — в самом заказе) */
+const oComp=o=>{if(S.role==="courier"||!ocfV("info"))return"";const c=compOf(o);if(!c)return"";return `<div class="oc5k">${esc(c).replace(/×\s*(\d+(?:[.,]\d+)?)/g,"<b>×$1</b>")}</div>`};
 const oChips=o=>{const q=oQty(o),cd=String(o.card||"").trim(),rt=String(o.rbt||"").trim(),P=(c,t)=>`<span class="pill ${c}">${t}</span>`,r=[];
  if(late(o))r.push(late(o).trim());if(!o.paid&&+o.st<5)r.push(payPill(o));if(q>1)r.push(P("","Букетов: "+q));
  if(ocfV("info")){if(+o.wrap)r.push(P("ok","Оформление "+M(+o.wrap)));if(cd)r.push(P("ok","Открытка"));if(o.nt)r.push(P("ok","Записка"));if(o.rb)r.push(P("ok","Лента"+(rt?": "+esc(rt.length>16?rt.slice(0,16)+"…":rt):"")));(o.xt||[]).forEach(x=>r.push(P("",esc(x.n))))}
@@ -681,7 +683,7 @@ function card(o){const n=next(o),k=oK(o),dv=!!o.dv,cur=S.role==="courier";
   nx=n?`<button class="btn s oc5p ${mgr()&&wait(o)>0?"g":""}" data-a="adv" data-id="${o.id}"${mgr()&&wait(o)>0?` data-w="${shipT(o)+180000}"`:""}>${n[1]}</button>`:"",
   take=cur&&dvFree(o)?`<button class="btn s oc5p" data-a="cur_take" data-id="${o.id}">Принять доставку</button>`:"",
   gis=dv&&(cur||adm())&&+o.st>=2&&+o.st<4?gisBtnO(o):"",acts=rv+take+nx+pay+gis+waitPill(o)+(dvBtn(o,1)||dvPill(o));
- return `<div class="card oc oc5 k-${k}" data-a="det" data-id="${o.id}" style="cursor:pointer;--sk:var(--s${k})"><div class="oc5r">${+o.st>=2&&+o.st<5&&o.rimg?th(o.rimg):oAv(o)}<div class="oc5m"><div class="oc5t">${meta}</div><b class="ocb">${esc(o.bn||"Заказ")}</b><div class="oc5c">${who||'<span class="mut">Клиент не указан</span>'}</div>${made?`<div class="oc5o">${made}</div>`:""}</div><div class="oc5s"><b class="oc5sum">${M(+o.p+(+o.fee||0))}</b><span class="ocp"><span class="pill st">${stL(o)}${o.proof?" 📷":""}</span></span></div></div>${ch?`<div class="oc5x">${ch}</div>`:""}${ocfV("mk")?mkLine(o):""}${noteLine(o)}${acts?`<div class="acts oc5a">${acts}</div>`:""}</div>`}
+ return `<div class="card oc oc5 k-${k}" data-a="det" data-id="${o.id}" style="cursor:pointer;--sk:var(--s${k})"><div class="oc5r">${+o.st>=2&&+o.st<5&&o.rimg?th(o.rimg):oAv(o)}<div class="oc5m"><div class="oc5t">${meta}</div><b class="ocb">${esc(o.bn||"Заказ")}</b><div class="oc5c">${who||'<span class="mut">Клиент не указан</span>'}</div>${made?`<div class="oc5o">${made}</div>`:""}</div><div class="oc5s"><b class="oc5sum">${M(+o.p+(+o.fee||0))}</b><span class="ocp"><span class="pill st">${stL(o)}${o.proof?" 📷":""}</span></span></div></div>${oComp(o)}${ch?`<div class="oc5x">${ch}</div>`:""}${ocfV("mk")?mkLine(o):""}${noteLine(o)}${acts?`<div class="acts oc5a">${acts}</div>`:""}</div>`}
 
 /* ===== Раскладки дизайнов (разд. 45): у каждого дизайна своё устройство главной и списка заказов ===== */
 /* iPhone: щипок и двойное нажатие не увеличивают страницу (кнопки нажимаются быстро) */
@@ -3657,7 +3659,7 @@ const ordCnt=()=>{const t=today(),m=t.slice(0,7),b=x=>`<b style="color:var(--ink
 whoLine=o=>{if(S.role==="courier")return"";const a=[];if(o.by)a.push("создал(а): "+nm(o.by));if(o.takenBy)a.push("принял(а): "+nm(o.takenBy));if(o.asm&&+o.st>=2)a.push("собрал(а): "+nm(o.asm));if(o.accBy)a.push("приёмка: "+nm(o.accBy));if(o.dv&&o.courier&&+o.st<4)a.push("курьер: "+nm(o.courier)+(o.cAcc?", принял(а) в "+chTs(o.cAcc):", ещё не подтвердил(а)"));if(o.dv&&!o.courier&&o.cRelAt&&+o.st<4)a.push("курьер "+nm(o.cRelBy)+" отказался"+(o.cRelNote?": "+o.cRelNote:""));return a.length?`<div class="mut" style="font-size:13px;margin-top:4px">${a.map(esc).join(" · ")}</div>`:""},
 noteLine=o=>{if(S.role==="courier")return"";let h="";
  if(o.rv==="redo"&&+o.st===1)h+=`<div class="rdo">⚠ Нужно переделать${o.redoNote?": "+esc(o.redoNote):""}<br><small>${esc(nm(o.redoBy))} · ${chTs(o.redoAt)}</small></div>`;
- if(isAsmr()&&+o.st<3){if(o.comp)h+=`<div style="margin-top:6px;font-size:14px"><span class="mut">Состав:</span> ${esc(o.comp)}</div>`}
+ /* состав — в самой карточке, у всех (oComp) */
  if(ocfV("note")){const A=cmAll(o).filter(c=>c.k!=="redo");A.filter(c=>c.k==="note").concat(A.filter(c=>c.k!=="note").slice(-2)).forEach(c=>{h+=`<div class="cmt"><b>${c.k==="note"?"Комментарий":esc(c.byName||"")}:</b> ${esc(c.t)}</div>`})}
  const t=[];if(o.needPhoto&&+o.st<2)t.push('<span class="pill">📷 нужно фото клиенту</span>');if(o.photoSent&&+o.st===2)t.push('<span class="pill ok">Фото отправлено клиенту</span>');if(+o.st===2&&o.rv==="wait")t.push('<span class="pill warn">Ждёт приёмки</span>');if(+o.st===1&&xfPend(o))t.push(`<span class="pill warn">Ожидает подтверждения передачи · ${esc(nm(o.xfFrom))} → ${esc(nm(o.xfTo))}</span>`);
  return h+(t.length?`<div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">${t.join("")}</div>`:"")},
