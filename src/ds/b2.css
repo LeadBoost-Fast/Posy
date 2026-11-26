@@ -1,7 +1,7 @@
 /* ===== Bento 2.0 =====
    Основа — Bento с палитрами и знаками (data-pz). Сверху: шапка палитры (#b2h) — её цвета, крупный знак и узор из маленьких знаков,
-   матовое стекло, названия шрифтом Cormorant, мягкие пружинистые анимации. */
-:root[data-ds=b2]{--gr:20px;--gl:color-mix(in srgb,var(--card) 74%,transparent);--gb:color-mix(in srgb,var(--ink) 8%,transparent);--fh:"Cormorant Garamond",Georgia,serif;--b2s:cubic-bezier(.34,1.3,.64,1)}
+   матовое стекло, заголовки шрифтом Lora (чёткая кириллица, ровные цифры), названия и цифры в карточках — шрифтом интерфейса, мягкие пружинистые анимации. */
+:root[data-ds=b2]{--gr:20px;--gl:color-mix(in srgb,var(--card) 74%,transparent);--gb:color-mix(in srgb,var(--ink) 8%,transparent);--fh:"Lora",Georgia,serif;--fd:"Lora",Georgia,serif;--b2s:cubic-bezier(.34,1.3,.64,1)}
 :root[data-ds=b2] body{background:var(--bg)}
 #b2h{position:absolute;left:0;right:0;top:0;height:300px;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(70% 110% at 88% 8%,color-mix(in srgb,var(--ac) 26%,var(--bg)) 0%,transparent 62%),radial-gradient(60% 80% at 0% 0%,color-mix(in srgb,var(--ac) 12%,var(--bg)) 0%,transparent 70%),var(--bg)}
 :root:not([data-tab=home]) #b2h{height:200px}
@@ -19,9 +19,9 @@
 :root[data-ds=b2][data-tab=home] #v{padding-top:120px}
 :root[data-ds=b2]:not([data-tab=home]) #v{padding-top:40px}
 @media(min-width:900px){:root[data-ds=b2][data-tab=home] #v{padding-top:110px}:root[data-ds=b2]:not([data-tab=home]) #v{padding-top:30px}}
-:root[data-ds=b2] h1{font-family:var(--fh);font-weight:500;font-size:36px;letter-spacing:-.2px;line-height:1.05;text-shadow:0 1px 24px color-mix(in srgb,var(--bg) 70%,transparent)}
+:root[data-ds=b2] h1{font-family:var(--fh);font-weight:600;font-size:30px;letter-spacing:-.3px;line-height:1.05;text-shadow:0 1px 24px color-mix(in srgb,var(--bg) 70%,transparent)}
 :root[data-ds=b2] .card,:root[data-ds=b2] .tile,:root[data-ds=b2] .kpi{box-shadow:0 10px 30px -14px color-mix(in srgb,var(--ink) 22%,transparent)!important}
-:root[data-ds=b2] .oc5 .ocb{font-family:var(--fh);font-size:20px;font-weight:600;letter-spacing:0}
+:root[data-ds=b2] .oc5 .ocb{font-family:inherit;font-size:17px;font-weight:700;letter-spacing:-.1px}
 :root[data-ds=b2] .btn{border-radius:999px;text-transform:none;letter-spacing:0;font-size:14px;font-weight:700;box-shadow:none}
 :root[data-ds=b2] .pill{border-radius:999px;text-transform:none;letter-spacing:0;font-size:12px;font-weight:700}
 :root[data-ds=b2] .chip{border-radius:999px}
@@ -78,9 +78,13 @@
 /* плитки дня: крупные цифры шрифтом шапки, стекло с бликом сверху */
 :root[data-ds=b2] .mest>div{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 12px 26px -18px color-mix(in srgb,var(--ink) 40%,transparent)}
 :root[data-ds=b2][data-t=dark] .mest>div{box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 26px -18px #000}
-:root[data-ds=b2] .mest b{font-family:var(--fh);font-weight:600;font-size:28px}
+:root[data-ds=b2] .mest b{font-family:inherit;font-weight:700;font-size:24px;letter-spacing:-.3px}
 :root.dsin[data-ds=b2] .mest>div{animation:b2in .5s var(--b2s) both}:root.dsin[data-ds=b2] .mest>div:nth-child(2){animation-delay:50ms}:root.dsin[data-ds=b2] .mest>div:nth-child(3){animation-delay:100ms}
 /* значки в «Нужно сделать»: объёмные плитки цвета значка */
 :root[data-ds=b2] .tdi .ti{width:42px;height:42px;border-radius:14px;background:linear-gradient(150deg,color-mix(in srgb,var(--k,var(--ac)) 24%,#fff),color-mix(in srgb,var(--k,var(--ac)) 12%,var(--card)));box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 8px 16px -10px color-mix(in srgb,var(--k,var(--ac)) 75%,transparent);color:color-mix(in srgb,var(--k,var(--ac)) 85%,var(--ink))}
 :root[data-ds=b2][data-t=dark] .tdi .ti{background:linear-gradient(150deg,color-mix(in srgb,var(--k,var(--ac)) 34%,var(--card)),color-mix(in srgb,var(--k,var(--ac)) 14%,var(--card)));box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 8px 16px -10px #000;color:color-mix(in srgb,var(--k,var(--ac)) 70%,#fff)}
-:root[data-ds=b2] .mest b{font-size:clamp(19px,5.6vw,28px)}
+:root[data-ds=b2] .mest b{font-size:clamp(16px,4.6vw,24px)}
+
+/* заголовки страниц Lora: на компьютере крупнее */
+@media(min-width:900px){:root[data-ds=b2] h1{font-size:34px}}
+:root[data-ds=b2][data-pz="1"]:not([data-ly=p]):not([data-ly=h]) #v h1{font-family:var(--fh);font-weight:600}
