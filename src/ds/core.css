@@ -57,3 +57,9 @@
 .pvc5d{margin-top:8px}.pvc5d summary{cursor:pointer;color:var(--mut);font-size:13px;list-style:none}.pvc5d summary::-webkit-details-marker{display:none}.pvc5d summary::after{content:" ›"}
 .pvc5d[open] summary::after{content:" ˅"}
 .pvmt[style*="var(--ac)"]{color:var(--on)}
+/* Главная V5: дата и приветствие вместо карточки «имя и почта» */
+.megr{margin:4px 2px 6px}
+.megr>.mut{display:block;font-size:13px}
+.megr h1{margin:2px 0 0!important}
+/* бейдж «Ещё»: точка вместо большого числа */
+nav [data-t="more"] .nb{font-size:0!important;min-width:9px!important;width:9px;height:9px;padding:0!important;border-radius:50%}

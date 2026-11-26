@@ -7,7 +7,7 @@
 :root:not([data-tab=home]) #b2h{height:200px}
 @media(min-width:900px){#b2h{left:240px;height:280px}:root:not([data-tab=home]) #b2h{height:180px}}
 #b2h img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 30%;transform:translateY(calc(var(--y,0)*-.35px)) scale(calc(1 + var(--y,0)/900));filter:var(--b2f,) blur(calc(var(--y,0)/40*1px));will-change:transform}
-#b2h i{position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 90%,transparent) 0%,color-mix(in srgb,var(--bg) 50%,transparent) 24%,transparent 44%,color-mix(in srgb,var(--bg) 72%,transparent) 76%,var(--bg) 100%)}
+#b2h i{position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 90%,transparent) 0%,color-mix(in srgb,var(--bg) 45%,transparent) 22%,transparent 38%,color-mix(in srgb,var(--bg) 78%,transparent) 62%,var(--bg) 84%)}
 #b2h.nop img{display:none}
 #b2h.nop::before{content:"";position:absolute;right:-24px;top:24px;width:230px;height:230px;background:var(--pza,none) center/contain no-repeat;opacity:.3;animation:b2spin 80s linear infinite}
 :root[data-ds=b2][data-t=dark]{--b2f:brightness(.58) saturate(.9)}
