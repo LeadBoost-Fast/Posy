@@ -673,10 +673,11 @@ const bnQty=bn=>String(bn||"").split(" + ").reduce((q,p)=>{const m=p.match(/×\s
 const oChips=o=>{const q=oQty(o),cd=String(o.card||"").trim(),rt=String(o.rbt||"").trim(),P=(c,t)=>`<span class="pill ${c}">${t}</span>`,r=[];
  if(late(o))r.push(late(o).trim());if(!o.paid&&+o.st<5)r.push(payPill(o));if(q>1)r.push(P("","Букетов: "+q));
  if(ocfV("info")){if(+o.wrap)r.push(P("ok","Оформление "+M(+o.wrap)));if(cd)r.push(P("ok","Открытка"));if(o.nt)r.push(P("ok","Записка"));if(o.rb)r.push(P("ok","Лента"+(rt?": "+esc(rt.length>16?rt.slice(0,16)+"…":rt):"")));(o.xt||[]).forEach(x=>r.push(P("",esc(x.n))))}
- if(+o.st===2&&o.rv==="wait")r.push(P("warn","Ждёт приёмки"));return r.join("")};
+ return r.join("")};/* «Ждёт приёмки» показывает noteLine */
 function card(o){const n=next(o),k=oK(o),dv=!!o.dv,cur=S.role==="courier";
  const meta=[o.time?`<b>к ${esc(o.time)}</b>`:"<b>время уточняется</b>",hdt(o.date)!==hdt(today())?hdt(o.date):"",dv?(o.courier?"доставка · "+esc(nm(o.courier)):o.dvVia?"доставка · "+esc(dvVN(o)):"доставка"):"самовывоз",locTag(o).replace(/^ · /,"")].filter(Boolean).join(" · ");
- const who=[esc(o.client||""),ocfV("phone")&&o.phone?esc(o.phone):"",dv&&o.addr?esc(o.addr):""].filter(Boolean).join(" · "),ct=tMs(o.createdAt)||+o.ts,made=ct?`оформлен ${new Date(ct).toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"})}${dayOfMs(ct)!==wDay()?" · "+hdt(dayOfMs(ct)):""}${o.by&&SF[o.by]?" · "+esc(String(nm(o.by)).split(" ")[0]):""}`:"";
+ const who=[esc(o.client||""),ocfV("phone")&&o.phone?esc(o.phone):"",dv&&o.addr?esc(o.addr):""].filter(Boolean).join(" · "),hm=t=>new Date(t).toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"})+(dayOfMs(t)!==wDay()?" "+hdt(dayOfMs(t)):""),fn=u=>u&&SF[u]?" · "+esc(String(nm(u)).split(" ")[0]):"",ct=tMs(o.createdAt)||+o.ts,rt=+o.st>=2&&+o.st!==5?tMs(o.readyAt):0,
+  made=[ct?"принят "+hm(ct)+fn(o.by):"",rt?"собран "+hm(rt)+fn(o.asm):""].filter(Boolean).join(" · ");/* когда приняли заказ и когда флорист нажал «Готов» */
  const ch=oChips(o),pay=!o.paid&&+o.st<5&&isOp()?`<button class="btn g s" data-a="o_pay" data-id="${o.id}">✓ Оплачено</button>`:"",
   rv=isOp()&&+o.st===2&&o.rv==="wait"&&(adm()||own()||o.asm!==U.uid)?`<button class="btn s" data-a="rv_ok" data-id="${o.id}">Принять</button><button class="btn g s" data-a="rv_redo" data-id="${o.id}">На переделку</button>`:"",
   nx=n?`<button class="btn s oc5p ${mgr()&&wait(o)>0?"g":""}" data-a="adv" data-id="${o.id}"${mgr()&&wait(o)>0?` data-w="${shipT(o)+180000}"`:""}>${n[1]}</button>`:"",
