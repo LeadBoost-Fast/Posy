@@ -173,6 +173,22 @@ async function newOrder(pg) {
     ok(o.ds === "b2" && o.sv === "b2" && !o.cv && o.h, "Р6.6 обратно в Bento 2.0: сцена Космоса убрана, фото-шапка на месте", JSON.stringify(o));
   }
 
+  // 11. зарплата: смена один раз в день, часы без двойного счёта, забытая смена, сборка по дню и за каждый букет
+  { const r = await ad.pg.evaluate(() => { const keep = { s: SLG, p: SH.pay, de: SH.dayEnd }, U1 = "tU1", d = addD(today(), -2), D = h => new Date(d + "T" + h).getTime(), res = {};
+      SH.pay = { shift: 5000, hour: 500, asmPct: 0, asmFix: 300, opPct: 0, opFix: 0, scPct: 0 }; SH.dayEnd = "01:00"; SF[U1] = { name: "Тест", role: "florist", active: true };
+      SLG = [{ uid: U1, start: D("10:00"), end: D("12:00") }, { uid: U1, start: D("12:30"), end: D("18:00") }]; res.two = earn(U1, d, d).total;
+      SLG = [{ uid: U1, start: D("10:00"), end: D("14:00") }, { uid: U1, start: D("13:00"), end: D("15:00") }]; res.ov = earn(U1, d, d).total;
+      SLG = [{ uid: U1, start: D("10:00"), end: D("10:10") }]; res.short = earn(U1, d, d).rows.find(x => /Смены/.test(x[0]));
+      SLG = [{ uid: U1, start: D("10:00"), end: 0 }]; res.forgot = earn(U1, d, d);
+      SLG = []; O.push({ id: "tO1", bn: "Тест", qty: 3, p: 30000, st: 4, asm: U1, readyAt: D("15:00"), date: addD(d, 1), by: "x", ts: D("09:00") }); res.asm = earn(U1, d, d).total; res.asmNext = earn(U1, addD(d, 1), addD(d, 1)).total;
+      O.splice(O.findIndex(o => o.id === "tO1"), 1); delete SF[U1]; SLG = keep.s; SH.pay = keep.p; SH.dayEnd = keep.de; return res; });
+    ok(r.two === 8750, "Р7.1 две смены за день: оплата за смену один раз + 7,5 ч", "итого " + r.two);
+    ok(r.ov === 7500, "Р7.2 пересекающиеся смены: часы не удваиваются (5 ч)", "итого " + r.ov);
+    ok(r.short && r.short[1] === 0, "Р7.3 смена на 10 минут: за смену не начисляется", JSON.stringify(r.short));
+    ok(r.forgot.open === 1 && r.forgot.total === 5000, "Р7.4 забытая смена без графика: за смену есть, часов нет, видно «не закрыто»", JSON.stringify(r.forgot));
+    ok(r.asm === 900 && r.asmNext === 0, "Р7.5 сборка: по дню нажатия «Готов» и за каждый букет (3 × 300)", r.asm + " / " + r.asmNext);
+  }
+
   ok(!errs.length, "ошибок JS за сценарии: " + errs.length, errs.slice(0, 3).join(" | "));
   fs.writeFileSync(path.join(OUT, "flow-" + design.replace(/\s/g, "") + ".json"), JSON.stringify({ N, errs }, null, 1));
   const failed = N.filter(x => !x.ok).length; console.log(failed ? "ИТОГ: не прошло " + failed + " из " + N.length : "ИТОГ: все " + N.length + " проверок прошли");
