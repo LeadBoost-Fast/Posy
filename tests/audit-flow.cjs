@@ -153,24 +153,22 @@ async function newOrder(pg) {
     ok(await pg.locator("#lgo").count() > 0 && await pg.locator(".jrseg").innerText().then(t => /Важное/.test(t)), "Р5.6 журнал: вкладка «Важное» и поиск по заказу");
   }
 
-  // 10. дизайн-системы V5: включение в «Оформлении», палитры Космоса, сохранение выбора, возврат к прежнему оформлению
+  // 10. дизайн V5: остался один — Bento 2.0 (Космос убран по решению владельца)
   { const pg = ad.pg, w = ms => new Promise(r => setTimeout(r, ms));
     const card = await pg.evaluate(() => themeCard());
-    ok(/Bento 2\.0/.test(card) && /Космос/.test(card) && !/Прежние оформления|Blooming Glass/.test(card), "Р6.1 «Оформление»: только Bento 2.0 и Космос");
+    ok(!/Космос/.test(card) && !/class="dsv5"/.test(card) && !/Прежние оформления|Blooming Glass/.test(card), "Р6.1 «Оформление»: выбора дизайна нет, Космоса нет");
     await pg.evaluate(() => setDS("b2")); await w(400);
     const b = await pg.evaluate(() => ({ ds: document.documentElement.dataset.ds, p: thGet().p, pz: document.documentElement.dataset.pz, sv: thGet().ds }));
-    ok(b.ds === "b2" && b.sv === "b2" && ["Ч/Б","Жемчуг","Нежная роза","Персик","Лаванда","Мята","Сумерки","Туман"].includes(b.p) && b.pz === "1", "Р6.2 Bento 2.0 включается и сохраняется, палитра со знаком Bento", JSON.stringify(b));
-    await pg.evaluate(() => setDS("c2")); await w(2500);
-    const c = await pg.evaluate(() => ({ ds: document.documentElement.dataset.ds, cp: document.documentElement.dataset.cp, js: !!window.COSMOS, t: document.documentElement.dataset.t, sk: document.documentElement.dataset.sk }));
-    ok(c.ds === "c2" && c.cp === "ame" && c.js && c.sk === "", "Р6.3 Космос включается, модуль сцены загружается только сейчас", JSON.stringify(c));
-    await pg.evaluate(() => setCP("mono")); await w(1500);
-    const m = await pg.evaluate(() => ({ cp: document.documentElement.dataset.cp, sv: thGet().cp, ac: getComputedStyle(document.documentElement).getPropertyValue("--ac").trim() }));
-    ok(m.cp === "mono" && m.sv === "mono", "Р6.4 палитра Космоса меняется и сохраняется (Ч/Б)", JSON.stringify(m));
-    const tabsOk = await pg.evaluate(() => { const bad = []; for (const t of ["home", "orders", "chats", "stock", "fin"]) { try { modal(""); tab = t; draw(); if (!document.querySelector("#v").children.length) bad.push(t) } catch (e) { bad.push(t + ":" + e.message) } } return bad; });
-    ok(!tabsOk.length, "Р6.5 в Космосе разделы открываются как обычно", tabsOk.join(", "));
-    await pg.evaluate(() => setDS("b2")); await w(600);
-    const o = await pg.evaluate(() => ({ ds: document.documentElement.dataset.ds, sv: thGet().ds, cv: !!document.getElementById("c2bg"), h: !!document.getElementById("b2h") }));
-    ok(o.ds === "b2" && o.sv === "b2" && !o.cv && o.h, "Р6.6 обратно в Bento 2.0: сцена Космоса убрана, фото-шапка на месте", JSON.stringify(o));
+    ok(b.ds === "b2" && b.sv === "b2" && ["Ч/Б","Жемчуг","Нежная роза","Персик","Лаванда","Мята","Сумерки","Туман"].includes(b.p) && b.pz === "1", "Р6.2 Bento 2.0 включён и сохраняется, палитра Bento", JSON.stringify(b));
+    const r = await pg.evaluate(() => ({ keys: Object.keys(DSYS).join(","), cos: typeof window.COSMOS, sc: [...document.scripts].some(x => /d-cosmos/.test(x.src)) }));
+    ok(r.keys === "b2" && r.cos === "undefined" && !r.sc, "Р6.3 в коде только Bento 2.0, сцена Космоса не загружается", JSON.stringify(r));
+    await pg.evaluate(() => { const th = thGet(); th.ds = "c2"; th.cp = "mono"; STO.set("th", JSON.stringify(th)); applyTheme(); draw(); }); await w(600);
+    const o = await pg.evaluate(() => ({ ds: document.documentElement.dataset.ds, cp: document.documentElement.dataset.cp || "", h: !!document.getElementById("b2h") }));
+    ok(o.ds === "b2" && !o.cp && o.h, "Р6.4 старый выбор «Космос» на телефоне открывается как Bento 2.0", JSON.stringify(o));
+    const tabsOk = await pg.evaluate(() => { const bad = []; for (const t of ["home", "orders", "chats", "stock", "fin"]) { try { modal(""); tab = t; draw(); if (!document.querySelector("#v").children.length) bad.push(t) } catch (e) { bad.push(t + ":" + e.message) } } tab = "home"; draw(); return bad });
+    ok(!tabsOk.length, "Р6.5 разделы открываются", tabsOk.join(", "));
+    const lb = await pg.evaluate(() => lbSign());
+    ok(typeof lb === "string" && lb.length > 0 && !/ellipse cx="50" cy="50" rx="40" ry="13"/.test(lb), "Р6.6 знак в просмотре фото — знак палитры Bento");
   }
 
   // 11. зарплата: смена один раз в день, часы без двойного счёта, забытая смена, сборка по дню и за каждый букет
