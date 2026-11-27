@@ -359,7 +359,7 @@ Object.assign(exports,require("./channels"));
 // status.html. Оценку клиент ставит там: создаётся reviews/{токен}; сервер переносит её в заказ (rate),
 // плохую (1–3) сразу шлёт push админам и владельцу. Заказы без чата (покупатель с улицы) пропускаются.
 const crypto=require("crypto");
-const SITE_DEF="https://leadboost-fast.github.io/MirFlowerBase/";
+const SITE_DEF="https://leadboost-fast.github.io/Posy/";
 const RV_DELAY=60*60*1000;
 async function pubDoc(db,ref,o,sh){
   let k=String(o.pub||"");
