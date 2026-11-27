@@ -257,9 +257,9 @@ function dsHero(){let h=document.getElementById("b2h");if(dsGet()!=="b2"){if(h)h
 function dsScroll(){const h=document.getElementById("b2h");if(!h)return;const y=Math.min(320,scrollY||0);h.style.setProperty("--y",y.toFixed(0))}
 /* после каждой отрисовки: раздел для стилей, отклик дизайна на новые заказы и смену статусов */
 let DSIG=null,DSTB="";function dsAfterDraw(){const ds=dsGet(),r=document.documentElement;if(typeof tab!=="undefined"){r.dataset.tab=tab;/* анимация появления — только при переходе в раздел, не при каждом обновлении данных */if(tab!==DSTB){DSTB=tab;r.classList.add("dsin");clearTimeout(dsAfterDraw.t);dsAfterDraw.t=setTimeout(()=>r.classList.remove("dsin"),900)}}if(!ds){DSIG=null;return}
- const now=new Map((typeof L!=="undefined"?L:[]).map(o=>[o.id,o.st]));
+ const now=new Map(O.map(o=>[o.id,o.st]));
  if(DSIG){let nw=0,ch=0;now.forEach((s,id)=>{if(!DSIG.has(id))nw++;else if(DSIG.get(id)!==s)ch++});
-  if(nw&&nw<5)dsFx("new");else if(ch&&ch<5)dsFx("st")}
+  if(!nw&&ch&&ch<5)dsFx("st")}
  DSIG=now;dsHero()}
 /* новое сообщение в открытом чате: в каждом дизайне свой эффект. Первое открытие чата не анимируется */
 const DSMS={k:"",ids:new Set()};
@@ -564,6 +564,8 @@ const oChips=o=>{const q=oQty(o),cd=String(o.card||"").trim(),rt=String(o.rbt||"
  if(late(o))r.push(late(o).trim());if(!o.paid&&+o.st<5)r.push(payPill(o));if(q>1)r.push(P("","Букетов: "+q));
  if(ocfV("info")){if(+o.wrap)r.push(P("ok","Оформление "+M(+o.wrap)));if(cd)r.push(P("ok","Открытка"));if(o.nt)r.push(P("ok","Записка"));if(o.rb)r.push(P("ok","Лента"+(rt?": "+esc(rt.length>16?rt.slice(0,16)+"…":rt):"")));(o.xt||[]).forEach(x=>r.push(P("",esc(x.n))))}
  return r.join("")};/* «Ждёт приёмки» показывает noteLine */
+/* полоса этапа: только у активных заказов; цвет и доля повторяют статус, который уже написан на метке */
+const oProg=o=>{const st=+o.st;if(st>=4)return"";const n=o.dv?5:4,f=(Math.min(st,o.dv?3:2)+1)/n;return `<i class="opr" aria-hidden="true"><i data-f="${f}" style="transform:scaleX(${f})"></i></i>`};
 function card(o){const n=next(o),k=oK(o),dv=!!o.dv,cur=S.role==="courier";
  const no=typeof oNo==="function"?oNo(o):"",meta=[no?`<span class="oc5n">№${esc(no)}</span>`:"",o.time?`<b>к ${esc(o.time)}</b>`:"<b>время уточняется</b>",hdt(o.date)!==hdt(today())?hdt(o.date):"",dv?(o.courier?"доставка · "+esc(nm(o.courier)):o.dvVia?"доставка · "+esc(dvVN(o)):"доставка"):"самовывоз",locTag(o).replace(/^ · /,"")].filter(Boolean).join(" · ");
  const who=[esc(o.client||""),ocfV("phone")&&o.phone?esc(o.phone):"",dv&&o.addr?esc(o.addr):""].filter(Boolean).join(" · "),hm=t=>new Date(t).toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"})+(dayOfMs(t)!==wDay()?" "+hdt(dayOfMs(t)):""),fn=u=>u&&SF[u]?" · "+esc(String(nm(u)).split(" ")[0]):"",ct=tMs(o.createdAt)||+o.ts,rt=+o.st>=2&&+o.st!==5?tMs(o.readyAt):0,
@@ -573,7 +575,7 @@ function card(o){const n=next(o),k=oK(o),dv=!!o.dv,cur=S.role==="courier";
   nx=n?`<button class="btn s oc5p ${mgr()&&wait(o)>0?"g":""}" data-a="adv" data-id="${o.id}"${mgr()&&wait(o)>0?` data-w="${shipT(o)+180000}"`:""}>${n[1]}</button>`:"",
   take=cur&&dvFree(o)?`<button class="btn s oc5p" data-a="cur_take" data-id="${o.id}">Принять доставку</button>`:"",
   gis=dv&&(cur||adm())&&+o.st>=2&&+o.st<4?gisBtnO(o):"",acts=rv+take+nx+pay+gis+waitPill(o)+(dvBtn(o,1)||dvPill(o));
- return `<div class="card oc oc5 k-${k}" data-a="det" data-id="${o.id}" style="cursor:pointer;--sk:var(--s${k})"><div class="oc5r">${+o.st>=2&&+o.st<5&&o.rimg?th(o.rimg):oAv(o)}<div class="oc5m"><div class="oc5t">${meta}</div><b class="ocb">${esc(o.bn||"Заказ")}</b><div class="oc5c">${who||'<span class="mut">Клиент не указан</span>'}</div>${made?`<div class="oc5o">${made}</div>`:""}</div><div class="oc5s"><b class="oc5sum">${M(+o.p+(+o.fee||0))}</b><span class="ocp"><span class="pill st">${stL(o)}${o.proof?" 📷":""}</span></span></div></div>${oComp(o)}${ch?`<div class="oc5x">${ch}</div>`:""}${ocfV("mk")?mkLine(o):""}${noteLine(o)}${acts?`<div class="acts oc5a">${acts}</div>`:""}</div>`}
+ return `<div class="card oc oc5 k-${k}" data-a="det" data-id="${o.id}" style="cursor:pointer;--sk:var(--s${k})"><div class="oc5r">${+o.st>=2&&+o.st<5&&o.rimg?th(o.rimg):oAv(o)}<div class="oc5m"><div class="oc5t">${meta}</div><b class="ocb">${esc(o.bn||"Заказ")}</b><div class="oc5c">${who||'<span class="mut">Клиент не указан</span>'}</div>${made?`<div class="oc5o">${made}</div>`:""}</div><div class="oc5s"><b class="oc5sum">${M(+o.p+(+o.fee||0))}</b><span class="ocp"><span class="pill st">${stL(o)}${o.proof?" 📷":""}</span></span></div></div>${oProg(o)}${oComp(o)}${ch?`<div class="oc5x">${ch}</div>`:""}${ocfV("mk")?mkLine(o):""}${noteLine(o)}${acts?`<div class="acts oc5a">${acts}</div>`:""}</div>`}
 
 /* ===== Раскладки дизайнов (разд. 45): у каждого дизайна своё устройство главной и списка заказов ===== */
 /* iPhone: щипок и двойное нажатие не увеличивают страницу (кнопки нажимаются быстро) */
@@ -799,7 +801,7 @@ document.addEventListener("click",e=>{const b=e.target.closest('[data-a="ocf_rol
 /* ===== Движение: единый язык (100/150/200/300 мс, плавный вход, только transform и opacity) ===== */
 const mvOff=()=>LITE||matchMedia("(prefers-reduced-motion: reduce)").matches;
 /* крупные числа на экране «набегают» от нуля при входе в раздел (0,6 с), в конце возвращается точный исходный текст */
-function cuRun(ve){if(mvOff()||window.__EMU)return;ve.querySelectorAll(".btv,.wgn").forEach(el=>{if(el.children.length)return;const tx=el.textContent,m=/^(\D*?)(\d[\d\s\u00a0]*\d)(\D*)$/.exec(tx.trim());if(!m)return;const n=parseInt(m[2].replace(/[\s\u00a0]/g,""),10);if(!(n>=10)||n>1e9)return;const pre=m[1],post=m[3],t0=performance.now(),fmt=v=>Math.round(v).toLocaleString("ru-RU"),step=ts=>{if(!el.isConnected)return;const k=Math.min(1,(ts-t0)/600),e=1-Math.pow(1-k,3);el.textContent=k<1?pre+fmt(n*e)+post:tx;if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)})}
+function cuRun(ve){if(mvOff()||window.__EMU)return;ve.querySelectorAll(".btv,.wgn,.mest b").forEach(el=>{if(el.children.length)return;const tx=el.textContent,m=/^(\D*?)(\d[\d\s\u00a0]*\d)(\D*)$/.exec(tx.trim());if(!m)return;const n=parseInt(m[2].replace(/[\s\u00a0]/g,""),10);if(!(n>=10)||n>1e9)return;const pre=m[1],post=m[3],t0=performance.now();let last=null;const fmt=v=>Math.round(v).toLocaleString("ru-RU"),step=ts=>{if(!el.isConnected||(last!==null&&el.textContent!==last))return;/* пришли новые данные — не затираем их */const k=Math.max(0,Math.min(1,(ts-t0)/600)),e=1-Math.pow(1-k,3);el.textContent=k<1?pre+fmt(n*e)+post:tx;last=el.textContent;if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)})}
 function mvEnter(ve){if(mvOff())return;ve.classList.remove("mv-in");void ve.offsetWidth;ve.classList.add("mv-in");try{cuRun(ve)}catch(e){eLog(e)}clearTimeout(mvEnter.t);mvEnter.t=setTimeout(()=>ve.classList.remove("mv-in"),700)}
 const flipSnap=(sel,key)=>{const m=new Map();document.querySelectorAll(sel).forEach(e=>{const k=key(e);if(k)m.set(k,e.getBoundingClientRect())});return m};
 function flipRun(snap,sel,key){if(mvOff()||!snap.size)return;document.querySelectorAll(sel).forEach(e=>{const k=key(e);if(!k)return;const a=snap.get(k),b=e.getBoundingClientRect();try{if(!a)e.animate([{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:200,easing:"cubic-bezier(.16,1,.3,1)"});else{const dx=a.left-b.left,dy=a.top-b.top;if(dx||dy)e.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:"none"}],{duration:200,easing:"cubic-bezier(.16,1,.3,1)"})}}catch(x){}})}
@@ -923,7 +925,7 @@ function meLine(){const n=String(S.name||"").trim().split(/\s+/)[0]||"",h=new Da
  /* под приветствием — три стеклянные плитки дня: владельцу и админу деньги, сотрудникам — что готово к выдаче */
  let st="";try{const t=today(),A=(typeof L!=="undefined"?L:O).filter(o=>o.date===t&&+o.st!==5),now=Date.now(),on=typeof SLG!=="undefined"?new Set(SLG.filter(x=>!x.end&&now-(+x.start||0)<20*36e5).map(x=>x.uid)).size:0,mg=own()||sad();
   const it=[[A.length,"заказов сегодня"],mg?[M(A.reduce((q,o)=>q+(+o.p||0)+(+o.fee||0),0)),"выручка сегодня"]:[A.filter(o=>+o.st===2).length,"готовы к выдаче"],[on,"на смене"]];
-  st=`<div class="mest">${it.map(([v,k])=>`<div><b>${v}</b><span>${k}</span></div>`).join("")}</div>`}catch(e){}
+  st=`<div class="mest">${it.map(([v,k],i)=>`<div${i===1?' class="mest-b"':""}><b>${v}</b><span>${k}</span></div>`).join("")}</div>`}catch(e){}
  return `<div class="megr"><span class="mut">${esc(d.charAt(0).toUpperCase()+d.slice(1))}</span><h1>${g}${n?", "+esc(n):""}</h1>${st}</div>`}
 function home0(){return shiftCard()+todoTop()+rqHome()+home00()}
 function home00(){if(S.role==="courier")return homeC();if(["assistant","florist","operator"].includes(S.role))return homeFl()+staffChips()+earnMini();/* флорист, оператор, помощник — одна компактная рабочая главная */if(own())return homeOw();/* владелец: деньги и поставка */return homeAd()/* администратор: кто на смене, проблемы, деньги, процесс */}
@@ -4999,3 +5001,83 @@ ${o.rb?`<div class="k">Лента</div><div class="box">${e(o.rbt||"именна
 ${qr?`<div class="hr"></div><div class="q">${qr}<div class="sm">Статус заказа<br>по QR-коду</div></div>`:""}<div class="hr"></div><div class="c sm">Спасибо за заказ!</div></body></html>`}
 /* дизайн-системы V5: после каждой отрисовки (раздел, отклик на заказы) */
 {const d0=draw;draw=function(){const r=d0.apply(this,arguments);try{dsAfterDraw()}catch(e){eLog(e)}return r}}
+/* ===== Bento: живое движение =====
+   Только transform и opacity (и цвет). «Меньше движения», лёгкий режим и выключенные анимации — без перемещений.
+   Смысл всегда виден и без анимации: статус написан на метке, остаток — числом. */
+const moOn=()=>dsMotion()&&!mvOff();
+const MO_SPRING="cubic-bezier(.34,1.3,.64,1)",MO_OUT="cubic-bezier(.16,1,.3,1)";
+const moAn=(el,k,o)=>{try{return el&&el.animate?el.animate(k,o):null}catch(e){return null}};
+/* временный декоративный слой: сам удаляется; если экран перерисовался раньше, его уберёт перерисовка */
+function moFx(host,cls,frames,opt){if(!host)return;const i=document.createElement("i");i.className=cls;i.setAttribute("aria-hidden","true");host.appendChild(i);const a=moAn(i,frames,opt);if(a)a.onfinish=()=>i.remove();else i.remove()}
+const moCardKey=e=>e.dataset.id||"";
+let MOPREV=null;
+function moSnap(){const cards=new Map(),qty=new Map(),badge=new Map();
+ document.querySelectorAll("#v .oc5[data-id],#v .chi[data-id]").forEach(e=>{const k=moCardKey(e);if(!k||cards.has(k))return;const p=e.querySelector(".pill.st"),b=e.querySelector(".opr i"),rc=e.getBoundingClientRect(),seen=rc.bottom>0&&rc.top<innerHeight;cards.set(k,{r:rc,un:+((e.querySelector(".chun")||{}).textContent||"").replace("+","")||0,st:(/\bk-(\d)/.exec(e.className)||[])[1],pill:p?p.textContent:"",f:b?+b.dataset.f:null,html:seen&&e.classList.contains("oc5")&&moOn()?e.outerHTML:""})/* копия нужна только видимой карточке, если она уйдёт из списка */});
+ document.querySelectorAll("#v .stl[data-sko]").forEach(e=>{const q=e.querySelector(".stl-q");if(q&&q.firstChild)qty.set(e.dataset.sko,q.firstChild.nodeValue)});
+ document.querySelectorAll("#nav button[data-t],#tb .tbb").forEach((e,i)=>{const b=e.querySelector(".nb,.tbn");badge.set((e.dataset.t||"")+":"+i,+(b&&parseInt(b.textContent,10))||0)});
+ return{tab:draw.tab,cards,qty,badge,orders:MOPREV||new Map()}}
+/* знак палитры «расцветает» там, где что-то изменилось */
+function moBloom(card){moFx(card,"mo-wash",[{opacity:0,transform:"scale(.25)"},{opacity:1,transform:"scale(1)",offset:.35},{opacity:0,transform:"scale(1.15)"}],{duration:1100,easing:MO_OUT});
+ moFx(card,"mo-bloom",[{opacity:0,transform:"scale(.2) rotate(-90deg)"},{opacity:.85,transform:"scale(1) rotate(-10deg)",offset:.4},{opacity:0,transform:"scale(1.7) rotate(35deg)"}],{duration:1100,easing:MO_OUT})}
+function moStatus(card,was){const p=card.querySelector(".pill.st");
+ if(p){moAn(p,[{transform:"scale(.55)",opacity:0},{transform:"scale(1)",opacity:1}],{duration:520,easing:MO_SPRING,delay:90,fill:"backwards"});
+  if(was.pill&&was.pill!==p.textContent){const g=document.createElement("span");g.className="mo-ghost";g.setAttribute("aria-hidden","true");g.textContent=was.pill;p.parentNode.appendChild(g);const a=moAn(g,[{opacity:1,transform:"translateY(0)"},{opacity:0,transform:"translateY(-18px) scale(.9)"}],{duration:380,easing:MO_OUT,fill:"forwards"});if(a)a.onfinish=()=>g.remove();else g.remove()}}
+ const b=card.querySelector(".opr i");if(b&&was.f!=null)moAn(b,[{transform:`scaleX(${was.f})`},{transform:`scaleX(${+b.dataset.f})`}],{duration:700,easing:MO_OUT});
+ moBloom(card)}
+function moMsg(row,n){moAn(n,[{transform:"scale(.3)"},{transform:"scale(1.35)",offset:.55},{transform:"scale(1)"}],{duration:560,easing:MO_OUT});moFx(row,"mo-ring",[{opacity:0,transform:"scale(.94)"},{opacity:1,transform:"scale(1)",offset:.35},{opacity:0,transform:"scale(1)"}],{duration:900,iterations:2,easing:MO_OUT})}
+function moNewCard(card){moAn(card,[{opacity:0,transform:"translateY(-30px) scale(.93)"},{opacity:1,transform:"none"}],{duration:640,easing:MO_SPRING});
+ moFx(card,"mo-ring",[{opacity:0,transform:"scale(.93)"},{opacity:1,transform:"scale(.995)",offset:.4},{opacity:0,transform:"scale(1)"}],{duration:900,iterations:2,easing:MO_OUT})}
+/* карточка ушла из списка (сменился статус при открытом фильтре): не пропадает рывком, а уезжает */
+function moLeave(was){const r=was.r;if(!was.html||r.bottom<0||r.top>innerHeight)return;const box=document.createElement("div");box.className="mo-leave";box.setAttribute("aria-hidden","true");box.setAttribute("inert","");box.style.cssText=`top:${r.top}px;left:${r.left}px;width:${r.width}px;height:${r.height}px`;box.innerHTML=was.html;box.querySelectorAll("[data-a],[data-id],[id]").forEach(e=>{e.removeAttribute("data-a");e.removeAttribute("data-id");e.removeAttribute("id")});document.body.appendChild(box);
+ const a=moAn(box,[{opacity:1,transform:"none"},{opacity:0,transform:"translateX(56px) scale(.96)"}],{duration:340,easing:"cubic-bezier(.5,0,.75,0)",fill:"forwards"});if(a)a.onfinish=()=>box.remove();else box.remove()}
+function moCount(el,from,to){const node=el.firstChild,a=parseFloat(from),b=parseFloat(to);if(!node||!isFinite(a)||!isFinite(b))return;const t0=performance.now(),dec=(String(to).split(".")[1]||"").length;let last=node.nodeValue=String(from);
+ const step=ts=>{if(!el.isConnected||node.nodeValue!==last)return;const k=Math.max(0,Math.min(1,(ts-t0)/650)),e=1-Math.pow(1-k,3);/* время кадра бывает чуть раньше t0 */last=node.nodeValue=k<1?String(+(a+(b-a)*e).toFixed(dec)):String(to);if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)}
+function moAfter(prev){const now=new Map(O.map(o=>[o.id,+o.st])),fresh=[],moved=new Set();
+ if(prev.orders.size)now.forEach((s,id)=>{if(!prev.orders.has(id))fresh.push(id);else if(prev.orders.get(id)!==s)moved.add(id)});
+ const same=prev.tab===draw.tab,cur=new Map();
+ document.querySelectorAll("#v .oc5[data-id],#v .chi[data-id]").forEach(e=>{const k=moCardKey(e);if(k&&!cur.has(k))cur.set(k,e)});
+ const calm=!moOn();
+ cur.forEach((el,id)=>{const was=prev.cards.get(id),isNew=fresh.length<5&&fresh.includes(id);
+  if(calm){if(same&&(isNew||(was&&moved.has(id))))moAn(el,[{opacity:.35},{opacity:1}],{duration:150});return}
+  if(isNew&&same){moNewCard(el);return}
+  if(!same||!prev.cards.size)return;
+  if(!was){moAn(el,[{opacity:0,transform:"translateY(10px) scale(.98)"},{opacity:1,transform:"none"}],{duration:300,easing:MO_OUT});return}
+  const r=el.getBoundingClientRect(),dx=was.r.left-r.left,dy=was.r.top-r.top;
+  if((dx||dy)&&Math.abs(dy)<innerHeight*1.5&&r.bottom>-100&&r.top<innerHeight+100)moAn(el,[{transform:`translate(${dx}px,${dy}px)`},{transform:"none"}],{duration:420,easing:"cubic-bezier(.2,1.1,.3,1)"});
+  const st=(/\bk-(\d)/.exec(el.className)||[])[1];
+  if(el.classList.contains("oc5")){if(moved.has(id)&&was.st!==st)moStatus(el,was)}
+  else{const n=el.querySelector(".chun");if(n&&+n.textContent.replace("+","")>was.un)moMsg(el,n)}});
+ if(calm||!same)return;
+ prev.cards.forEach((was,id)=>{if(!cur.has(id)&&moved.has(id))moLeave(was)});
+ document.querySelectorAll("#v .stl[data-sko]").forEach(e=>{const q=e.querySelector(".stl-q"),was=prev.qty.get(e.dataset.sko);if(!q||!q.firstChild||was===undefined||was===q.firstChild.nodeValue)return;
+  moCount(q,was,q.firstChild.nodeValue);moAn(e,[{transform:"scale(1)"},{transform:"scale(1.045)",offset:.35},{transform:"scale(1)"}],{duration:520,easing:MO_OUT});moFx(e,"mo-ring",[{opacity:0,transform:"scale(.97)"},{opacity:1,transform:"scale(1)",offset:.3},{opacity:0,transform:"scale(1.04)"}],{duration:900,easing:MO_OUT})});
+ document.querySelectorAll("#nav button[data-t],#tb .tbb").forEach((e,i)=>{const b=e.querySelector(".nb,.tbn"),k=(e.dataset.t||"")+":"+i;if(!b||!prev.badge.has(k)||!(+parseInt(b.textContent,10)>prev.badge.get(k)))return;moAn(b,[{transform:"scale(1)"},{transform:"scale(1.6)",offset:.3},{transform:"scale(.9)",offset:.6},{transform:"scale(1)"}],{duration:620,easing:MO_OUT});moAn(e.querySelector("i,svg"),[{transform:"rotate(0)"},{transform:"rotate(-14deg)",offset:.25},{transform:"rotate(10deg)",offset:.5},{transform:"rotate(0)"}],{duration:620,delay:80})})}
+{const d1=draw;draw=function(){let prev=null;try{if(S&&draw.tab&&!LITE)prev=moSnap();else MOPREV=null}/* в лёгком режиме лишней работы нет совсем */catch(e){eLog(e)}const r=d1.apply(this,arguments);try{if(prev)moAfter(prev);MOPREV=S?new Map(O.map(o=>[o.id,+o.st])):null}catch(e){eLog(e)}return r}}
+/* смена палитры и светлой/тёмной темы: экран мягко перетекает из старых цветов в новые (где браузер это умеет) */
+function moMorph(fn){if(!moOn()||!document.startViewTransition||document.hidden||!S)return fn();const r=document.documentElement;let done=false;const go=()=>{if(!done){done=true;fn()}};
+ try{r.classList.add("mo-vt");const v=document.startViewTransition(go),end=()=>r.classList.remove("mo-vt");v.finished.then(end,end);v.ready.catch(()=>{})}catch(e){r.classList.remove("mo-vt");go()}}
+{const p0=setPal;setPal=function(n){moMorph(()=>p0(n))};const t1=setTh;setTh=function(m){moMorph(()=>t1(m))}}
+/* окно заказа обновилось на месте: не «выезжает» заново, а показывает, что именно изменилось */
+{const m0=modal;modal=function(h,opt){const d=document.querySelector("#m [data-det]"),id=d&&d.dataset.det,k=d&&(/\bk-(\d)/.exec(d.className)||[])[1];const r=m0.apply(this,arguments);
+ try{const n=document.querySelector("#m [data-det]"),ov=document.getElementById("ov");if(id&&n&&ov&&n.dataset.det===id){ov.classList.add("mo-re");const k2=(/\bk-(\d)/.exec(n.className)||[])[1];
+   if(k!==k2&&moOn()){const on=n.querySelectorAll(".stp .on i"),last=on[on.length-1];if(last)moAn(last,[{transform:"scaleX(0)"},{transform:"scaleX(1)"}],{duration:620,easing:MO_OUT});moAn(n.querySelector(".pill.st"),[{transform:"scale(.55)",opacity:0},{transform:"scale(1)",opacity:1}],{duration:520,easing:MO_SPRING})}}}catch(e){eLog(e)}return r}}
+/* ошибка: короткая горизонтальная «встряска» поля, сообщения и формы входа (текст ошибки остаётся главным) */
+const moShake=el=>{if(el&&moOn())moAn(el,["0","-9px","8px","-6px","4px","-2px","0"].map(x=>({translate:x+" 0"})),{duration:420,easing:"linear"})};
+{const t2=toast;toast=function(m){const r=t2.apply(this,arguments);try{const bad=/^(Ошибка|Не удалось|Не сохранилось|Неверный|Заполните|Проверьте|Нет интернета|Сбой)/.test(String(m)),e=$("toast");e.classList.toggle("mo-err",bad);if(bad){moShake(e);if(!S)moShake($("lf")&&$("lf").closest(".card"))}}catch(x){eLog(x)}return r}}
+document.addEventListener("invalid",e=>{moShake(e.target)},true);
+/* верхняя панель уплотняется, когда список прокручен под неё */
+addEventListener("scroll",()=>document.documentElement.classList.toggle("mo-scrolled",scrollY>12),{passive:true});
+/* свайп по карточке заказа вправо на телефоне = нажатие её главной кнопки («Взять в сборку», «Готов», «Принять доставку»).
+   Действует та же кнопка с теми же правами и вопросами; от левого края экрана не работает (там «Назад» в Safari). */
+{let s=null,done=0;const SEL='.oc5a [data-a="adv"]:not([data-w]):not([disabled]),.oc5a [data-a="cur_take"]:not([disabled])',LIM=96;
+ const drop=(c,u)=>{const calm=!moOn();c.style.transition=calm?"none":"translate .42s "+MO_SPRING;c.style.translate="";setTimeout(()=>{c.style.transition="";c.classList.remove("mo-drag");if(u)u.remove()},calm?0:430)};
+ const stop=ok=>{if(!s)return;const x=s;s=null;if(!x.on)return;done=Date.now();const fire=ok&&x.v>=LIM;drop(x.c,x.u);
+  if(fire){const b=x.c.isConnected&&x.c.dataset.id===x.id?x.c.querySelector(SEL):null;const t=b||(document.querySelector(`#v .oc5[data-id="${CSS.escape(x.id)}"]`)||{querySelector:()=>null}).querySelector(SEL);
+   if(t)setTimeout(()=>{const ev=new MouseEvent("click",{bubbles:true,cancelable:true});ev.__ask=1;t.dispatchEvent(ev)},moOn()?180:0)}};
+ document.addEventListener("touchstart",e=>{s=null;if(e.touches.length!==1||matchMedia("(min-width:900px)").matches)return;const c=e.target.closest&&e.target.closest("#v .oc5[data-id]"),t=e.touches[0];if(!c||t.clientX<28||!c.querySelector(SEL))return;s={c,id:c.dataset.id,x:t.clientX,y:t.clientY,v:0,on:false,u:null}},{passive:true});
+ document.addEventListener("touchmove",e=>{if(!s)return;const t=e.touches[0],dx=t.clientX-s.x,dy=t.clientY-s.y;
+  if(!s.on){if(Math.abs(dy)>10&&Math.abs(dy)>Math.abs(dx)){s=null;return}if(dx<14||dx<Math.abs(dy)*1.4)return;s.on=true;
+   const c=s.c,p=c.parentElement;if(getComputedStyle(p).position==="static")p.style.position="relative";c.style.transition="none";const u=document.createElement("div");u.className="mo-under";u.setAttribute("aria-hidden","true");u.innerHTML=`<i>→</i><b></b>`;u.lastChild.textContent=c.querySelector(SEL).textContent;u.style.cssText=`top:${c.offsetTop}px;left:${c.offsetLeft}px;width:${c.offsetWidth}px;height:${c.offsetHeight}px;--sk:${c.style.getPropertyValue("--sk")}`;c.classList.add("mo-drag");p.insertBefore(u,c);s.u=u}
+  s.v=Math.max(0,dx);const v=s.v<130?s.v:130+(s.v-130)*.25;s.c.style.translate=v+"px 0";s.u.classList.toggle("armed",s.v>=LIM)},{passive:true});
+ document.addEventListener("touchend",()=>stop(true),{passive:true});document.addEventListener("touchcancel",()=>stop(false),{passive:true});
+ document.addEventListener("click",e=>{if(e.isTrusted&&Date.now()-done<450&&e.target.closest&&e.target.closest(".oc5")){e.preventDefault();e.stopImmediatePropagation()}},true)}
